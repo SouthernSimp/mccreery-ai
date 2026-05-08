@@ -10,198 +10,213 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#0a0a0a; --bg-2:#111; --line:#1f1f1f; --line-2:#2a2a2a;
+    --bg:#0a0a0a; --bg-2:#111; --bg-3:#161616;
+    --line:#1f1f1f; --line-2:#2a2a2a;
     --fg:#e9e9e9; --muted:#888; --dim:#555;
-    --accent:#E8A020; --accent-dim:#9a6b15;
+    --accent:#E8A020; --accent-soft:rgba(232,160,32,.12);
+    --good:#36D399;
     --sans:'Inter',system-ui,sans-serif;
     --serif:'Fraunces',Georgia,serif;
     --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{
-    background:var(--bg);color:var(--fg);font-family:var(--sans);
-    font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   ::selection{background:var(--accent);color:#000}
 
-  /* ═══ NAV ═══ */
-  nav{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    background:rgba(10,10,10,.85);backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav-inner{
-    max-width:1200px;margin:0 auto;padding:14px 24px;
-    display:flex;align-items:center;justify-content:space-between;
-  }
-  .brand{
-    font-family:var(--mono);font-size:13px;font-weight:500;
-    letter-spacing:.02em;
-  }
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.02em}
   .brand .dot{color:var(--accent)}
   .nav-links{display:flex;gap:28px;font-size:13px;color:var(--muted)}
   .nav-links a{transition:color .15s}
   .nav-links a:hover{color:var(--fg)}
-  .nav-cta{
-    font-family:var(--mono);font-size:12px;
-    border:1px solid var(--line-2);padding:8px 14px;border-radius:2px;
-    transition:border-color .15s,color .15s;
-  }
+  .nav-cta{font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);padding:8px 14px;border-radius:2px;transition:border-color .15s,color .15s}
   .nav-cta:hover{border-color:var(--accent);color:var(--accent)}
   @media (max-width:640px){.nav-links{display:none}}
 
-  /* ═══ HERO ═══ */
-  .hero{
-    min-height:88vh;display:flex;align-items:center;
-    padding:120px 24px 80px;border-bottom:1px solid var(--line);
-    position:relative;
-  }
-  .hero::before{
-    content:'';position:absolute;inset:0;
-    background:
-      radial-gradient(800px 400px at 80% 30%, rgba(232,160,32,.06), transparent 60%),
-      linear-gradient(transparent 95%, var(--line) 95%) 0 0/100% 24px;
-    pointer-events:none;mask-image:linear-gradient(180deg,#000,transparent);
-  }
+  /* HERO */
+  .hero{min-height:90vh;display:flex;align-items:center;padding:120px 24px 80px;border-bottom:1px solid var(--line);position:relative}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(800px 400px at 80% 30%,rgba(232,160,32,.06),transparent 60%),linear-gradient(transparent 95%,var(--line) 95%) 0 0/100% 24px;pointer-events:none;mask-image:linear-gradient(180deg,#000,transparent)}
   .hero-inner{max-width:1200px;margin:0 auto;width:100%;position:relative}
-  .meta-row{
-    display:flex;gap:16px;font-family:var(--mono);font-size:11px;
-    color:var(--dim);text-transform:uppercase;letter-spacing:.1em;
-    margin-bottom:32px;
-  }
+  .meta-row{display:flex;gap:16px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:32px;flex-wrap:wrap}
   .meta-row span:first-child{color:var(--accent)}
-  .meta-row .live::before{
-    content:'';display:inline-block;width:6px;height:6px;
-    background:#36D399;border-radius:50%;margin-right:6px;
-    animation:pulse 2s infinite;
-  }
+  .meta-row .live::before{content:'';display:inline-block;width:6px;height:6px;background:var(--good);border-radius:50%;margin-right:6px;animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  h1{
-    font-family:var(--serif);font-weight:500;
-    font-size:clamp(44px,7vw,96px);line-height:1.02;
-    letter-spacing:-.02em;margin-bottom:32px;max-width:14ch;
-  }
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(44px,7vw,96px);line-height:1.02;letter-spacing:-.02em;margin-bottom:32px;max-width:14ch}
   h1 em{font-style:italic;color:var(--accent);font-weight:500}
-  .lede{
-    font-size:19px;color:var(--muted);max-width:54ch;
-    line-height:1.55;margin-bottom:48px;
-  }
+  .lede{font-size:19px;color:var(--muted);max-width:54ch;line-height:1.55;margin-bottom:48px}
   .lede b{color:var(--fg);font-weight:500}
   .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .btn{
-    font-family:var(--sans);font-size:14px;font-weight:500;
-    padding:14px 22px;border-radius:2px;cursor:pointer;
-    display:inline-flex;align-items:center;gap:10px;
-    transition:all .15s;border:1px solid transparent;
-  }
+  .btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:14px 22px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .15s;border:1px solid transparent}
   .btn-primary{background:var(--accent);color:#000}
   .btn-primary:hover{background:#f4b22f;transform:translateY(-1px)}
   .btn-ghost{border-color:var(--line-2);color:var(--fg)}
   .btn-ghost:hover{border-color:var(--fg)}
-  .hero-foot{
-    margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;
-    font-family:var(--mono);font-size:12px;
-  }
+  .hero-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;font-family:var(--mono);font-size:12px}
   .hero-foot .stat-num{color:var(--accent);font-size:22px;display:block;margin-bottom:4px}
   .hero-foot .stat-lbl{color:var(--dim);text-transform:uppercase;letter-spacing:.08em;font-size:10px}
 
-  /* ═══ SECTIONS ═══ */
+  /* SECTIONS */
   section{padding:96px 24px;border-bottom:1px solid var(--line)}
   .section-inner{max-width:1200px;margin:0 auto}
-  .section-tag{
-    font-family:var(--mono);font-size:11px;color:var(--accent);
-    text-transform:uppercase;letter-spacing:.15em;margin-bottom:16px;
-    display:flex;align-items:center;gap:10px;
-  }
-  .section-tag::before{
-    content:'';width:24px;height:1px;background:var(--accent);
-  }
-  .section-h{
-    font-family:var(--serif);font-weight:500;
-    font-size:clamp(32px,4.5vw,52px);line-height:1.1;
-    letter-spacing:-.015em;margin-bottom:24px;max-width:18ch;
-  }
+  .section-tag{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .section-tag::before{content:'';width:24px;height:1px;background:var(--accent)}
+  .section-h{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.5vw,52px);line-height:1.1;letter-spacing:-.015em;margin-bottom:24px;max-width:18ch}
   .section-sub{font-size:17px;color:var(--muted);max-width:60ch;margin-bottom:64px}
 
-  /* ═══ WHAT ═══ */
+  /* ═══ BRIEF (the showcase feature) ═══ */
+  #brief{background:linear-gradient(180deg,var(--bg) 0%,#0c0a06 100%)}
+  .brief-shell{
+    background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;
+    overflow:hidden;max-width:920px;margin:0 auto;
+  }
+  .brief-head{
+    padding:14px 20px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    font-family:var(--mono);font-size:11px;color:var(--dim);
+    text-transform:uppercase;letter-spacing:.12em;background:#0d0d0d;
+  }
+  .brief-head .dots{display:flex;gap:6px}
+  .brief-head .dots span{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
+  .brief-head .dots span:nth-child(1){background:#F87171}
+  .brief-head .dots span:nth-child(2){background:#FBBF24}
+  .brief-head .dots span:nth-child(3){background:var(--good)}
+  .brief-status{display:flex;align-items:center;gap:8px}
+  .brief-status .ind{width:6px;height:6px;border-radius:50%;background:var(--dim)}
+  .brief-status.live .ind{background:var(--good);animation:pulse 1.4s infinite}
+
+  .brief-body{padding:36px 32px;min-height:380px}
+  .brief-step{display:none}
+  .brief-step.active{display:block;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .step-meter{
+    display:flex;gap:6px;margin-bottom:28px;
+    font-family:var(--mono);font-size:10px;color:var(--dim);
+    text-transform:uppercase;letter-spacing:.15em;
+  }
+  .step-meter .pip{
+    flex:1;height:2px;background:var(--line-2);transition:background .3s;
+  }
+  .step-meter .pip.done{background:var(--accent)}
+  .step-meter .pip.current{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  .brief-q{font-family:var(--serif);font-size:28px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-.01em}
+  .brief-hint{color:var(--muted);font-size:14px;margin-bottom:24px}
+  .brief-input,.brief-textarea{
+    width:100%;background:var(--bg-2);border:1px solid var(--line-2);
+    color:var(--fg);font-family:var(--sans);font-size:16px;
+    padding:14px 16px;border-radius:2px;transition:border-color .15s;
+    line-height:1.5;
+  }
+  .brief-textarea{min-height:120px;resize:vertical}
+  .brief-input:focus,.brief-textarea:focus{outline:none;border-color:var(--accent)}
+  .brief-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:560px){.brief-row{grid-template-columns:1fr}}
+  .brief-actions{display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px}
+  .brief-back{font-family:var(--mono);font-size:12px;color:var(--dim);cursor:pointer;background:none;border:none;padding:8px 0}
+  .brief-back:hover{color:var(--fg)}
+  .brief-back[disabled]{opacity:0;pointer-events:none}
+  .brief-next{
+    background:var(--accent);color:#000;border:none;padding:12px 22px;
+    font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;
+    border-radius:2px;display:inline-flex;align-items:center;gap:10px;
+    transition:background .15s,transform .15s;
+  }
+  .brief-next:hover{background:#f4b22f;transform:translateY(-1px)}
+  .brief-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+  /* streaming output */
+  .brief-output{
+    font-family:var(--serif);font-size:16px;line-height:1.7;color:var(--fg);
+    white-space:pre-wrap;
+  }
+  .brief-output h1,.brief-output h2,.brief-output h3{
+    font-family:var(--serif);font-weight:500;letter-spacing:-.01em;
+    margin:1.4em 0 .5em;
+  }
+  .brief-output h1{font-size:26px;color:var(--accent)}
+  .brief-output h2{font-size:20px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:6px}
+  .brief-output h3{font-size:16px;color:var(--fg)}
+  .brief-output ul,.brief-output ol{padding-left:24px;margin:.6em 0}
+  .brief-output li{margin:.3em 0;font-family:var(--sans);font-size:15px}
+  .brief-output p{font-family:var(--sans);font-size:15px;line-height:1.65;margin:.6em 0;color:var(--fg)}
+  .brief-output strong{color:var(--accent);font-weight:600}
+  .brief-output em{color:var(--muted)}
+  .cursor-blink{display:inline-block;width:8px;height:18px;background:var(--accent);vertical-align:middle;animation:blink 1s infinite;margin-left:2px}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .brief-result-foot{
+    margin-top:32px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    font-family:var(--mono);font-size:12px;color:var(--dim);
+  }
+  .brief-result-foot a{color:var(--accent)}
+
+  /* WHAT */
   .what-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
   .what-card{background:var(--bg);padding:36px 32px;transition:background .2s}
   .what-card:hover{background:var(--bg-2)}
   .what-card svg{color:var(--accent);margin-bottom:24px}
   .what-card h3{font-size:18px;font-weight:600;margin-bottom:12px}
   .what-card p{font-size:14px;color:var(--muted);line-height:1.6}
-  .what-card .timeline{
-    margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2);
-    font-family:var(--mono);font-size:11px;color:var(--dim);
-    text-transform:uppercase;letter-spacing:.1em;
-  }
+  .what-card .timeline{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2);font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
   .what-card .timeline b{color:var(--fg);font-weight:500}
 
-  /* ═══ WORK ═══ */
+  /* WORK */
   .work-list{border-top:1px solid var(--line)}
-  .work-item{
-    display:grid;grid-template-columns:80px 1fr auto;gap:32px;
-    padding:32px 0;border-bottom:1px solid var(--line);
-    align-items:baseline;transition:padding .2s;
-  }
+  .work-item{display:grid;grid-template-columns:80px 1fr auto;gap:32px;padding:32px 0;border-bottom:1px solid var(--line);align-items:baseline;transition:padding .2s}
   .work-item:hover{padding-left:12px}
   .work-num{font-family:var(--mono);font-size:13px;color:var(--dim)}
-  .work-main h4{
-    font-family:var(--serif);font-size:24px;font-weight:500;margin-bottom:6px;
-  }
+  .work-main h4{font-family:var(--serif);font-size:24px;font-weight:500;margin-bottom:6px}
   .work-main p{font-size:14px;color:var(--muted)}
-  .work-meta{
-    font-family:var(--mono);font-size:11px;color:var(--accent);
-    text-transform:uppercase;letter-spacing:.1em;
+  .work-meta{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
+  @media (max-width:640px){.work-item{grid-template-columns:1fr;gap:8px}.work-num{display:none}}
+
+  /* TESTIMONIAL */
+  .testimonial{
+    margin-top:64px;padding:48px 40px;background:var(--bg-3);
+    border-left:3px solid var(--accent);border-radius:2px;
   }
-  @media (max-width:640px){
-    .work-item{grid-template-columns:1fr;gap:8px}
-    .work-num{display:none}
+  .testimonial blockquote{
+    font-family:var(--serif);font-size:24px;line-height:1.4;font-style:italic;
+    color:var(--fg);margin-bottom:24px;letter-spacing:-.01em;
+  }
+  .testimonial blockquote::before{content:'\201C';color:var(--accent);font-size:48px;line-height:0;vertical-align:-12px;margin-right:6px}
+  .testimonial-attr{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .testimonial-attr .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#9a6b15);display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;font-size:13px}
+  .testimonial-attr b{color:var(--fg);font-weight:500;font-family:var(--sans);font-size:14px;display:block;margin-bottom:2px}
+  .testimonial-pending{
+    font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.15em;margin-top:14px;
   }
 
-  /* ═══ PROCESS ═══ */
+  /* PROCESS */
   .process-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px}
   .step{position:relative;padding-top:32px}
-  .step-num{
-    font-family:var(--mono);font-size:11px;color:var(--accent);
-    text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px;
-    border-top:1px solid var(--accent);padding-top:12px;
-  }
+  .step-num{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px;border-top:1px solid var(--accent);padding-top:12px}
   .step h4{font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:10px}
   .step p{font-size:14px;color:var(--muted);line-height:1.6}
 
-  /* ═══ CONTACT ═══ */
+  /* CONTACT */
   .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
   @media (max-width:768px){.contact-wrap{grid-template-columns:1fr;gap:40px}}
   .contact-text p{color:var(--muted);margin-bottom:20px;font-size:16px}
   .contact-channels{margin-top:32px;font-family:var(--mono);font-size:13px}
   .contact-channels div{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
   .contact-channels span:first-child{color:var(--dim)}
-  form{display:flex;flex-direction:column;gap:16px}
+  form#contact-form{display:flex;flex-direction:column;gap:16px}
   label{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
-  input,textarea{
-    width:100%;background:var(--bg-2);border:1px solid var(--line-2);
-    color:var(--fg);font-family:var(--sans);font-size:15px;
-    padding:14px;border-radius:2px;transition:border-color .15s;
-  }
+  input,textarea{width:100%;background:var(--bg-2);border:1px solid var(--line-2);color:var(--fg);font-family:var(--sans);font-size:15px;padding:14px;border-radius:2px;transition:border-color .15s}
   input:focus,textarea:focus{outline:none;border-color:var(--accent)}
   textarea{resize:vertical;min-height:120px;font-family:var(--sans)}
   .form-status{font-family:var(--mono);font-size:12px;min-height:18px;color:var(--muted)}
-  .form-status.ok{color:#36D399}
+  .form-status.ok{color:var(--good)}
   .form-status.err{color:#F87171}
-  button[type=submit]{
-    background:var(--accent);color:#000;border:none;padding:14px 22px;
-    font-size:14px;font-weight:600;cursor:pointer;border-radius:2px;
-    align-self:flex-start;transition:background .15s,transform .15s;
-  }
+  button[type=submit]{background:var(--accent);color:#000;border:none;padding:14px 22px;font-size:14px;font-weight:600;cursor:pointer;border-radius:2px;align-self:flex-start;transition:background .15s,transform .15s}
   button[type=submit]:hover{background:#f4b22f;transform:translateY(-1px)}
   button[type=submit]:disabled{opacity:.5;cursor:wait;transform:none}
 
-  /* ═══ FOOTER ═══ */
+  /* FOOTER */
   footer{padding:48px 24px;color:var(--dim);font-family:var(--mono);font-size:12px}
   .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
   .versions{display:flex;gap:16px}
@@ -216,11 +231,11 @@
   <div class="nav-inner">
     <a href="/" class="brand">mccreery<span class="dot">.</span>ai</a>
     <div class="nav-links">
+      <a href="#brief">60-sec brief</a>
       <a href="#what">Work</a>
       <a href="#process">Process</a>
-      <a href="https://os.mccreery.ai" target="_blank">Dashboard</a>
     </div>
-    <a href="#contact" class="nav-cta">Start a project →</a>
+    <a href="#brief" class="nav-cta">Start a project →</a>
   </div>
 </nav>
 
@@ -238,7 +253,7 @@
       <b>Two weeks. Fixed scope. You own everything.</b>
     </p>
     <div class="cta-row">
-      <a href="#contact" class="btn btn-primary">Start a project
+      <a href="#brief" class="btn btn-primary">Get a custom brief in 60 seconds
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a href="#what" class="btn btn-ghost">See what I build</a>
@@ -248,6 +263,97 @@
       <div><span class="stat-num">100%</span><span class="stat-lbl">You own the code</span></div>
       <div><span class="stat-num">0</span><span class="stat-lbl">Retainers · Lock-in</span></div>
       <div><span class="stat-num">1:1</span><span class="stat-lbl">No account managers</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 60-SECOND BRIEF (the showcase feature) -->
+<section id="brief">
+  <div class="section-inner">
+    <div class="section-tag">Try it · Live demo</div>
+    <h2 class="section-h">Three questions. One custom proposal.</h2>
+    <p class="section-sub">Tell me what your business does and what's broken. My AI drafts a real project brief — what I'd build, how long, what happens next. You'll have it in under a minute. I review it personally before any reply.</p>
+
+    <div class="brief-shell" id="brief-shell">
+      <div class="brief-head">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div>brief.mccreery.ai</div>
+        <div class="brief-status" id="brief-status"><span class="ind"></span><span id="brief-status-txt">Ready</span></div>
+      </div>
+      <div class="brief-body" id="brief-body">
+
+        <!-- STEP 0: contact -->
+        <div class="brief-step active" data-step="0">
+          <div class="step-meter">
+            <div class="pip current"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">Who's asking?</div>
+          <div class="brief-hint">First name and email. So I can send you the brief.</div>
+          <div class="brief-row">
+            <input class="brief-input" id="b-name" placeholder="Your name" maxlength="100" />
+            <input class="brief-input" id="b-email" type="email" placeholder="you@business.com" maxlength="200" />
+          </div>
+          <div class="brief-actions">
+            <button class="brief-back" disabled>← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 1: business -->
+        <div class="brief-step" data-step="1">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip current"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">What does your business do?</div>
+          <div class="brief-hint">One line. "Plumbing in DFW." "Online supplement store." "Personal injury chiro."</div>
+          <input class="brief-input" id="b-business" placeholder="e.g. residential roofing in Fort Worth" maxlength="200" />
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: problem -->
+        <div class="brief-step" data-step="2">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip current"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">What's broken or eating your time?</div>
+          <div class="brief-hint">Be specific. The thing you do over and over that you wish would just happen.</div>
+          <textarea class="brief-textarea" id="b-problem" placeholder="e.g. I'm losing leads at night because nobody answers the phone after 6pm" maxlength="1000"></textarea>
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: goal -->
+        <div class="brief-step" data-step="3">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip current"></div>
+          </div>
+          <div class="brief-q">What does success look like?</div>
+          <div class="brief-hint">In your own words. Not buzzwords. The outcome that would make this worth the money.</div>
+          <textarea class="brief-textarea" id="b-goal" placeholder="e.g. Every after-hours call gets captured, qualified, and replied to within 5 minutes" maxlength="1000"></textarea>
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="generate">Generate my brief →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: streaming output -->
+        <div class="brief-step" data-step="4">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip done"></div>
+          </div>
+          <div class="brief-output" id="brief-output"></div>
+          <div class="brief-result-foot" id="brief-foot" style="display:none">
+            <div>✓ Sent to your email · Nate will reply within hours</div>
+            <div><a href="#contact">Need to add anything? →</a></div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -263,7 +369,7 @@
       <div class="what-card">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         <h3>Business website</h3>
-        <p>Custom-coded site, your domain, business email, fast as hell. Not Squarespace. Not Wix. You own it forever.</p>
+        <p>Custom-coded site, your domain, business email, fast everywhere. Not Squarespace. Not Wix. You own it forever.</p>
         <div class="timeline"><b>Ships in</b> &nbsp; 7–14 days</div>
       </div>
       <div class="what-card">
@@ -278,6 +384,18 @@
         <p>The repetitive thing you do every day — invoices, follow-ups, data entry, scheduling — runs itself. One process, fully wired.</p>
         <div class="timeline"><b>Ships in</b> &nbsp; 5–10 days</div>
       </div>
+    </div>
+
+    <div class="testimonial" id="testimonial">
+      <blockquote id="quote-text">Coming soon — first client testimonial drops in days. The brief tool you just used? That's the kind of thing I build.</blockquote>
+      <div class="testimonial-attr">
+        <div class="avatar" id="quote-avatar">—</div>
+        <div>
+          <b id="quote-name">First public testimonial pending</b>
+          <span id="quote-role">Real client · Real outcome · No filler</span>
+        </div>
+      </div>
+      <div class="testimonial-pending">// placeholder · live quote landing this week</div>
     </div>
   </div>
 </section>
@@ -300,7 +418,7 @@
       <div class="work-item">
         <div class="work-num">002</div>
         <div class="work-main">
-          <h4>NateOS</h4>
+          <h4>NateOS Command Center</h4>
           <p>Personal command center. Tasks, ideas, invoices, clients, AI memory — one dashboard.</p>
         </div>
         <div class="work-meta">Live · os.mccreery.ai</div>
@@ -308,10 +426,10 @@
       <div class="work-item">
         <div class="work-num">003</div>
         <div class="work-main">
-          <h4>Milkatron</h4>
-          <p>The AI agent that runs my business. Texts, books, builds, ships. (Also built this site.)</p>
+          <h4>The brief tool above ↑</h4>
+          <p>Three questions, one streaming AI proposal, full lead capture pipeline. Built it for this site. I can build one for yours.</p>
         </div>
-        <div class="work-meta">Live · milkatron.org</div>
+        <div class="work-meta">Live · this page</div>
       </div>
     </div>
   </div>
@@ -321,7 +439,7 @@
 <section id="process">
   <div class="section-inner">
     <div class="section-tag">How it works</div>
-    <h2 class="section-h">No forms. No proposals. No bullshit.</h2>
+    <h2 class="section-h">No forms. No proposals. No runaround.</h2>
     <p class="section-sub">You message me. I tell you if I can help, what it'll take, and when it ships. Usually within a few hours.</p>
 
     <div class="process-grid">
@@ -338,7 +456,7 @@
       <div class="step">
         <div class="step-num">03 · Days 3–14</div>
         <h4>Build</h4>
-        <p>I build. You see daily progress. No status meetings. No "circling back."</p>
+        <p>I build. You see daily progress. No status meetings. No circling back.</p>
       </div>
       <div class="step">
         <div class="step-num">04 · Ship day</div>
@@ -352,12 +470,12 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-inner">
-    <div class="section-tag">Start a project</div>
-    <h2 class="section-h">Tell me what you're trying to build.</h2>
+    <div class="section-tag">Direct line</div>
+    <h2 class="section-h">Or just send me a note.</h2>
 
     <div class="contact-wrap">
       <div class="contact-text">
-        <p>Two or three sentences is enough. I'll reply within a few hours with whether I can help, what it'll take, and a rough timeline.</p>
+        <p>Already used the brief tool? Don't fill this out — I have your info. Use this if you want to skip the intake or have a quick question.</p>
         <p>If I'm not the right fit, I'll tell you that too — and probably recommend someone who is.</p>
         <div class="contact-channels">
           <div><span>Email</span><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
@@ -400,12 +518,149 @@
 </footer>
 
 <script>
+  /* ───── Tiny markdown → HTML (headings, lists, bold, italic, paragraphs) ───── */
+  function mdToHtml(md){
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const lines = md.split('\n');
+    let html = '', inUL = false, inOL = false, para = [];
+    const flushPara = () => { if(para.length){ html += '<p>'+para.join(' ')+'</p>'; para=[]; } };
+    const closeLists = () => { if(inUL){html+='</ul>';inUL=false;} if(inOL){html+='</ol>';inOL=false;} };
+    for(let raw of lines){
+      let line = raw.replace(/\r$/,'');
+      let t = line.trim();
+      if(!t){ flushPara(); closeLists(); continue; }
+      // headings
+      let m;
+      if((m = t.match(/^###\s+(.+)/))){ flushPara();closeLists(); html+='<h3>'+inline(esc(m[1]))+'</h3>'; continue; }
+      if((m = t.match(/^##\s+(.+)/))){  flushPara();closeLists(); html+='<h2>'+inline(esc(m[1]))+'</h2>'; continue; }
+      if((m = t.match(/^#\s+(.+)/))){   flushPara();closeLists(); html+='<h1>'+inline(esc(m[1]))+'</h1>'; continue; }
+      // ul
+      if((m = t.match(/^[-*]\s+(.+)/))){ flushPara(); if(inOL){html+='</ol>';inOL=false;} if(!inUL){html+='<ul>';inUL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
+      // ol
+      if((m = t.match(/^\d+\.\s+(.+)/))){ flushPara(); if(inUL){html+='</ul>';inUL=false;} if(!inOL){html+='<ol>';inOL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
+      // para
+      closeLists();
+      para.push(inline(esc(t)));
+    }
+    flushPara(); closeLists();
+    return html;
+    function inline(s){
+      return s
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+        .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
+    }
+  }
+
+  /* ───── BRIEF wizard ───── */
+  const briefBody = document.getElementById('brief-body');
+  const statusEl = document.getElementById('brief-status');
+  const statusTxt = document.getElementById('brief-status-txt');
+  let step = 0;
+  function showStep(n){
+    document.querySelectorAll('.brief-step').forEach(s => s.classList.remove('active'));
+    const el = document.querySelector('.brief-step[data-step="'+n+'"]');
+    if(el) el.classList.add('active');
+    step = n;
+    const focusable = el && el.querySelector('input,textarea');
+    if(focusable) setTimeout(()=>focusable.focus(),200);
+  }
+  function validate(n){
+    if(n===0){
+      const name=document.getElementById('b-name').value.trim();
+      const email=document.getElementById('b-email').value.trim();
+      if(!name){alert('Need your name');return false;}
+      if(!email||!email.includes('@')){alert('Need a valid email');return false;}
+      return true;
+    }
+    if(n===1) return !!document.getElementById('b-business').value.trim() || (alert('One sentence on what you do'),false);
+    if(n===2) return document.getElementById('b-problem').value.trim().length>=8 || (alert('A bit more detail helps'),false);
+    if(n===3) return document.getElementById('b-goal').value.trim().length>=8 || (alert('What does success look like?'),false);
+    return true;
+  }
+  briefBody.addEventListener('click', (e) => {
+    const t = e.target;
+    if(t.classList.contains('brief-back') && !t.disabled){
+      if(step>0) showStep(step-1);
+    } else if(t.classList.contains('brief-next')){
+      if(!validate(step)) return;
+      const action = t.dataset.action;
+      if(action === 'generate') runBrief();
+      else if(step < 3) showStep(step+1);
+    }
+  });
+  briefBody.addEventListener('keydown', (e) => {
+    if(e.key==='Enter' && !e.shiftKey && e.target.tagName==='INPUT'){
+      e.preventDefault();
+      const cur = document.querySelector('.brief-step[data-step="'+step+'"] .brief-next');
+      if(cur) cur.click();
+    }
+  });
+
+  async function runBrief(){
+    showStep(4);
+    statusEl.classList.add('live');
+    statusTxt.textContent = 'AI drafting…';
+    const out = document.getElementById('brief-output');
+    out.innerHTML = '<span class="cursor-blink"></span>';
+    const data = {
+      name: document.getElementById('b-name').value.trim(),
+      email: document.getElementById('b-email').value.trim(),
+      business: document.getElementById('b-business').value.trim(),
+      problem: document.getElementById('b-problem').value.trim(),
+      goal: document.getElementById('b-goal').value.trim(),
+    };
+    let acc = '';
+    try {
+      const r = await fetch('https://os.mccreery.ai/api/brief', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data),
+      });
+      if(!r.ok){
+        const j = await r.json().catch(()=>({error:'request failed'}));
+        out.innerHTML = '<p style="color:#F87171">Couldn\'t generate brief: '+(j.error||'unknown error')+'. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly and I\'ll take it from there.</p>';
+        statusEl.classList.remove('live');
+        statusTxt.textContent='Error';
+        return;
+      }
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let buf = '';
+      while(true){
+        const {value,done} = await reader.read();
+        if(done) break;
+        buf += dec.decode(value,{stream:true});
+        const parts = buf.split('\n\n');
+        buf = parts.pop();
+        for(const p of parts){
+          if(!p.startsWith('data:')) continue;
+          try{
+            const ev = JSON.parse(p.slice(5).trim());
+            if(ev.t){
+              acc += ev.t;
+              out.innerHTML = mdToHtml(acc) + '<span class="cursor-blink"></span>';
+            } else if(ev.error){
+              acc += '\n\n*[error: '+ev.error+']*';
+            }
+          }catch(_){}
+        }
+      }
+      out.innerHTML = mdToHtml(acc);
+      document.getElementById('brief-foot').style.display = 'flex';
+      statusEl.classList.remove('live');
+      statusTxt.textContent = 'Sent · check your email';
+    } catch(err){
+      out.innerHTML = '<p style="color:#F87171">Network error. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly.</p>';
+      statusEl.classList.remove('live');
+      statusTxt.textContent='Error';
+    }
+  }
+
+  /* ───── Plain contact form ───── */
   const form = document.getElementById('contact-form');
-  const status = document.getElementById('form-status');
-  const btn = document.getElementById('submit-btn');
+  const fstatus = document.getElementById('form-status');
+  const fbtn = document.getElementById('submit-btn');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    btn.disabled = true; status.className = 'form-status'; status.textContent = 'Sending…';
+    fbtn.disabled = true; fstatus.className='form-status'; fstatus.textContent='Sending…';
     const data = {
       name: document.getElementById('name').value.trim(),
       email: document.getElementById('email').value.trim(),
@@ -413,24 +668,12 @@
       source: 'mccreery.ai/v3',
     };
     try {
-      const r = await fetch('https://os.mccreery.ai/api/contact', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data),
-      });
+      const r = await fetch('https://os.mccreery.ai/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       const j = await r.json();
-      if (r.ok) {
-        status.className = 'form-status ok';
-        status.textContent = '✓ Got it. I\'ll be in touch within a few hours.';
-        form.reset();
-      } else {
-        status.className = 'form-status err';
-        status.textContent = '✗ ' + (j.error || 'Something went wrong. Try email instead.');
-      }
-    } catch (err) {
-      status.className = 'form-status err';
-      status.textContent = '✗ Network error. Email me directly: nate@mccreery.ai';
-    } finally {
-      btn.disabled = false;
-    }
+      if(r.ok){ fstatus.className='form-status ok'; fstatus.textContent='✓ Got it. I\'ll be in touch within hours.'; form.reset(); }
+      else { fstatus.className='form-status err'; fstatus.textContent='✗ '+(j.error||'Something went wrong. Try email instead.'); }
+    } catch { fstatus.className='form-status err'; fstatus.textContent='✗ Network error. Email me: nate@mccreery.ai'; }
+    finally { fbtn.disabled=false; }
   });
 </script>
 </body>
