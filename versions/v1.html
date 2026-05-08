@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Nate McCreery — operator. AI systems, automation, and websites built by a human + agent team. Fixed scope. Two-week ship." />
+<title>Nate McCreery — Operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ────────────────────────────────────────
+   mccreery.ai V2 — "Operator Console"
+   Concept: a working terminal, not a brochure.
+   Owner reads it as: "this guy ships."
+──────────────────────────────────────── */
+
+:root {
+  --bg-0:        #07080A;
+  --bg-1:        #0E1014;
+  --bg-2:        #15181E;
+  --bg-3:        #1C2028;
+  --line:        #20242C;
+  --line-2:      #2D333D;
+  --text:        #E6E8EB;
+  --text-2:      #A0A6B0;
+  --text-3:      #5E6470;
+  --text-4:      #3A3F48;
+
+  --signal:      #3ECFA0;     /* system green — "online" */
+  --signal-dim:  rgba(62,207,160,0.10);
+  --warn:        #E8A020;     /* amber — human / brand */
+  --warn-dim:    rgba(232,160,32,0.10);
+  --bad:         #F87171;
+  --link:        #6FA8FF;
+
+  --radius:      6px;
+  --radius-sm:   3px;
+  --max-w:       1180px;
+
+  --font-display: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono:    'Geist Mono', ui-monospace, 'JetBrains Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body {
+  background: var(--bg-0);
+  color: var(--text);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01","cv01";
+  overflow-x: hidden;
+}
+
+/* faint horizontal scanlines — terminal feel without crt cheese */
+body::after {
+  content:'';
+  position: fixed; inset:0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.012) 0 1px,
+    transparent 1px 3px
+  );
+  pointer-events:none;
+  z-index: 200;
+}
+
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--warn); color: #000; }
+
+.wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 1.75rem; }
+
+/* ────────── TOP BAR / TICKER ────────── */
+.topbar {
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.ticker-row {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.ticker-row > div { display:flex; gap:1.5rem; align-items:center; }
+.tick { display:inline-flex; align-items:center; gap:0.4rem; }
+.tick b { color: var(--text-2); font-weight: 500; }
+.tick .up { color: var(--signal); }
+.tick .dn { color: var(--bad); }
+.dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 0 rgba(62,207,160,0.6);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(62,207,160,0.55); }
+  60% { box-shadow: 0 0 0 5px rgba(62,207,160,0); }
+  100% { box-shadow: 0 0 0 0 rgba(62,207,160,0); }
+}
+
+/* ────────── NAV ────────── */
+nav.main {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(7,8,10,0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.75rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.brand svg { width: 22px; height: 22px; flex-shrink:0; }
+.brand .slash { color: var(--warn); }
+
+.nav-links { display: flex; gap: 0.25rem; align-items: center; }
+.nav-links a {
+  color: var(--text-2);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: color .15s, background .15s;
+}
+.nav-links a:hover { color: var(--text); background: var(--bg-2); }
+.nav-cta {
+  background: var(--warn);
+  color: #000 !important;
+  font-weight: 600 !important;
+  padding: 0.45rem 0.95rem !important;
+}
+.nav-cta:hover { background: #f0aa30 !important; }
+
+/* ────────── HERO ────────── */
+.hero { padding: 5rem 0 4rem; position: relative; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--warn);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(232,160,32,0.3);
+  background: var(--warn-dim);
+  padding: 0.28rem 0.65rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+}
+h1 {
+  font-size: clamp(2.4rem, 5.2vw, 4rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  margin-bottom: 1.5rem;
+}
+h1 .accent { color: var(--warn); }
+h1 .cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 0.95em;
+  background: var(--warn);
+  vertical-align: -0.1em;
+  margin-left: 0.08em;
+  animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.lede {
+  font-size: 1.08rem;
+  color: var(--text-2);
+  max-width: 540px;
+  margin-bottom: 2rem;
+  line-height: 1.65;
+}
+
+.cta-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.7rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  color: var(--text);
+  transition: all .15s;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--text-3); background: var(--bg-3); }
+.btn-primary {
+  background: var(--warn);
+  color: #000;
+  border-color: var(--warn);
+  font-weight: 600;
+}
+.btn-primary:hover { background: #f0aa30; border-color: #f0aa30; }
+.btn .arrow { transition: transform .15s; }
+.btn:hover .arrow { transform: translateX(2px); }
+
+/* ────────── HERO SIDE PANEL — fake terminal ────────── */
+.terminal {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  overflow: hidden;
+  box-shadow: 0 24px 48px -16px rgba(0,0,0,0.6);
+}
+.term-head {
+  display: flex; align-items: center; gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+}
+.term-head .tt-dot { width: 9px; height: 9px; border-radius: 50%; }
+.tt-r { background: #ff5f56; } .tt-y { background: #ffbd2e; } .tt-g { background: #27c93f; }
+.term-head .tt-title { margin-left: 0.6rem; color: var(--text-3); font-size: 0.7rem; }
+.term-body { padding: 1rem 1.1rem; line-height: 1.85; color: var(--text-2); }
+.term-body .ln-prompt { color: var(--signal); }
+.term-body .ln-out { color: var(--text-3); }
+.term-body .hl-warn { color: var(--warn); }
+.term-body .hl-text { color: var(--text); }
+.term-body .hl-good { color: var(--signal); }
+
+/* ────────── SECTION BASE ────────── */
+section.block {
+  padding: 5rem 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.section-label::before {
+  content:''; width: 18px; height: 1px; background: var(--warn);
+}
+h2 {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.6rem;
+  line-height: 1.1;
+}
+.section-sub {
+  color: var(--text-2);
+  max-width: 600px;
+  margin-bottom: 2.75rem;
+  font-size: 1rem;
+}
+
+/* ────────── SERVICES — table-row layout, not card soup ────────── */
+.svc-table {
+  border-top: 1px solid var(--line);
+}
+.svc-row {
+  display: grid;
+  grid-template-columns: 32px 1.4fr 2fr 130px 110px;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: background .15s;
+}
+.svc-row:hover { background: var(--bg-1); }
+.svc-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-4);
+  letter-spacing: 0.08em;
+}
+.svc-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.svc-desc { color: var(--text-2); font-size: 0.9rem; line-height: 1.55; }
+.svc-price {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--warn);
+  font-weight: 500;
+}
+.svc-price small { color: var(--text-3); font-weight: 400; font-size: 0.72rem; display:block; }
+.svc-time {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-2);
+  text-align: right;
+}
+.svc-time .pulse {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--signal);
+  margin-right: 0.4rem;
+  vertical-align: 0.1em;
+}
+
+/* ────────── PROOF / METHOD ────────── */
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.method-cell {
+  background: var(--bg-1);
+  padding: 1.5rem 1.4rem;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.method-cell .step {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--warn);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+}
+.method-cell h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+.method-cell p {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+/* ────────── WORK ────────── */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.work-card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.5rem 1.4rem;
+  transition: border-color .15s, transform .15s;
+  display: flex; flex-direction: column;
+  gap: 0.75rem;
+  min-height: 230px;
+}
+.work-card:hover { border-color: var(--text-4); transform: translateY(-2px); }
+.work-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.work-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.work-desc {
+  font-size: 0.86rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  flex: 1;
+}
+.work-meta {
+  display: flex;
+  gap: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-3);
+}
+.work-meta .live { color: var(--signal); }
+.work-meta .live::before {
+  content:''; display: inline-block; width: 5px; height: 5px;
+  border-radius: 50%; background: var(--signal);
+  margin-right: 0.35rem; vertical-align: 0.1em;
+}
+
+/* ────────── PRINCIPLES ────────── */
+.principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.princ-item .num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--warn);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+}
+.princ-item h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+.princ-item p {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* ────────── CONTACT ────────── */
+.contact {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 3rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.contact h2 { margin-bottom: 0.6rem; }
+.contact p { color: var(--text-2); font-size: 0.95rem; }
+.contact-info {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-2);
+  border-left: 1px solid var(--line-2);
+  padding-left: 1.5rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+.contact-info span { color: var(--text-3); display: block; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.contact-info a { color: var(--warn); }
+
+/* ────────── FOOTER ────────── */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem 0 3rem;
+  font-size: 0.82rem;
+  color: var(--text-3);
+}
+.foot-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.foot-mono {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-4);
+  line-height: 1.7;
+}
+.foot-mono b { color: var(--text-2); font-weight: 500; }
+
+@media (max-width: 920px) {
+  .hero-grid, .contact { grid-template-columns: 1fr; gap: 2rem; }
+  .work-grid { grid-template-columns: 1fr 1fr; }
+  .method-grid { grid-template-columns: 1fr 1fr; }
+  .principles { grid-template-columns: 1fr; gap: 1.5rem; }
+  .svc-row { grid-template-columns: 32px 1fr; gap: 0.7rem; }
+  .svc-row .svc-desc, .svc-row .svc-price, .svc-row .svc-time { grid-column: 2; }
+  .ticker-row > div:nth-child(2) { display: none; }
+  .nav-links a:not(.nav-cta) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TICKER BAR ─── -->
+<div class="topbar">
+  <div class="ticker-row">
+    <div>
+      <span class="tick"><span class="dot"></span> <b>SYS</b> ALL GREEN</span>
+      <span class="tick"><b>FT.WORTH</b> <span id="t-time">— —</span></span>
+      <span class="tick"><b>BUILD</b> <span class="up">v2.0</span></span>
+    </div>
+    <div>
+      <span class="tick"><b>SHIPPED</b> 14 sites</span>
+      <span class="tick"><b>UPTIME</b> <span class="up">99.97%</span></span>
+      <span class="tick"><b>BOOK</b> <span class="up">2 SLOTS / JUN</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav class="main">
+  <div class="nav-inner">
+    <a href="#" class="brand" aria-label="Nate McCreery">
+      <!-- Custom monogram: N with slash extending into amber prompt mark -->
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="0.5" y="0.5" width="31" height="31" rx="5.5" stroke="#2D333D"/>
+        <!-- N -->
+        <path d="M7 23 V9 L18 21 V9" stroke="#E6E8EB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- slash / prompt -->
+        <path d="M21 24 L26 8" stroke="#E8A020" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="26" cy="7" r="1.5" fill="#E8A020"/>
+      </svg>
+      mccreery<span class="slash">/</span>ai
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#method">Method</a>
+      <a href="#work">Work</a>
+      <a href="/styles/">Designs</a>
+      <a href="https://os.mccreery.ai">Console</a>
+      <a href="#contact" class="nav-cta">Start a project →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">▌ OPERATOR // FORT WORTH, TX</span>
+      <h1>I ship <span class="accent">production systems</span><br/>for businesses that<br/>can't wait <span class="accent">six months</span><span class="cursor"></span></h1>
+      <p class="lede">
+        Websites, dashboards, and AI automation built by a one-human team augmented with autonomous agents. Fixed scope, two-week ship window, no agency markup. The same stack I use to run my own operations.
+      </p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-primary">Start a project <span class="arrow">→</span></a>
+        <a href="#work" class="btn">See what's live</a>
+      </div>
+    </div>
+
+    <!-- Side terminal -->
+    <div class="terminal" aria-hidden="true">
+      <div class="term-head">
+        <span class="tt-dot tt-r"></span><span class="tt-dot tt-y"></span><span class="tt-dot tt-g"></span>
+        <span class="tt-title">~/operator — zsh</span>
+      </div>
+      <div class="term-body">
+<span class="ln-prompt">$</span> nate --status<br/>
+<span class="ln-out">  available_slots:</span> <span class="hl-good">2</span><br/>
+<span class="ln-out">  current_build: </span> <span class="hl-warn">milkatron.org/v2</span><br/>
+<span class="ln-out">  response_time: </span> <span class="hl-text">&lt; 4 hrs</span><br/>
+<span class="ln-out">  next_open:    </span> <span class="hl-text">Jun 03 2026</span><br/>
+<span class="ln-prompt">$</span> nate --offers<br/>
+<span class="ln-out">  → site_+_email_+_agent</span><br/>
+<span class="ln-out">  → dashboard / nateOS</span><br/>
+<span class="ln-out">  → seo_local_lead_engine</span><br/>
+<span class="ln-out">  → automation_audit</span><br/>
+<span class="ln-prompt">$</span> <span class="hl-warn">_</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── SERVICES ─── -->
+<section class="block" id="services">
+  <div class="wrap">
+    <div class="section-label">01 / Services</div>
+    <h2>Four offerings. Fixed scope.<br/>No "let's circle back."</h2>
+    <p class="section-sub">Each one ships in a defined window for a defined price. If your project doesn't fit one of these, I'll tell you on the call instead of selling it to you.</p>
+
+    <div class="svc-table">
+      <div class="svc-row">
+        <div class="svc-num">01</div>
+        <div class="svc-title">Site + Email + Agent</div>
+        <div class="svc-desc">Custom domain, branded site, professional email, and your own private AI agent that knows your business. Signature offering.</div>
+        <div class="svc-price">$2,400 <small>+ $80/mo</small></div>
+        <div class="svc-time"><span class="pulse"></span>14 days</div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-num">02</div>
+        <div class="svc-title">Operator Dashboard</div>
+        <div class="svc-desc">Single-pane-of-glass dashboard for your business. Inventory, leads, books, KPIs — pulled from wherever they live now. See NateOS for reference.</div>
+        <div class="svc-price">$3,500</div>
+        <div class="svc-time"><span class="pulse"></span>21 days</div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-num">03</div>
+        <div class="svc-title">Local Lead Engine</div>
+        <div class="svc-desc">Static site engineered for local search + Google Business Profile + lead capture wired to your phone. SEO that actually ranks.</div>
+        <div class="svc-price">$1,800</div>
+        <div class="svc-time"><span class="pulse"></span>10 days</div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-num">04</div>
+        <div class="svc-title">Automation Audit</div>
+        <div class="svc-desc">One week. I map every repeated workflow in your business and deliver a written plan + working prototype of the highest-leverage one.</div>
+        <div class="svc-price">$900</div>
+        <div class="svc-time"><span class="pulse"></span>5 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── METHOD ─── -->
+<section class="block" id="method">
+  <div class="wrap">
+    <div class="section-label">02 / How it works</div>
+    <h2>Four steps. Two weeks.<br/>Live URL at the end.</h2>
+    <p class="section-sub">Same process for every engagement. You always know what's happening and when the next thing lands.</p>
+
+    <div class="method-grid">
+      <div class="method-cell">
+        <div>
+          <div class="step">STEP 01 / DAY 0</div>
+          <h3>30-min call</h3>
+        </div>
+        <p>You explain what you want. I tell you the cleanest path and quote a number on the call. No follow-up "proposal" theater.</p>
+      </div>
+      <div class="method-cell">
+        <div>
+          <div class="step">STEP 02 / DAY 1–3</div>
+          <h3>Design + scope lock</h3>
+        </div>
+        <p>You see live mockups in 48 hours. Pick one. We lock the scope so neither of us pretends the brief changed later.</p>
+      </div>
+      <div class="method-cell">
+        <div>
+          <div class="step">STEP 03 / DAY 3–12</div>
+          <h3>Build, in public</h3>
+        </div>
+        <p>Daily progress link. Real production stack — not a demo. Vercel, Cloudflare, Postgres, Twilio, whatever the job actually needs.</p>
+      </div>
+      <div class="method-cell">
+        <div>
+          <div class="step">STEP 04 / DAY 12–14</div>
+          <h3>Ship + handoff</h3>
+        </div>
+        <p>You get the live URL, GitHub access, and a Loom showing how to operate everything. 30 days of free fixes after launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WORK ─── -->
+<section class="block" id="work">
+  <div class="wrap">
+    <div class="section-label">03 / Work</div>
+    <h2>What's running right now.</h2>
+    <p class="section-sub">A short list — I'd rather show you live URLs than fake case studies.</p>
+
+    <div class="work-grid">
+      <a href="https://os.mccreery.ai" target="_blank" rel="noopener" class="work-card">
+        <div class="work-tag">Operator Dashboard</div>
+        <div class="work-title">NateOS Command Center</div>
+        <div class="work-desc">8-tab dashboard running my whole operation: tasks, ideas, spending, comms, intel, invoices. Backed by a Flask API + SMS gateway.</div>
+        <div class="work-meta"><span class="live">LIVE</span><span>os.mccreery.ai</span></div>
+      </a>
+      <a href="https://milkatron.org" target="_blank" rel="noopener" class="work-card">
+        <div class="work-tag">Brand site + Agent</div>
+        <div class="work-title">Milkatron</div>
+        <div class="work-desc">Public homepage for my AI agent product. Cyberpunk theme, real-time stats, custom Cloudflare tunnel architecture.</div>
+        <div class="work-meta"><span class="live">LIVE</span><span>milkatron.org</span></div>
+      </a>
+      <a class="work-card">
+        <div class="work-tag">Local SEO</div>
+        <div class="work-title">DFW PI Chiropractic</div>
+        <div class="work-desc">Lead-gen site for personal injury chiropractic referrals across DFW. Static export, schema.org markup, GBP integration.</div>
+        <div class="work-meta"><span>IN BUILD</span><span>Q2 2026</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRINCIPLES ─── -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-label">04 / How I work</div>
+    <h2>Three rules I won't break.</h2>
+    <div class="principles" style="margin-top:2.5rem;">
+      <div class="princ-item">
+        <div class="num">01 / SCOPE</div>
+        <h4>Fixed price, fixed window.</h4>
+        <p>Hourly billing creates incentives I don't want. Every project gets a number and a date upfront. If I underestimate, that's my problem, not yours.</p>
+      </div>
+      <div class="princ-item">
+        <div class="num">02 / OWNERSHIP</div>
+        <h4>You own everything.</h4>
+        <p>Domain, code, hosting, accounts — all in your name from day one. I'll never hold a client hostage. If you fire me tomorrow, you keep operating.</p>
+      </div>
+      <div class="princ-item">
+        <div class="num">03 / HONESTY</div>
+        <h4>If it's the wrong fit, I say so.</h4>
+        <p>Some jobs need a 4-person agency, an enterprise SaaS, or a friend with a Wix account. If that's you, I'll tell you on the call and refer where I can.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <div class="section-label" style="margin-bottom: 1rem;">05 / Start</div>
+        <h2>Tell me what you need.<br/>I'll quote it on the call.</h2>
+        <p>30-minute intro, no obligation, no slide deck. If we're a fit you'll have a number and a start date when we hang up.</p>
+        <div style="margin-top: 1.75rem; display:flex; gap: 0.75rem; flex-wrap:wrap;">
+          <a href="mailto:nate@mccreery.ai" class="btn btn-primary">Email nate@mccreery.ai →</a>
+          <a href="sms:+19723380903" class="btn">Text 972-338-0903</a>
+        </div>
+      </div>
+      <div class="contact-info">
+        <div><span>RESPONSE</span>under 4 hrs, M–F</div>
+        <div><span>BASED</span>Fort Worth, TX</div>
+        <div><span>OPEN</span>Remote / DFW on-site</div>
+        <div><span>CONSOLE</span><a href="https://os.mccreery.ai">os.mccreery.ai</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-mono">
+      <b>mccreery.ai</b> &nbsp; v2.0 &nbsp; <span style="color:var(--signal);">●</span> ALL SYSTEMS GREEN<br/>
+      © 2026 Nate McCreery — Fort Worth, Texas
+    </div>
+    <div class="foot-mono" style="text-align:right;">
+      <b>os.mccreery.ai</b> · <b>milkatron.org</b><br/>
+      <a href="/styles/" style="color:var(--warn);">View design variants →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // live local clock for ticker
+  function fmt(){
+    const d = new Date();
+    const opts = { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, timeZone:'America/Chicago' };
+    return d.toLocaleTimeString('en-US', opts) + ' CT';
+  }
+  const el = document.getElementById('t-time');
+  if (el) { el.textContent = fmt(); setInterval(()=> el.textContent = fmt(), 1000); }
+</script>
+
+</body>
+</html>

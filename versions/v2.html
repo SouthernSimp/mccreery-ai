@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nate McCreery — done-for-you AI websites and automation systems for businesses that want to move faster. Fixed scope. Fixed price. Ships in 2 weeks." />
+  <title>Nate McCreery — AI Systems & Automation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════
+       DESIGN TOKENS — universal system
+       Nate McCreery / mccreery.ai / v1 2026
+    ═══════════════════════════════════════ */
+    :root {
+      /* surfaces */
+      --bg:        #0D0D0D;
+      --bg-1:      #161616;
+      --bg-2:      #1E1E1E;
+      --bg-3:      #262626;
+      /* borders */
+      --border:    #2A2A2A;
+      --border-2:  #363636;
+      /* text */
+      --text:      #E8E8E6;
+      --text-muted:#888882;
+      --text-dim:  #555550;
+      /* accent — amber, singular */
+      --amber:     #E8A020;
+      --amber-dim: rgba(232,160,32,0.12);
+      --amber-glow:rgba(232,160,32,0.06);
+      /* success */
+      --green:     #3ECFA0;
+      /* type */
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      /* layout */
+      --max-w:     1200px;
+      --radius:    6px;
+      --radius-sm: 4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 15px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* subtle dot-grid background — Bloomberg terminal feel */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(232,160,32,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo .logo-accent { color: var(--amber); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.825rem;
+      font-weight: 500;
+      padding: 0.35rem 0.7rem;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); background: var(--bg-2); }
+    .nav-cta {
+      background: var(--amber) !important;
+      color: #000 !important;
+      font-weight: 600 !important;
+      letter-spacing: -0.01em;
+    }
+    .nav-cta:hover { background: #f0aa30 !important; }
+
+    /* ─── STATUS DOT ─── */
+    .status-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.03em;
+    }
+    .status-dot::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(62,207,160,0.5);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%   { box-shadow: 0 0 0 0 rgba(62,207,160,0.55); }
+      60%  { box-shadow: 0 0 0 5px rgba(62,207,160,0); }
+      100% { box-shadow: 0 0 0 0 rgba(62,207,160,0); }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 7rem 0 5rem;
+    }
+    .hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(232,160,32,0.3);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-sm);
+      background: var(--amber-dim);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 3.75rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .hero-sub {
+      font-size: 1.0rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.25rem;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amber);
+      color: #000;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover { background: #f0aa30; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+    .btn-secondary svg { opacity: 0.5; }
+
+    .hero-sub-cta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.02em;
+    }
+    .hero-sub-cta span { color: var(--amber); }
+
+    /* Hero stats panel */
+    .hero-stats {
+      background: var(--bg-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .stats-header {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 1.65rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      counter-reset: none;
+    }
+    .stat-value.amber { color: var(--amber); }
+    .stat-unit {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-left: 0.3rem;
+    }
+    .stats-footer {
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ─── DIVIDER ─── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--text);
+    }
+    .section-intro {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-top: 0.75rem;
+    }
+
+    /* ─── SERVICES ─── */
+    #services {
+      padding: 5.5rem 0;
+    }
+    .services-header {
+      margin-bottom: 3rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .service-card {
+      background: var(--bg-1);
+      padding: 2rem;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .service-card:hover { background: var(--bg-2); }
+
+    .service-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+    }
+    .service-status {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+    }
+    .service-status.open {
+      color: var(--green);
+      background: rgba(62,207,160,0.1);
+      border: 1px solid rgba(62,207,160,0.2);
+    }
+    .service-status.limited {
+      color: var(--amber);
+      background: var(--amber-dim);
+      border: 1px solid rgba(232,160,32,0.25);
+    }
+
+    .service-id {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    .service-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .service-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-key { color: var(--text-dim); }
+    .spec-val { color: var(--text); font-weight: 500; }
+    .spec-val.amber-val { color: var(--amber); }
+
+    .service-deliverables {
+      margin-bottom: 1.5rem;
+    }
+    .deliverables-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .deliverable-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .deliverable-item::before {
+      content: '→';
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      margin-top: 0.05rem;
+      flex-shrink: 0;
+    }
+
+    .service-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-decoration: none;
+      border: 1px solid rgba(232,160,32,0.3);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .service-cta:hover {
+      background: var(--amber-dim);
+      border-color: rgba(232,160,32,0.5);
+    }
+
+    /* ─── WORK ─── */
+    #work {
+      padding: 5.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .work-header { margin-bottom: 3rem; }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .work-card {
+      background: var(--bg-1);
+      padding: 1.75rem;
+      transition: background 0.2s;
+    }
+    .work-card:hover { background: var(--bg-2); }
+    .work-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+    }
+    .work-client {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .work-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      padding: 0.18rem 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-2);
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .work-badge.delivered {
+      color: var(--green);
+      border-color: rgba(62,207,160,0.2);
+      background: rgba(62,207,160,0.07);
+    }
+    .work-metric {
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--amber);
+      line-height: 1.0;
+      margin-bottom: 0.35rem;
+    }
+    .work-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .work-desc {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .work-timeline {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding: 5.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-left h2 { margin-bottom: 1.25rem; }
+    .about-body {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 1.75rem;
+    }
+    .about-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
+    .about-detail .ad-label { color: var(--text-muted); }
+
+    .about-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .about-spec {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-1);
+      border-bottom: 1px solid var(--border);
+    }
+    .about-spec:last-child { border-bottom: none; }
+    .about-spec-key {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .about-spec-val {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .about-spec-val.mono {
+      font-family: var(--font-mono);
+      color: var(--amber);
+      font-size: 0.85rem;
+    }
+
+    /* ─── CONTACT SECTION ─── */
+    #contact {
+      padding: 5.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .contact-left h2 { margin-bottom: 1rem; }
+    .contact-left .section-intro { margin-bottom: 2rem; }
+    .contact-cta-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+    .contact-note {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.02em;
+      margin-top: 0.25rem;
+    }
+    .contact-note .cn-open { color: var(--amber); }
+
+    .contact-right {
+      background: var(--bg-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .contact-right-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .estimator-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .estimator-option:last-child { border-bottom: none; }
+    .estimator-option input[type="checkbox"] {
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border-2);
+      border-radius: 3px;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .estimator-option input[type="checkbox"]:checked {
+      background: var(--amber);
+      border-color: var(--amber);
+    }
+    .estimator-option input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      font-size: 9px;
+      color: #000;
+      font-weight: 700;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .est-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .est-price {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .estimator-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      margin-top: 0.5rem;
+    }
+    .est-total-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .est-total-val {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--amber);
+      letter-spacing: -0.03em;
+    }
+    .estimator-cta {
+      display: block;
+      margin-top: 1.25rem;
+      text-align: center;
+      background: var(--amber);
+      color: #000;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.65rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: background 0.15s;
+    }
+    .estimator-cta:hover { background: #f0aa30; }
+    .estimator-note {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 0.65rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .footer-logo .amber { color: var(--amber); }
+    .footer-honesty {
+      font-size: 0.825rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 1.25rem;
+    }
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-meta-item {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+    .footer-meta-item .val { color: var(--text-muted); }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      margin-top: 1.5rem;
+    }
+
+    /* ─── COUNTER ANIMATION ─── */
+    .count-target { display: inline-block; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+      .stats-header { grid-column: 1/-1; }
+      .stats-footer { grid-column: 1/-1; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer-right { align-items: flex-start; }
+      h1 { font-size: 2.2rem; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .wrap { padding: 0 1.25rem; }
+      .hero-inner { padding: 0 1.25rem; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .work-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">
+        NM<span class="logo-accent">.</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="https://os.mccreery.ai" target="_blank">Dashboard</a></li>
+        <li><a class="nav-cta" href="#contact">Let's Talk</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-inner">
+
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="hero-tag">AI Systems + Automation</span>
+          <span class="status-dot">Available for new work</span>
+        </div>
+
+        <h1>Your business,<br /><em>automated.</em></h1>
+
+        <p class="hero-sub">
+          I build done-for-you AI websites and automation systems
+          for businesses that want to move faster and do more with less.
+          Fixed scope. Fixed price. Ships in 2 weeks.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#contact" class="btn-primary">
+            Let's scope your project
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#work" class="btn-secondary">
+            See what I've built
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p class="hero-sub-cta">
+          <span>2 project slots open</span> this month &nbsp;·&nbsp; No retainers &nbsp;·&nbsp; Fort Worth, TX
+        </p>
+      </div>
+
+      <div class="hero-right reveal">
+        <div class="hero-stats">
+          <div class="stats-header">// OPERATIONS_SUMMARY</div>
+
+          <div class="stat-row">
+            <span class="stat-label">sites_launched</span>
+            <span>
+              <span class="stat-value amber count-target" data-target="12">0</span>
+              <span class="stat-unit">builds</span>
+            </span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">avg_lead_increase</span>
+            <span>
+              <span class="stat-value amber count-target" data-target="340">0</span>
+              <span class="stat-unit">%</span>
+            </span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">first_build_turnaround</span>
+            <span>
+              <span class="stat-value count-target" data-target="48">0</span>
+              <span class="stat-unit">hrs</span>
+            </span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">avg_project_length</span>
+            <span>
+              <span class="stat-value count-target" data-target="11">0</span>
+              <span class="stat-unit">days</span>
+            </span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">clients_automated</span>
+            <span>
+              <span class="stat-value count-target" data-target="7">0</span>
+              <span class="stat-unit">active</span>
+            </span>
+          </div>
+
+          <div class="stats-footer">
+            <span class="status-dot">Systems operational</span>
+            <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);">
+              CST / DFW
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ═══ SERVICES ═══ -->
+  <section id="services">
+    <div class="wrap">
+      <div class="services-header reveal">
+        <div class="section-label">// SERVICES</div>
+        <h2>What I build</h2>
+        <p class="section-intro">
+          Two core offerings. Both fixed-scope, fixed-price, with a defined deliverable list
+          and a hard ship date. No hourly billing, no scope creep.
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- SERVICE 01 -->
+        <div class="service-card reveal">
+          <div class="service-card-header">
+            <span class="service-id">SVC-01</span>
+            <span class="service-status open">Open</span>
+          </div>
+          <div class="service-title">AI-Powered Website Build</div>
+          <p class="service-desc">
+            A live, fast, professional business website with AI-assisted lead capture,
+            intake forms, and CRM integration. Built to rank and convert.
+          </p>
+
+          <div class="service-specs">
+            <div class="spec-row">
+              <span class="spec-key">stack</span>
+              <span class="spec-val">Next.js + Tailwind + n8n</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-key">timeline</span>
+              <span class="spec-val amber-val">[10–14 DAYS]</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-key">hosting</span>
+              <span class="spec-val">Cloudflare / Vercel</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-key">domain_email</span>
+              <span class="spec-val amber-val">INCLUDED</span>
+            </div>
+          </div>
+
+          <div class="service-deliverables">
+            <div class="deliverables-label">Deliverables</div>
+            <div class="deliverable-item">Live production site on your domain</div>
+            <div class="deliverable-item">AI-powered lead capture form</div>
+            <div class="deliverable-item">Professional email (you@yourdomain.com)</div>
+            <div class="deliverable-item">Basic SEO + Google Search Console setup</div>
+            <div class="deliverable-item">30-day support window</div>
+          </div>
+
+          <a href="#contact" class="service-cta">
+            Get a quote
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- SERVICE 02 -->
+        <div class="service-card reveal">
+          <div class="service-card-header">
+            <span class="service-id">SVC-02</span>
+            <span class="service-status limited">2 Slots</span>
+          </div>
+          <div class="service-title">AI Agent + Automation System</div>
+          <p class="service-desc">
+            A custom AI agent or workflow automation that replaces a manual process —
+            lead follow-up, intake routing, scheduling, reporting, or internal ops.
+          </p>
+
+          <div class="service-specs">
+            <div class="spec-row">
+              <span class="spec-key">stack</span>
+              <span class="spec-val">n8n + Hermes + OpenAI</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-key">timeline</span>
+              <span class="spec-val amber-val">[7–14 DAYS]</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-key">integrations</span>
+              <span class="spec-val">CRM, SMS, Email, Slack</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-key">ownership</span>
+              <span class="spec-val amber-val">YOU OWN IT</span>
+            </div>
+          </div>
+
+          <div class="service-deliverables">
+            <div class="deliverables-label">Deliverables</div>
+            <div class="deliverable-item">Custom AI agent wired to your tools</div>
+            <div class="deliverable-item">Full workflow diagram + documentation</div>
+            <div class="deliverable-item">Handoff + training call</div>
+            <div class="deliverable-item">2-week monitoring period</div>
+            <div class="deliverable-item">Ongoing retainer option available</div>
+          </div>
+
+          <a href="#contact" class="service-cta">
+            Get a quote
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- SERVICE 03 — full stack combo -->
+        <div class="service-card reveal" style="grid-column: 1 / -1; background: var(--bg-2);">
+          <div class="service-card-header">
+            <span class="service-id">SVC-03</span>
+            <span class="service-status limited">Limited</span>
+          </div>
+          <div class="service-title">Full Stack AI Business Package</div>
+          <p class="service-desc" style="max-width: 620px;">
+            Website + automation system + custom AI agent — everything a modern
+            service business needs to operate at a higher level. One engagement,
+            one point of contact, one ship date.
+          </p>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:1.5rem;">
+            <div style="padding:0.85rem 1rem;background:var(--bg-1);">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.3rem;">Timeline</div>
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--amber);font-weight:600;">[21–30 DAYS]</div>
+            </div>
+            <div style="padding:0.85rem 1rem;background:var(--bg-1);">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.3rem;">Includes</div>
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text);font-weight:600;">SVC-01 + SVC-02</div>
+            </div>
+            <div style="padding:0.85rem 1rem;background:var(--bg-1);">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.3rem;">Slots / month</div>
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--amber);font-weight:600;">MAX 2</div>
+            </div>
+            <div style="padding:0.85rem 1rem;background:var(--bg-1);">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.3rem;">Ownership</div>
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text);font-weight:600;">100% yours</div>
+            </div>
+          </div>
+
+          <a href="#contact" class="service-cta">
+            Start a conversation
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WORK ═══ -->
+  <section id="work">
+    <div class="wrap">
+      <div class="work-header reveal">
+        <div class="section-label">// RECENT_WORK</div>
+        <h2>Results, not slides</h2>
+        <p class="section-intro">
+          A few recent projects. Metrics are real. No stock photos, no generic case studies.
+        </p>
+      </div>
+
+      <div class="work-grid">
+
+        <div class="work-card reveal">
+          <div class="work-card-top">
+            <span class="work-client">Auto Injury Referral — DFW</span>
+            <span class="work-badge delivered">Delivered</span>
+          </div>
+          <div class="work-metric">+340%</div>
+          <div class="work-title">Lead capture rebuilt from scratch</div>
+          <p class="work-desc">
+            Replaced a static landing page with an AI intake form + CRM sync.
+            Qualifying leads automatically, routing to the right attorney on file.
+          </p>
+          <div class="work-timeline">// STACK: Next.js + n8n + Zapier &nbsp;|&nbsp; LAUNCHED: 11 days</div>
+        </div>
+
+        <div class="work-card reveal">
+          <div class="work-card-top">
+            <span class="work-client">Welding Business — Dallas</span>
+            <span class="work-badge delivered">Delivered</span>
+          </div>
+          <div class="work-metric">$0 → Live</div>
+          <div class="work-title">Domain, email, site, SEO — zero to operational</div>
+          <p class="work-desc">
+            Full brand build. Custom domain, professional email,
+            local SEO setup, Google Business Profile. First organic lead in week 2.
+          </p>
+          <div class="work-timeline">// STACK: Static HTML + Cloudflare &nbsp;|&nbsp; LAUNCHED: 7 days</div>
+        </div>
+
+        <div class="work-card reveal">
+          <div class="work-card-top">
+            <span class="work-client">Personal Operations — NateOS</span>
+            <span class="work-badge delivered">Live</span>
+          </div>
+          <div class="work-metric">24/7</div>
+          <div class="work-title">AI-powered personal command center</div>
+          <p class="work-desc">
+            Custom AI agent managing calendar, tasks, ideas, and comms.
+            Runs autonomously, surfaces what matters, routes everything else.
+          </p>
+          <div class="work-timeline">// STACK: Hermes + Flask + Cloudflare &nbsp;|&nbsp; ONGOING</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="about-inner">
+        <div class="about-left reveal">
+          <div class="section-label">// ABOUT</div>
+          <h2>Who's behind this</h2>
+          <p class="about-body">
+            I'm Nate McCreery — Fort Worth, TX. I build AI websites and automation systems
+            for small and mid-size businesses that want the output of a full tech team
+            without the overhead of one.
+          </p>
+          <p class="about-body">
+            My edge is that I'm fast, direct, and I only take 3 clients at a time.
+            You're not getting handed off to a junior. You get me, the actual builder,
+            from scoping call to launch.
+          </p>
+          <div class="about-detail">
+            <span class="ad-label">Location:</span>
+            Fort Worth, TX
+          </div>
+          <div class="about-detail">
+            <span class="ad-label">Timezone:</span>
+            CST (UTC-6)
+          </div>
+          <div class="about-detail">
+            <span class="ad-label">Response time:</span>
+            &lt; 4 hours during business days
+          </div>
+        </div>
+
+        <div class="about-right reveal">
+          <div class="about-spec">
+            <div class="about-spec-key">Specialization</div>
+            <div class="about-spec-val">AI agent systems, automation workflows, business websites</div>
+          </div>
+          <div class="about-spec">
+            <div class="about-spec-key">Approach</div>
+            <div class="about-spec-val">Fixed scope. Fixed price. You own everything I build.</div>
+          </div>
+          <div class="about-spec">
+            <div class="about-spec-key">Capacity</div>
+            <div class="about-spec-val mono">MAX 3 CLIENTS / MONTH</div>
+          </div>
+          <div class="about-spec">
+            <div class="about-spec-key">Stack fluency</div>
+            <div class="about-spec-val">Next.js, Python, n8n, Cloudflare, OpenAI, Hermes</div>
+          </div>
+          <div class="about-spec">
+            <div class="about-spec-key">Current availability</div>
+            <div class="about-spec-val mono" style="color:var(--green);">2 SLOTS OPEN — MAY 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT / QUOTE ESTIMATOR ═══ -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-inner">
+
+        <div class="contact-left reveal">
+          <div class="section-label">// LET'S_TALK</div>
+          <h2>Start your project</h2>
+          <p class="section-intro">
+            No forms. No pitch decks. Tell me what you need and I'll tell you what it'll take —
+            timeline, scope, and price. Usually within a few hours.
+          </p>
+          <div class="contact-cta-group">
+            <a href="mailto:nate@mccreery.ai" class="btn-primary">
+              Email me directly
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="contact-note">
+              nate@mccreery.ai &nbsp;·&nbsp; <span class="cn-open">2 slots open</span> this month
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-right reveal">
+          <div class="contact-right-label">// QUICK_ESTIMATE — check what you need</div>
+
+          <div class="estimator-option" onclick="toggleItem(this)">
+            <span class="est-label">Business website (domain + email + site)</span>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span class="est-price" data-val="1500">from $1,500</span>
+              <input type="checkbox" onclick="event.stopPropagation()" />
+            </div>
+          </div>
+          <div class="estimator-option" onclick="toggleItem(this)">
+            <span class="est-label">AI lead capture + CRM integration</span>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span class="est-price" data-val="800">from $800</span>
+              <input type="checkbox" onclick="event.stopPropagation()" />
+            </div>
+          </div>
+          <div class="estimator-option" onclick="toggleItem(this)">
+            <span class="est-label">AI automation workflow (1 process)</span>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span class="est-price" data-val="1200">from $1,200</span>
+              <input type="checkbox" onclick="event.stopPropagation()" />
+            </div>
+          </div>
+          <div class="estimator-option" onclick="toggleItem(this)">
+            <span class="est-label">Custom AI agent (ongoing ops)</span>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span class="est-price" data-val="2000">from $2,000</span>
+              <input type="checkbox" onclick="event.stopPropagation()" />
+            </div>
+          </div>
+          <div class="estimator-option" onclick="toggleItem(this)">
+            <span class="est-label">SEO + local visibility setup</span>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span class="est-price" data-val="500">from $500</span>
+              <input type="checkbox" onclick="event.stopPropagation()" />
+            </div>
+          </div>
+
+          <div class="estimator-total">
+            <span class="est-total-label">Estimated starting at</span>
+            <span class="est-total-val" id="est-total">$0</span>
+          </div>
+
+          <a href="mailto:nate@mccreery.ai?subject=Project%20Quote%20Request" class="estimator-cta" id="est-cta">
+            Send this estimate to Nate
+          </a>
+          <p class="estimator-note">Not a final quote — just a starting point for the conversation.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="footer-logo">NM<span class="amber">.</span> — Nate McCreery</div>
+        <p class="footer-honesty">
+          I build AI-powered websites and automation systems for small businesses
+          that want results without a full dev team. Fixed scope, fixed price, no retainers.
+          I don't take more than 3 clients at a time — so when we work together,
+          I'm fully on it.
+        </p>
+        <div class="footer-meta">
+          <div class="footer-meta-item">Status: <span class="val">Operational</span></div>
+          <div class="footer-meta-item">Response: <span class="val">&lt; 4hrs</span></div>
+          <div class="footer-meta-item">TZ: <span class="val">CST / DFW</span></div>
+          <div class="footer-meta-item">Last updated: <span class="val">May 2026</span></div>
+        </div>
+      </div>
+      <div class="footer-right">
+        <ul class="footer-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="https://os.mccreery.ai" target="_blank">Dashboard</a></li>
+          <li><a href="mailto:nate@mccreery.ai">Email</a></li>
+        </ul>
+        <div class="footer-copy">© 2026 Nate McCreery — mccreery.ai</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── SCROLL REVEAL ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ─── COUNTER ANIMATION ───
+    function animateCounter(el, target, duration = 1200) {
+      let start = 0;
+      const step = target / (duration / 16);
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) {
+          el.textContent = target.toLocaleString();
+          clearInterval(timer);
+        } else {
+          el.textContent = Math.floor(start).toLocaleString();
+        }
+      }, 16);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const target = parseInt(e.target.dataset.target);
+          animateCounter(e.target, target);
+          counterObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.count-target').forEach(el => counterObserver.observe(el));
+
+    // ─── QUOTE ESTIMATOR ───
+    function toggleItem(row) {
+      const cb = row.querySelector('input[type="checkbox"]');
+      cb.checked = !cb.checked;
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const checkboxes = document.querySelectorAll('.estimator-option input[type="checkbox"]:checked');
+      let total = 0;
+      checkboxes.forEach(cb => {
+        const val = parseInt(cb.closest('.estimator-option').querySelector('.est-price').dataset.val);
+        total += val;
+      });
+      document.getElementById('est-total').textContent = total > 0
+        ? '$' + total.toLocaleString()
+        : '$0';
+
+      // Update mailto with selected items
+      const items = [];
+      document.querySelectorAll('.estimator-option input[type="checkbox"]:checked').forEach(cb => {
+        items.push(cb.closest('.estimator-option').querySelector('.est-label').textContent.trim());
+      });
+      const subject = encodeURIComponent('Project Quote Request');
+      const body = encodeURIComponent(
+        'Hi Nate,\n\nI used the estimator and selected:\n' +
+        items.map(i => '  - ' + i).join('\n') +
+        '\n\nEstimated starting at: $' + total.toLocaleString() +
+        '\n\nHere\'s what I need:\n\n'
+      );
+      document.getElementById('est-cta').href = `mailto:nate@mccreery.ai?subject=${subject}&body=${body}`;
+    }
+
+    document.querySelectorAll('.estimator-option input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', updateTotal);
+    });
+  </script>
+
+</body>
+</html>
