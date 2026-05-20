@@ -172,6 +172,10 @@
   .work-main p{font-size:14px;color:var(--muted)}
   .work-meta{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
   @media (max-width:640px){.work-item{grid-template-columns:1fr;gap:8px}.work-num{display:none}}
+  .own-strip{margin-top:48px;padding:24px 28px;border:1px solid var(--line-2);border-radius:4px;background:var(--bg-3);display:flex;gap:18px;align-items:flex-start;max-width:920px}
+  .own-strip b{color:var(--fg)}
+  .own-strip>div:last-child{font-size:14px;color:var(--muted);line-height:1.6}
+  .own-dot{width:8px;height:8px;border-radius:50%;background:var(--good);margin-top:8px;flex-shrink:0;box-shadow:0 0 12px var(--good)}
 
   /* TESTIMONIAL */
   .testimonial{
@@ -410,26 +414,49 @@
       <div class="work-item">
         <div class="work-num">001</div>
         <div class="work-main">
-          <h4>Jackalope Welding</h4>
-          <p>Domain → site → email → SEO. Local welder, zero to operational.</p>
+          <h4>Jackalope Welding — Agentic SEO &amp; Ops Assistant</h4>
+          <p>Built a custom AI agent connected to Telegram so the owner runs his business from the truck. Started as an SEO engagement, expanded into voicemail handling and ongoing site automation. Backend now in build for multi-client monitoring and updates.</p>
         </div>
         <div class="work-meta">Live · 2026</div>
       </div>
       <div class="work-item">
         <div class="work-num">002</div>
         <div class="work-main">
+          <h4>Chiropractic Practice — Site Redesign &amp; SEO</h4>
+          <p>Full redesign focused on local search visibility, Google Analytics integration so the owner can see exactly where new patient leads come from. Scoped an AI agent for ongoing content + keyword work — replacing the agency retainer model.</p>
+        </div>
+        <div class="work-meta">Live · 2026</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">003</div>
+        <div class="work-main">
+          <h4>Legal AI Agent — In development</h4>
+          <p>Purpose-built agent for legal professionals: intake, document review, scheduling, client comms. Architecting the knowledge base and workflow surface now. Production-ready agentic tooling for an industry that hasn't been touched yet.</p>
+        </div>
+        <div class="work-meta">Active build · 2026</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">004</div>
+        <div class="work-main">
           <h4>NateOS Command Center</h4>
-          <p>Personal command center. Tasks, ideas, invoices, clients, AI memory — one dashboard.</p>
+          <p>My own production command center. Tasks, ideas, invoices, clients, persistent AI memory — one dashboard, self-hosted, fully owned. The same architecture I deploy for clients who want internal tooling instead of another SaaS subscription.</p>
         </div>
         <div class="work-meta">Live · os.mccreery.ai</div>
       </div>
       <div class="work-item">
-        <div class="work-num">003</div>
+        <div class="work-num">005</div>
         <div class="work-main">
           <h4>The brief tool above ↑</h4>
           <p>Three questions, one streaming AI proposal, full lead capture pipeline. Built it for this site. I can build one for yours.</p>
         </div>
         <div class="work-meta">Live · this page</div>
+      </div>
+    </div>
+
+    <div class="own-strip">
+      <div class="own-dot"></div>
+      <div>
+        <b>You own everything.</b> Code, data, deployment, the API keys — all yours. No vendor lock-in, no per-seat SaaS bill, no third party holding your business hostage. Built to be handed off.
       </div>
     </div>
   </div>
