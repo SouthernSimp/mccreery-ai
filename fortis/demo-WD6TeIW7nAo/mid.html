@@ -1,0 +1,79 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>MID Lookup · Fortis Internal</title>
+<link rel="stylesheet" href="shared.css">
+<style>.nav{background:#2d1a3a}</style>
+</head><body>
+<div class="bar"><span class="dot g"></span><span class="dot y"></span><span class="dot"></span><div class="url">https://mid-lookup.fortis.internal/search</div><span class="site-tag">Website 2 of 4</span></div>
+<div class="nav"><div class="logo">MID LOOKUP</div><div class="crumbs">Merchant › Setup PDF</div><a href="index.html">← Demo home</a></div>
+
+<div class="wrap">
+  <div class="card">
+    <h1>MID search</h1>
+    <div class="sub">Paste the MID from the Case System to pull up the merchant's setup PDF.</div>
+
+    <label>MID</label>
+    <div class="row">
+      <input id="midInput" type="text" placeholder="e.g. 5421-009-882" autofocus>
+      <button onclick="lookup()">Pull setup PDF</button>
+    </div>
+
+    <div id="result" class="hidden" style="margin-top:24px">
+      <div class="banner info">Setup PDF retrieved for <b id="r-merch"></b>.</div>
+
+      <div class="pdf">
+        <div class="pdf-head">
+          <h3>MERCHANT SETUP FORM</h3>
+          <div style="font-size:12px;color:#666;margin-top:4px">Fortis Payments · Confidential</div>
+        </div>
+        <div class="field"><div class="lbl">Merchant Name:</div><div class="val" id="p-merchant"></div></div>
+        <div class="field"><div class="lbl">MID:</div><div class="val" id="p-mid"></div></div>
+        <div class="field"><div class="lbl">Merchant Type:</div><div class="val" id="p-type"></div></div>
+        <div class="field"><div class="lbl">Opened:</div><div class="val" id="p-opened"></div></div>
+        <hr style="margin:14px 0;border:none;border-top:1px dashed #aaa">
+        <div style="font-weight:700;margin-bottom:6px">Requested Configuration</div>
+        <div class="field"><div class="lbl">American Express:</div><div class="check" id="c-amex_enabled"></div></div>
+        <div class="field"><div class="lbl">eCommerce Gateway:</div><div class="check" id="c-ecommerce_enabled"></div></div>
+        <div class="field"><div class="lbl">Recurring Billing:</div><div class="check" id="c-recurring_billing"></div></div>
+        <div class="field"><div class="lbl">Tip Adjustment:</div><div class="check" id="c-tip_adjust"></div></div>
+        <div class="field"><div class="lbl">AVS Required:</div><div class="check" id="c-avs_required"></div></div>
+        <hr style="margin:14px 0;border:none;border-top:1px dashed #aaa">
+        <div style="font-weight:700;margin-bottom:6px">Notes</div>
+        <div id="p-notes" style="padding:8px 10px;background:#fff;border:1px solid #ccc;border-radius:3px;font-size:13px"></div>
+      </div>
+
+      <div style="margin-top:22px;display:flex;gap:10px;align-items:center">
+        <a class="btn alt" href="wiki.html">Open Wiki →</a>
+        <span class="muted">Next: cross-reference Wiki defaults for the merchant type.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+function lookup(){
+  const m = document.getElementById('midInput').value.trim();
+  const entry = Object.entries(DATA).find(([k,v]) => v.mid === m);
+  if(!entry){ alert("MID not found. Use 5421-009-882, 5421-118-401, or 5421-220-117."); return; }
+  const [cid, rec] = entry;
+  setCase(cid); setMID(rec.mid);
+  document.getElementById('r-merch').textContent = rec.merchant;
+  document.getElementById('p-merchant').textContent = rec.merchant;
+  document.getElementById('p-mid').textContent = rec.mid;
+  document.getElementById('p-type').textContent = rec.type;
+  document.getElementById('p-opened').textContent = rec.opened;
+  ['amex_enabled','ecommerce_enabled','recurring_billing','tip_adjust','avs_required'].forEach(k=>{
+    const el = document.getElementById('c-'+k);
+    if(rec.pdf[k]) el.classList.add('x'); else el.classList.remove('x');
+  });
+  document.getElementById('p-notes').textContent = rec.pdf.notes;
+  document.getElementById('result').classList.remove('hidden');
+}
+document.getElementById('midInput').addEventListener('keydown', e => { if(e.key==='Enter') lookup(); });
+const url = new URL(location.href);
+const incoming = url.searchParams.get('mid') || getMID();
+if(incoming){ document.getElementById('midInput').value = incoming; lookup(); }
+</script>
+</body></html>

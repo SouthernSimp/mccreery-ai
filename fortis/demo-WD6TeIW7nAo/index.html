@@ -1,0 +1,53 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Fortis MID Setup — Demo Walkthrough</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+body{background:#0f1623;color:#e6ebf2}
+.hero{max-width:880px;margin:0 auto;padding:60px 24px 30px}
+.hero h1{font-size:32px;margin:0 0 8px;font-weight:600;letter-spacing:-.3px}
+.hero p{color:#9aa6b8;font-size:16px;margin:0 0 30px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:30px}
+.tile{background:#1a2332;border:1px solid #2a3852;border-radius:10px;padding:20px;text-decoration:none;color:#e6ebf2;transition:.15s}
+.tile:hover{border-color:#3b82f6;transform:translateY(-1px)}
+.tile .n{color:#3b82f6;font-size:12px;font-weight:700;letter-spacing:.6px}
+.tile h3{margin:6px 0 4px;font-size:17px}
+.tile p{color:#9aa6b8;font-size:13px;margin:0}
+.box{background:#1a2332;border:1px solid #2a3852;border-radius:10px;padding:22px;margin-bottom:14px}
+.box h2{margin:0 0 12px;font-size:15px;color:#9aa6b8;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.case-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.case{background:#0f1623;border:1px solid #2a3852;border-radius:8px;padding:14px;cursor:pointer;text-decoration:none;color:#e6ebf2}
+.case:hover{border-color:#3b82f6}
+.case .id{font-family:ui-monospace,Menlo,monospace;color:#3b82f6;font-weight:600}
+.case .m{font-size:13px;color:#cbd5e1;margin-top:4px}
+.case .t{font-size:11px;color:#9aa6b8;margin-top:6px}
+.foot{text-align:center;color:#5b6776;font-size:12px;padding:30px 0}
+.foot a{color:#3b82f6}
+</style>
+</head><body>
+<div class="hero">
+  <h1>4-Website MID Automation</h1>
+  <p>Interactive mockup — the manual workflow today, click through it like an employee would.</p>
+
+  <div class="box">
+    <h2>Pick a case to start with</h2>
+    <div class="case-list">
+      <a class="case" href="case.html?c=ABC-123"><div class="id">ABC-123</div><div class="m">Sunrise Coffee Roasters</div><div class="t">Clean setup · QSR</div></a>
+      <a class="case" href="case.html?c=ABC-777"><div class="id">ABC-777</div><div class="m">Polk Street Athletics</div><div class="t">Wiki vs ASF conflict</div></a>
+      <a class="case" href="case.html?c=ABC-999"><div class="id">ABC-999</div><div class="m">Greenfield Medical</div><div class="t">PDF flags manual review</div></a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <a class="tile" href="case.html"><div class="n">WEBSITE 1</div><h3>Case System</h3><p>Look up the case, find the MID.</p></a>
+    <a class="tile" href="mid.html"><div class="n">WEBSITE 2</div><h3>MID Lookup</h3><p>Paste the MID, read the PDF.</p></a>
+    <a class="tile" href="wiki.html"><div class="n">WEBSITE 3</div><h3>Wiki</h3><p>Documented defaults per merchant type.</p></a>
+    <a class="tile" href="asf.html"><div class="n">WEBSITE 4</div><h3>ASF</h3><p>Source of truth — overrides Wiki. Apply settings here.</p></a>
+  </div>
+
+  <div class="foot">Fortis Payments · internal demo · prepared by Nate McCreery</div>
+</div>
+<script src="shared.js"></script>
+<script>sessionStorage.clear();</script>
+</body></html>

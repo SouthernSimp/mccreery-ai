@@ -1,0 +1,73 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Wiki · Fortis Internal</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.nav{background:#1f3a2b}
+.wiki-body{background:#fff;font-family:Georgia,serif}
+.wiki-side{background:#fafbfc;border-right:1px solid #e4e6ea;padding:18px;font-family:-apple-system,sans-serif}
+.wiki-side a{display:block;padding:6px 10px;color:#3b82f6;text-decoration:none;font-size:13px;border-radius:4px}
+.wiki-side a:hover,.wiki-side a.on{background:#eef4ff}
+.wiki-layout{display:grid;grid-template-columns:220px 1fr;gap:0;background:#fff;border:1px solid #e4e6ea;border-radius:10px;overflow:hidden}
+.wiki-main{padding:30px 36px}
+.wiki-main h1{font-family:Georgia,serif;border-bottom:2px solid #1f3a2b;padding-bottom:8px;margin-top:0;font-size:26px}
+.wiki-main h2{font-family:Georgia,serif;border-bottom:1px solid #e4e6ea;padding-bottom:5px;font-size:19px}
+.wiki-main table{margin:10px 0}
+.wiki-main code{background:#f5f6f8;padding:1px 6px;border-radius:3px;font-size:13px}
+.warn-note{background:#fef3c7;border-left:3px solid #f59e0b;padding:10px 14px;margin:14px 0;font-family:-apple-system,sans-serif;font-size:13px;color:#78350f}
+</style>
+</head><body>
+<div class="bar"><span class="dot g"></span><span class="dot y"></span><span class="dot"></span><div class="url">https://wiki.fortis.internal/setup/merchant-types</div><span class="site-tag">Website 3 of 4</span></div>
+<div class="nav"><div class="logo">📖 FORTIS WIKI</div><div class="crumbs">Setup › Merchant Types</div><a href="index.html">← Demo home</a></div>
+
+<div class="wrap" style="max-width:980px">
+  <div class="wiki-layout">
+    <div class="wiki-side">
+      <div style="font-size:11px;text-transform:uppercase;color:#888;font-weight:700;letter-spacing:.5px;margin-bottom:6px">Setup Guides</div>
+      <a href="#" data-type="retail_qsr">Retail / QSR</a>
+      <a href="#" data-type="retail_ecom_hybrid">Retail + eCom Hybrid</a>
+      <a href="#" data-type="healthcare">Healthcare (HIPAA)</a>
+      <div style="font-size:11px;text-transform:uppercase;color:#888;font-weight:700;letter-spacing:.5px;margin:14px 0 6px">Related</div>
+      <a href="#" style="opacity:.5">PCI Compliance Checklist</a>
+      <a href="#" style="opacity:.5">BIN Routing</a>
+    </div>
+    <div class="wiki-main" id="wikiMain">
+      <h1 id="w-title">Pick a merchant type</h1>
+      <p style="color:#666">Select a category from the left to view documented default parameters.</p>
+      <div id="w-body" class="hidden">
+        <div class="warn-note">⚠ Wiki parameters are documented defaults. <b>ASF overrides Wiki</b> on any conflict.</div>
+        <h2>Default parameters</h2>
+        <table id="w-table"></table>
+        <h2>Activation steps</h2>
+        <ol style="line-height:1.9">
+          <li>Verify merchant agreement is signed.</li>
+          <li>Apply the parameters above in ASF.</li>
+          <li>Run a $1 auth test before going live.</li>
+        </ol>
+        <div style="margin-top:24px"><a class="btn alt" href="asf.html">Open ASF →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+function showType(t){
+  const w = WIKI[t]; if(!w) return;
+  document.querySelectorAll('.wiki-side a').forEach(a => a.classList.toggle('on', a.dataset.type === t));
+  document.getElementById('w-title').textContent = w.title;
+  let rows = '<tr><th>Parameter</th><th>Default</th></tr>';
+  Object.entries(w.params).forEach(([k,v]) => {
+    rows += `<tr><td>${FIELD_LABELS[k]||k}</td><td><span class="pill ${v?'ok':'err'}">${v?'ENABLED':'DISABLED'}</span></td></tr>`;
+  });
+  document.getElementById('w-table').innerHTML = rows;
+  document.getElementById('w-body').classList.remove('hidden');
+}
+document.querySelectorAll('.wiki-side a[data-type]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); showType(a.dataset.type); });
+});
+const rec = record();
+if(rec) showType(rec.type);
+</script>
+</body></html>

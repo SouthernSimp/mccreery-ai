@@ -1,0 +1,59 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Case System · Fortis Internal</title>
+<link rel="stylesheet" href="shared.css">
+</head><body>
+<div class="bar"><span class="dot g"></span><span class="dot y"></span><span class="dot"></span><div class="url">https://case.fortis.internal/lookup</div><span class="site-tag">Website 1 of 4</span></div>
+<div class="nav"><div class="logo">CASE SYSTEM</div><div class="crumbs">Cases › Lookup</div><a href="index.html">← Demo home</a></div>
+
+<div class="wrap">
+  <div class="card">
+    <h1>Find a case</h1>
+    <div class="sub">Enter the Case ID to retrieve the merchant's MID.</div>
+
+    <label>Case ID</label>
+    <div class="row">
+      <input id="caseInput" type="text" placeholder="e.g. ABC-123" autofocus>
+      <button onclick="lookup()">Look up</button>
+    </div>
+    <div class="tip">Try <b>ABC-123</b>, <b>ABC-777</b>, or <b>ABC-999</b></div>
+
+    <div id="result" class="hidden" style="margin-top:24px">
+      <div class="banner ok">Case found.</div>
+      <div class="kv"><b>Case ID</b><span id="r-case"></span></div>
+      <div class="kv"><b>Merchant</b><span id="r-merchant"></span></div>
+      <div class="kv"><b>Merchant Type</b><span id="r-type"></span></div>
+      <div class="kv"><b>Contact</b><span id="r-contact"></span></div>
+      <div class="kv"><b>Opened</b><span id="r-opened"></span></div>
+      <div class="kv"><b>MID</b><span><code id="r-mid" style="background:#fef3c7;padding:3px 8px;border-radius:4px;font-size:14px"></code></span></div>
+
+      <div style="margin-top:22px;display:flex;gap:10px;align-items:center">
+        <a class="btn alt" id="nextBtn">Open MID Lookup →</a>
+        <span class="muted">Copy the MID and paste it into Website 2 (MID Lookup)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+function lookup(){
+  const c = document.getElementById('caseInput').value.trim().toUpperCase();
+  const rec = DATA[c];
+  if(!rec){ alert("Case not found. Try ABC-123, ABC-777, or ABC-999."); return; }
+  setCase(c); setMID(rec.mid);
+  document.getElementById('r-case').textContent = c;
+  document.getElementById('r-merchant').textContent = rec.merchant;
+  document.getElementById('r-type').textContent = rec.type;
+  document.getElementById('r-contact').textContent = rec.contact;
+  document.getElementById('r-opened').textContent = rec.opened;
+  document.getElementById('r-mid').textContent = rec.mid;
+  document.getElementById('nextBtn').href = "mid.html?mid=" + encodeURIComponent(rec.mid);
+  document.getElementById('result').classList.remove('hidden');
+}
+document.getElementById('caseInput').addEventListener('keydown', e => { if(e.key==='Enter') lookup(); });
+const url = new URL(location.href);
+if(url.searchParams.get('c')){ document.getElementById('caseInput').value = url.searchParams.get('c'); lookup(); }
+</script>
+</body></html>

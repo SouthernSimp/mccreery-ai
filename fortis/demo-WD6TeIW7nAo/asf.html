@@ -1,0 +1,119 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ASF · Fortis Internal</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.nav{background:#3a1a1a}
+.asf-row{grid-template-columns:1fr 130px 130px 160px}
+.asf-row .src{font-family:ui-monospace,Menlo,monospace}
+.conflict{background:#fef3c7}
+.review{background:#fee2e2;padding:14px 18px;border-radius:6px;border-left:3px solid #dc2626;color:#7f1d1d;margin-bottom:18px}
+</style>
+</head><body>
+<div class="bar"><span class="dot g"></span><span class="dot y"></span><span class="dot"></span><div class="url">https://asf.fortis.internal/merchant/configure</div><span class="site-tag">Website 4 of 4 · Source of Truth</span></div>
+<div class="nav"><div class="logo">🔒 ASF</div><div class="crumbs">Account Setup Facility › Merchant Configuration</div><a href="index.html">← Demo home</a></div>
+
+<div class="wrap" style="max-width:980px">
+  <div class="card" id="empty">
+    <h1>No merchant selected</h1>
+    <div class="sub">Start at Website 1 (Case System) and work forward, or pick a case from the demo home.</div>
+    <a class="btn" href="index.html">← Back to demo home</a>
+  </div>
+
+  <div class="card hidden" id="main">
+    <h1>Configure merchant</h1>
+    <div class="sub">Final enable/disable applied here. ASF overrides Wiki.</div>
+
+    <div class="kv"><b>Merchant</b><span id="m-name"></span></div>
+    <div class="kv"><b>MID</b><span id="m-mid" style="font-family:ui-monospace,Menlo,monospace"></span></div>
+    <div class="kv"><b>Type</b><span id="m-type"></span></div>
+
+    <div id="reviewBox" class="review hidden">
+      <b>⚠ Manual review required.</b> The merchant PDF notes contain a <code>REVIEW</code> flag. Do not apply automatically — route to underwriting.
+      <div style="margin-top:6px;font-size:13px" id="reviewText"></div>
+    </div>
+
+    <h2>Parameter comparison</h2>
+    <div class="banner info">Yellow rows = Wiki disagrees with ASF. ASF wins. Cross-reference the PDF, then confirm each toggle below.</div>
+
+    <div class="asf-row" style="font-weight:600;color:#666;font-size:12px;text-transform:uppercase;letter-spacing:.4px">
+      <div>Parameter</div><div>Wiki default</div><div>PDF requested</div><div>ASF (apply)</div>
+    </div>
+    <div id="rows"></div>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-top:22px">
+      <button id="applyBtn" onclick="apply()">Apply configuration</button>
+      <button class="btn ghost" onclick="reset()">Reset to PDF</button>
+      <span class="muted" id="status"></span>
+    </div>
+
+    <div id="applied" class="banner ok hidden" style="margin-top:18px">
+      <b>✓ Configuration applied.</b> Confirmation: <code id="confirm"></code>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+const rec = record();
+if(!rec){ /* empty state */ }
+else {
+  document.getElementById('empty').classList.add('hidden');
+  document.getElementById('main').classList.remove('hidden');
+  document.getElementById('m-name').textContent = rec.merchant;
+  document.getElementById('m-mid').textContent = rec.mid;
+  document.getElementById('m-type').textContent = rec.type;
+
+  if(/REVIEW/i.test(rec.pdf.notes)){
+    document.getElementById('reviewBox').classList.remove('hidden');
+    document.getElementById('reviewText').textContent = rec.pdf.notes;
+  }
+
+  const wiki = WIKI[rec.type].params;
+  const asf  = ASF[rec.type];
+  const fields = ['amex_enabled','ecommerce_enabled','recurring_billing','tip_adjust','avs_required'];
+  const rowsEl = document.getElementById('rows');
+  fields.forEach(k => {
+    const wv = wiki[k], pv = rec.pdf[k], av = asf[k];
+    const conflict = (wv !== av);
+    const row = document.createElement('div');
+    row.className = 'asf-row' + (conflict ? ' conflict' : '');
+    row.innerHTML = `
+      <div><b>${FIELD_LABELS[k]}</b>${conflict?'<div class="src">⚠ Wiki vs ASF</div>':''}</div>
+      <div><span class="pill ${wv?'ok':'err'}">${wv?'On':'Off'}</span></div>
+      <div><span class="pill ${pv?'ok':'err'}">${pv?'On':'Off'}</span></div>
+      <div><label class="toggle"><input type="checkbox" data-k="${k}" ${av?'checked':''}><span id="lbl-${k}">${av?'Enabled':'Disabled'}</span></label></div>
+    `;
+    rowsEl.appendChild(row);
+  });
+  document.querySelectorAll('#rows input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      document.getElementById('lbl-'+cb.dataset.k).textContent = cb.checked ? 'Enabled' : 'Disabled';
+    });
+  });
+}
+
+function reset(){
+  const fields = ['amex_enabled','ecommerce_enabled','recurring_billing','tip_adjust','avs_required'];
+  fields.forEach(k => {
+    const cb = document.querySelector(`#rows input[data-k="${k}"]`);
+    cb.checked = rec.pdf[k];
+    document.getElementById('lbl-'+k).textContent = cb.checked ? 'Enabled' : 'Disabled';
+  });
+  document.getElementById('status').textContent = 'Reset to PDF values.';
+}
+
+function apply(){
+  if(/REVIEW/i.test(rec.pdf.notes)){
+    if(!confirm("This merchant is flagged for manual review. Apply anyway?")) return;
+  }
+  const cid = 'ASF-' + Math.floor(Math.random()*900000+100000);
+  document.getElementById('confirm').textContent = cid;
+  document.getElementById('applied').classList.remove('hidden');
+  document.getElementById('applyBtn').disabled = true;
+  document.getElementById('applyBtn').textContent = 'Applied';
+  document.getElementById('status').textContent = '';
+}
+</script>
+</body></html>
