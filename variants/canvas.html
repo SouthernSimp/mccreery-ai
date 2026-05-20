@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nate McCreery — Canvas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f0;
+    --ink: #2a1f15;
+    --muted: #6b5d4f;
+    --rule: #e6dccb;
+    --accent: #1f3a2f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 7rem 2rem 5rem; }
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 400; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1.05; margin-bottom: 1.75rem; }
+  h2 { font-size: 0.78rem; font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 2.25rem; }
+  p { margin: 0 0 1rem; max-width: 56ch; color: var(--ink); }
+  .lede { font-size: 1.125rem; color: var(--muted); }
+  a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); transition: border-color .2s; }
+  a:hover { border-color: var(--accent); }
+  header.top { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-bottom: 6rem; }
+  header.top a { border: none; }
+  .cta { display: inline-block; margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: var(--accent); color: var(--bg); border: none; font-weight: 500; font-size: 0.9rem; }
+  .cta:hover { border: none; opacity: 0.9; }
+  section { margin-top: 5rem; padding-top: 3rem; border-top: 1px solid var(--rule); }
+  .item { margin-bottom: 2rem; }
+  .item h3 { font-family: 'Fraunces', serif; font-size: 1.25rem; margin-bottom: 0.35rem; }
+  .item p { color: var(--muted); margin: 0; }
+  footer { margin-top: 6rem; padding-top: 2rem; border-top: 1px solid var(--rule); font-size: 0.85rem; color: var(--muted); display: flex; justify-content: space-between; }
+  footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span>Nate McCreery</span>
+    <span>Fort Worth, TX</span>
+  </header>
+
+  <h1>Software that earns its keep.</h1>
+  <p class="lede">I build practical web tools and AI systems for small businesses and operators. Quiet craft, real outcomes.</p>
+  <a class="cta" href="mailto:nate@mccreery.ai">Start a conversation</a>
+
+  <section>
+    <h2>Selected Work</h2>
+    <div class="item"><h3>Jackalope Welding</h3><p>A clean marketing site for a Texas fabrication shop, built to win local jobs.</p></div>
+    <div class="item"><h3>Chiropractic Practice</h3><p>Patient-facing site with booking and intake, tuned for a solo clinician.</p></div>
+    <div class="item"><h3>Legal AI Agent</h3><p>An automated research and drafting assistant deployed inside a working law firm.</p></div>
+    <div class="item"><h3>NateOS Command Center</h3><p>A personal operations dashboard wiring together tasks, agents, and daily review.</p></div>
+  </section>
+
+  <section>
+    <h2>Services</h2>
+    <div class="item"><h3>Websites</h3><p>Fast, considered marketing and product sites that read well and convert.</p></div>
+    <div class="item"><h3>AI Assistants</h3><p>Custom assistants and agents shaped to a single workflow you actually run.</p></div>
+    <div class="item"><h3>Workflow Automation</h3><p>Glue between the tools you already use, so the busywork stops being yours.</p></div>
+  </section>
+
+  <footer>
+    <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a>
+    <span>Fort Worth, TX</span>
+  </footer>
+</div>
+</body>
+</html>
