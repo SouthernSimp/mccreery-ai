@@ -1,43 +1,92 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Fortis MID Setup — Demo Walkthrough</title>
+<title>Fortis MID Setup — Demo</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-body{background:#0f1623;color:#e6ebf2}
-.hero{max-width:880px;margin:0 auto;padding:60px 24px 30px}
-.hero h1{font-size:32px;margin:0 0 8px;font-weight:600;letter-spacing:-.3px}
-.hero p{color:#9aa6b8;font-size:16px;margin:0 0 30px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:30px}
-.tile{background:#1a2332;border:1px solid #2a3852;border-radius:10px;padding:20px;text-decoration:none;color:#e6ebf2;transition:.15s}
-.tile:hover{border-color:#3b82f6;transform:translateY(-1px)}
-.tile .n{color:#3b82f6;font-size:12px;font-weight:700;letter-spacing:.6px}
-.tile h3{margin:6px 0 4px;font-size:17px}
-.tile p{color:#9aa6b8;font-size:13px;margin:0}
-.box{background:#1a2332;border:1px solid #2a3852;border-radius:10px;padding:22px;margin-bottom:14px}
-.box h2{margin:0 0 12px;font-size:15px;color:#9aa6b8;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+body{background:#0a0f1a;color:#e6ebf2;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+.hero{max-width:980px;margin:0 auto;padding:50px 24px 30px}
+.brand{font-size:11px;font-weight:700;letter-spacing:.8px;color:#3b82f6;margin-bottom:8px}
+.hero h1{font-size:34px;margin:0 0 10px;font-weight:600;letter-spacing:-.4px}
+.hero .tag{color:#9aa6b8;font-size:16px;margin:0 0 36px;max-width:680px}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+
+.option{position:relative;border-radius:14px;padding:28px;text-decoration:none;display:flex;flex-direction:column;min-height:340px;transition:transform .15s,box-shadow .15s}
+.option:hover{transform:translateY(-2px)}
+
+.option-ai{background:linear-gradient(160deg,#3b82f6 0%,#8b5cf6 60%,#7c3aed 100%);color:#fff;box-shadow:0 8px 40px rgba(59,130,246,.25);border:1px solid rgba(255,255,255,.15)}
+.option-ai:hover{box-shadow:0 12px 50px rgba(139,92,246,.4)}
+.option-ai .badge{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-size:10px;font-weight:700;letter-spacing:.7px;padding:4px 9px;border-radius:99px;backdrop-filter:blur(8px);margin-bottom:14px;align-self:flex-start}
+.option-manual{background:#141c2e;border:1px solid #2a3852;color:#e6ebf2}
+.option-manual:hover{border-color:#3b82f6}
+.option-manual .badge{display:inline-block;background:#1f2a40;color:#9aa6b8;font-size:10px;font-weight:700;letter-spacing:.7px;padding:4px 9px;border-radius:99px;margin-bottom:14px;align-self:flex-start;border:1px solid #2a3852}
+
+.option .label{font-size:12px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;opacity:.85;margin-bottom:4px}
+.option h2{font-size:24px;font-weight:600;margin:0 0 8px;letter-spacing:-.2px}
+.option .desc{font-size:14px;line-height:1.55;opacity:.88;margin:0 0 20px;flex:1}
+
+.option-ai .cta{background:#fff;color:#1a1a1a;padding:12px 18px;border-radius:8px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.option-ai .cta .play{width:22px;height:22px;border-radius:50%;background:#22c55e;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+
+.option-manual .cta{background:#1f2a40;color:#e6ebf2;padding:12px 18px;border-radius:8px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;border:1px solid #2a3852}
+
+.stats{display:flex;gap:18px;margin-top:14px;font-size:12px;opacity:.85}
+.stats .stat b{display:block;font-size:18px;font-weight:600;margin-bottom:2px}
+
+.cases-box{background:#141c2e;border:1px solid #2a3852;border-radius:12px;padding:22px;margin-bottom:24px}
+.cases-box h3{margin:0 0 4px;font-size:14px;color:#cbd5e1;font-weight:600}
+.cases-box .sub{color:#5b6776;font-size:12px;margin-bottom:14px}
 .case-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.case{background:#0f1623;border:1px solid #2a3852;border-radius:8px;padding:14px;cursor:pointer;text-decoration:none;color:#e6ebf2}
-.case:hover{border-color:#3b82f6}
-.case .id{font-family:ui-monospace,Menlo,monospace;color:#3b82f6;font-weight:600}
-.case .m{font-size:13px;color:#cbd5e1;margin-top:4px}
-.case .t{font-size:11px;color:#9aa6b8;margin-top:6px}
-.foot{text-align:center;color:#5b6776;font-size:12px;padding:30px 0}
-.foot a{color:#3b82f6}
+@media (max-width:760px){.case-list{grid-template-columns:1fr}}
+.case{background:#0a0f1a;border:1px solid #2a3852;border-radius:8px;padding:12px 14px;cursor:pointer;text-decoration:none;color:#e6ebf2;transition:.15s}
+.case:hover{border-color:#3b82f6;background:#0f1729}
+.case .id{font-family:ui-monospace,Menlo,monospace;color:#3b82f6;font-weight:600;font-size:13px}
+.case .m{font-size:13px;color:#cbd5e1;margin-top:2px}
+.case .t{font-size:11px;color:#5b6776;margin-top:4px}
+
+.foot{text-align:center;color:#5b6776;font-size:12px;padding:20px 0 30px}
 </style>
 </head><body>
 <div class="hero">
+  <div class="brand">FORTIS PAYMENTS · INTERNAL DEMO</div>
   <h1>4-Website MID Automation</h1>
-  <p>Interactive mockup — the manual workflow today, and what the AI agent does instead.</p>
+  <p class="tag">An employee currently jumps between four internal systems to onboard one merchant. This mockup shows that workflow — and what happens when an AI agent does it instead.</p>
 
-  <a href="agent.html" style="display:block;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:12px;padding:24px 26px;text-decoration:none;color:#fff;margin-bottom:22px;border:1px solid rgba(255,255,255,.1)">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.8px;opacity:.85">⚡ AGENT MODE — RECOMMENDED</div>
-    <div style="font-size:22px;font-weight:600;margin-top:4px">Watch the AI complete all 4 systems</div>
-    <div style="font-size:13px;opacity:.9;margin-top:4px">Pick a case, hit play. Cursor moves, PDF parses, conflicts resolve, ASF applies — ~15 seconds vs 6 minutes manually.</div>
-  </a>
+  <div class="split">
 
-  <div class="box">
-    <h2 style="margin-top:0">Or step through it manually as an employee</h2>
+    <a class="option option-ai" href="agent.html">
+      <span class="badge">⚡ RECOMMENDED · START HERE</span>
+      <div class="label">Option 1 — AI Agent</div>
+      <h2>Watch the AI complete all 4 systems</h2>
+      <p class="desc">Pick a case, hit play. The agent drives every site itself — pulls the MID, parses the PDF, checks the Wiki, resolves Wiki-vs-ASF conflicts, and applies the configuration. Reasoning streams live on the right.</p>
+      <div class="stats">
+        <div class="stat"><b>~10 sec</b>End-to-end</div>
+        <div class="stat"><b>4 systems</b>Automated</div>
+        <div class="stat"><b>0 errors</b>Conflicts handled</div>
+      </div>
+      <div style="margin-top:20px"><span class="cta"><span class="play">▶</span> Run the agent</span></div>
+    </a>
+
+    <a class="option option-manual" href="case.html?c=ABC-123">
+      <span class="badge">FOR REFERENCE</span>
+      <div class="label">Option 2 — Manual Workflow</div>
+      <h2>Click through it like an employee</h2>
+      <p class="desc">Walk the same four sites yourself — Case System → MID Lookup → Wiki → ASF. This is what an employee does today, every single merchant, by hand.</p>
+      <div class="stats">
+        <div class="stat"><b>~6 min</b>Per merchant</div>
+        <div class="stat"><b>4 tabs</b>Open at once</div>
+        <div class="stat"><b>Manual</b>Cross-ref</div>
+      </div>
+      <div style="margin-top:20px"><span class="cta">Start manual walkthrough →</span></div>
+    </a>
+
+  </div>
+
+  <div class="cases-box">
+    <h3>Three demo cases (used by both options)</h3>
+    <div class="sub">Same data drives the AI agent and the manual flow. Click to jump straight into the manual flow with a case preloaded.</div>
     <div class="case-list">
       <a class="case" href="case.html?c=ABC-123"><div class="id">ABC-123</div><div class="m">Sunrise Coffee Roasters</div><div class="t">Clean setup · QSR</div></a>
       <a class="case" href="case.html?c=ABC-777"><div class="id">ABC-777</div><div class="m">Polk Street Athletics</div><div class="t">Wiki vs ASF conflict</div></a>
@@ -45,15 +94,7 @@ body{background:#0f1623;color:#e6ebf2}
     </div>
   </div>
 
-  <div class="grid">
-    <a class="tile" href="case.html"><div class="n">WEBSITE 1</div><h3>Case System</h3><p>Look up the case, find the MID.</p></a>
-    <a class="tile" href="mid.html"><div class="n">WEBSITE 2</div><h3>MID Lookup</h3><p>Paste the MID, read the PDF.</p></a>
-    <a class="tile" href="wiki.html"><div class="n">WEBSITE 3</div><h3>Wiki</h3><p>Documented defaults per merchant type.</p></a>
-    <a class="tile" href="asf.html"><div class="n">WEBSITE 4</div><h3>ASF</h3><p>Source of truth — overrides Wiki. Apply settings here.</p></a>
-  </div>
-
-  <div class="foot">Fortis Payments · internal demo · prepared by Nate McCreery</div>
+  <div class="foot">Confidential demo · prepared by Nate McCreery / mccreery.ai</div>
 </div>
-<script src="shared.js"></script>
 <script>sessionStorage.clear();</script>
 </body></html>
