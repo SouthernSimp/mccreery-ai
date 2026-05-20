@@ -55,7 +55,23 @@
 
   /* Site grid */
   .stage{display:grid;grid-template-columns:1fr 380px;gap:24px}
-  @media (max-width:980px){.stage{grid-template-columns:1fr}}
+  @media (max-width:980px){
+    .stage{grid-template-columns:1fr}
+    .agent{position:static !important;min-height:auto !important;max-height:none !important}
+    .log{max-height:360px}
+    .top{padding:22px 18px 18px}
+    .wrap{padding:28px 18px}
+    h1{font-size:26px}
+    .lede{font-size:15px}
+    .controls{padding:14px 16px;gap:12px}
+    .controls .run,.controls .reset{flex:1;min-width:0}
+  }
+  @media (max-width:480px){
+    .top{padding:18px 14px 14px}
+    .wrap{padding:22px 14px}
+    .site-body{padding:14px 12px}
+    .footnote{padding:20px 16px}
+  }
 
   .sites{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
   @media (max-width:640px){.sites{grid-template-columns:1fr}}
