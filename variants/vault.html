@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nate McCreery — AI assistants &amp; secure software for small businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0d1418;          /* deep slate teal, not black */
+    --bg-2:#121b21;
+    --bg-3:#18242c;
+    --line:#1f2e37;
+    --line-2:#2a3f4a;
+    --fg:#e8f1f5;
+    --muted:#8aa0ab;
+    --dim:#566873;
+    --accent:#5eead4;       /* electric teal/mint */
+    --accent-2:#22d3ee;     /* cyan */
+    --accent-soft:rgba(94,234,212,.1);
+    --good:#5eead4;
+    --amber:#fbbf24;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:-.005em;position:relative}
+  body::before{content:'';position:fixed;inset:0;background:
+    radial-gradient(800px 500px at 85% -10%,rgba(94,234,212,.05),transparent 60%),
+    radial-gradient(600px 400px at 10% 110%,rgba(34,211,238,.04),transparent 70%);
+    pointer-events:none;z-index:0}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#0d1418}
+  nav,section,footer{position:relative;z-index:1}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(13,20,24,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1120px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+  .brand-mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-2));position:relative;display:inline-flex;align-items:center;justify-content:center}
+  .brand-mark::after{content:'';width:8px;height:8px;border:1.5px solid #0d1418;border-radius:2px;border-top:none;border-right:none;transform:rotate(-45deg) translate(1px,-1px)}
+  .nav-links{display:flex;gap:30px;font-size:13.5px;color:var(--muted)}
+  .nav-links a{transition:color .15s}
+  .nav-links a:hover{color:var(--fg)}
+  .nav-cta{font-size:13px;background:var(--fg);color:#0d1418;padding:8px 16px;border-radius:6px;font-weight:500;transition:transform .15s,box-shadow .15s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px -8px rgba(232,241,245,.4)}
+  @media (max-width:640px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{padding:150px 28px 96px;border-bottom:1px solid var(--line)}
+  .hero-inner{max-width:1120px;margin:0 auto}
+  .badge{display:inline-flex;align-items:center;gap:9px;background:var(--bg-2);border:1px solid var(--line-2);padding:6px 14px 6px 10px;border-radius:999px;font-size:12.5px;color:var(--muted);margin-bottom:30px}
+  .badge .dot{width:6px;height:6px;background:var(--good);border-radius:50%;position:relative}
+  .badge .dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:var(--good);opacity:.4;animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
+  @keyframes ping{75%,100%{transform:scale(2.2);opacity:0}}
+  .badge .sep{color:var(--dim)}
+  .badge .lock{color:var(--accent);font-size:10px}
+
+  h1{font-weight:600;font-size:clamp(40px,5.5vw,64px);line-height:1.06;letter-spacing:-.035em;margin-bottom:24px;max-width:20ch}
+  h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:18px;color:var(--muted);max-width:60ch;line-height:1.6;margin-bottom:36px}
+  .lede b{color:var(--fg);font-weight:500}
+
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .btn{font-size:14px;font-weight:500;padding:11px 20px;border-radius:7px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .15s;border:1px solid transparent}
+  .btn-primary{background:var(--fg);color:#0d1418}
+  .btn-primary:hover{background:#fff;transform:translateY(-1px);box-shadow:0 10px 30px -10px rgba(232,241,245,.3)}
+  .btn-ghost{border-color:var(--line-2);color:var(--fg)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+  .trust-row{margin-top:32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--dim);font-family:var(--mono)}
+  .trust-row .item{display:flex;align-items:center;gap:8px}
+  .trust-row .item svg{color:var(--accent);width:13px;height:13px}
+
+  /* HERO MOCKUP — security/agent dashboard */
+  .hero-mock{margin-top:80px;border-radius:14px;background:var(--bg-2);overflow:hidden;position:relative;
+    box-shadow:0 40px 100px -40px rgba(94,234,212,.18),0 0 0 1px var(--line-2);
+  }
+  .hero-mock::before{content:'';position:absolute;inset:0;padding:1px;border-radius:14px;background:linear-gradient(135deg,rgba(94,234,212,.3),transparent 30%,transparent 70%,rgba(34,211,238,.2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .mock-bar{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);background:var(--bg-3)}
+  .mock-dots{display:flex;gap:6px}
+  .mock-dots span{width:10px;height:10px;border-radius:50%;background:var(--line-2)}
+  .mock-url{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .mock-url .lock{color:var(--accent)}
+  .mock-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--accent)}
+  .mock-status .pulse{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:softpulse 2s infinite}
+  @keyframes softpulse{0%,100%{box-shadow:0 0 0 0 var(--accent);opacity:1}50%{box-shadow:0 0 0 6px transparent;opacity:.6}}
+
+  .mock-body{display:grid;grid-template-columns:240px 1fr 220px;min-height:340px}
+  @media (max-width:880px){.mock-body{grid-template-columns:1fr}.mock-side,.mock-right{display:none}}
+
+  .mock-side{border-right:1px solid var(--line);padding:18px 16px;background:rgba(18,27,33,.5)}
+  .mock-side-h{font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px}
+  .mock-side-item{padding:8px 11px;border-radius:6px;font-size:13px;color:var(--muted);margin-bottom:3px;display:flex;align-items:center;gap:10px;cursor:default;transition:background .15s}
+  .mock-side-item:hover{background:var(--bg-3)}
+  .mock-side-item.active{background:var(--accent-soft);color:var(--fg)}
+  .mock-side-item .av{width:18px;height:18px;border-radius:4px;background:linear-gradient(135deg,var(--line-2),var(--dim));display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--bg)}
+  .mock-side-item.active .av{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0d1418}
+  .mock-side-item .ct{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--dim);background:var(--bg-3);padding:1px 5px;border-radius:3px}
+  .mock-side-item.active .ct{background:var(--bg);color:var(--accent)}
+
+  .mock-main{padding:20px 24px;display:flex;flex-direction:column}
+  .mock-main-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+  .mock-main-title{display:flex;align-items:center;gap:10px}
+  .mock-main-title .av-lg{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#0d1418}
+  .mock-main-title .name{font-size:14px;font-weight:600}
+  .mock-main-title .sub{font-size:11px;color:var(--dim);font-family:var(--mono);margin-top:2px}
+  .mock-secure-tag{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(94,234,212,.25);padding:4px 9px;border-radius:5px}
+
+  .mock-chat{display:flex;flex-direction:column;gap:10px;font-size:13.5px;flex:1}
+  .mock-msg-row{display:flex;flex-direction:column;gap:3px}
+  .mock-msg-row.bot{align-items:flex-start}
+  .mock-msg-row.user{align-items:flex-end}
+  .mock-msg{padding:9px 13px;border-radius:10px;max-width:88%;line-height:1.5}
+  .mock-msg.user{background:var(--bg-3);border:1px solid var(--line)}
+  .mock-msg.bot{background:linear-gradient(135deg,rgba(94,234,212,.12),rgba(34,211,238,.08));border:1px solid rgba(94,234,212,.2)}
+  .mock-msg-time{font-family:var(--mono);font-size:9.5px;color:var(--dim);padding:0 4px}
+  .mock-typing{display:inline-flex;gap:4px;align-self:flex-start;padding:9px 13px;background:linear-gradient(135deg,rgba(94,234,212,.12),rgba(34,211,238,.08));border:1px solid rgba(94,234,212,.2);border-radius:10px}
+  .mock-typing span{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:bounce 1.3s infinite}
+  .mock-typing span:nth-child(2){animation-delay:.15s}.mock-typing span:nth-child(3){animation-delay:.3s}
+  @keyframes bounce{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+  .mock-right{border-left:1px solid var(--line);padding:18px 16px;background:rgba(18,27,33,.5);display:flex;flex-direction:column;gap:18px}
+  .mock-right-h{font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em;margin-bottom:2px}
+  .mock-metric{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px}
+  .mock-metric:last-child{border-bottom:none}
+  .mock-metric .k{color:var(--muted)}
+  .mock-metric .v{color:var(--fg);font-family:var(--mono);font-size:12.5px;font-weight:500}
+  .mock-metric .v.ok{color:var(--accent)}
+
+  /* SECTIONS */
+  section{padding:96px 28px;border-bottom:1px solid var(--line)}
+  .section-inner{max-width:1120px;margin:0 auto}
+  .section-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--accent);margin-bottom:16px;text-transform:uppercase;letter-spacing:.15em}
+  .section-tag::before{content:'';width:18px;height:1px;background:var(--accent)}
+  .section-h{font-weight:600;font-size:clamp(28px,3.6vw,42px);line-height:1.15;letter-spacing:-.025em;margin-bottom:16px;max-width:24ch}
+  .section-h em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section-sub{font-size:16.5px;color:var(--muted);max-width:62ch;margin-bottom:56px;line-height:1.65}
+
+  /* WHAT */
+  .what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media (max-width:820px){.what-grid{grid-template-columns:1fr}}
+  .what-card{padding:30px 28px;border-radius:12px;background:var(--bg-2);position:relative;transition:transform .2s}
+  .what-card::before{content:'';position:absolute;inset:0;padding:1px;border-radius:12px;background:linear-gradient(135deg,var(--line-2),var(--line) 50%,var(--line-2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;transition:background .2s}
+  .what-card:hover{transform:translateY(-2px)}
+  .what-card:hover::before{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+  .what-card .icon-wrap{width:42px;height:42px;border-radius:10px;background:var(--accent-soft);border:1px solid rgba(94,234,212,.2);display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:22px}
+  .what-card h3{font-size:18px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+  .what-card p{font-size:14.5px;color:var(--muted);line-height:1.65}
+  .what-card .meta{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;display:flex;justify-content:space-between;align-items:center}
+  .what-card .meta b{color:var(--fg);font-weight:500}
+  .what-card .meta .shield{color:var(--accent);font-size:10px}
+
+  /* WORK */
+  .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media (max-width:820px){.work-grid{grid-template-columns:1fr}}
+  .work-card{padding:28px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);transition:border-color .2s,transform .2s}
+  .work-card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+  .work-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .work-card-num{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+  .work-card-status{font-family:var(--mono);font-size:11px;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:5px;display:inline-flex;align-items:center;gap:6px}
+  .work-card-status::before{content:'';width:5px;height:5px;background:var(--accent);border-radius:50%}
+  .work-card-status.build{color:var(--amber);background:rgba(251,191,36,.1)}
+  .work-card-status.build::before{background:var(--amber)}
+  .work-card h4{font-size:18px;font-weight:600;margin-bottom:8px;letter-spacing:-.015em}
+  .work-card p{font-size:14px;color:var(--muted);line-height:1.65}
+  .work-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+  .work-card .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--bg-3);border:1px solid var(--line);padding:3px 8px;border-radius:4px;text-transform:lowercase}
+
+  footer{padding:40px 28px;color:var(--dim);font-size:13px;border-top:1px solid var(--line)}
+  .foot-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="brand"><span class="brand-mark"></span>mccreery.ai</a>
+    <div class="nav-links">
+      <a href="#what">Services</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#cta">Contact</a>
+    </div>
+    <a href="#cta" class="nav-cta">Start a project</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="badge">
+      <span class="dot"></span>
+      Accepting two new projects this month
+      <span class="sep">·</span>
+      <span class="lock">🔒</span>
+      <span>Built to be owned, not rented</span>
+    </div>
+
+    <h1>AI assistants and software, <span class="grad">built to be owned.</span></h1>
+    <p class="lede">
+      Independent developer in Fort Worth. I design and ship websites, AI assistants, and internal tooling for small businesses — built with the same primitives the frontier labs use, deployed at a scale you can actually run. <b>Your code, your data, your keys.</b>
+    </p>
+
+    <div class="cta-row">
+      <a href="#cta" class="btn btn-primary">Start a project →</a>
+      <a href="#work" class="btn btn-ghost">See recent work</a>
+    </div>
+
+    <div class="trust-row">
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v7c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5z"/></svg> Self-hosted by default</div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Source &amp; keys handed off</div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg> No vendor lock-in</div>
+    </div>
+
+    <div class="hero-mock">
+      <div class="mock-bar">
+        <div class="mock-dots"><span></span><span></span><span></span></div>
+        <div class="mock-url"><span class="lock">🔒</span>jackalope.assistant.mccreery.ai</div>
+        <div class="mock-status"><span class="pulse"></span>live · 14ms</div>
+      </div>
+      <div class="mock-body">
+
+        <div class="mock-side">
+          <div class="mock-side-h">Workspaces</div>
+          <div class="mock-side-item active"><span class="av">JW</span> Jackalope <span class="ct">3</span></div>
+          <div class="mock-side-item"><span class="av">DC</span> Daniel Chiro</div>
+          <div class="mock-side-item"><span class="av">LX</span> Legal AI <span class="ct">·</span></div>
+          <div class="mock-side-item"><span class="av">NS</span> NateOS</div>
+          <div class="mock-side-h" style="margin-top:24px">Channels</div>
+          <div class="mock-side-item"><span class="av" style="background:#26a5e4">tg</span> Telegram</div>
+          <div class="mock-side-item"><span class="av">vm</span> Voicemail <span class="ct">1</span></div>
+          <div class="mock-side-item"><span class="av">w</span> Website chat</div>
+        </div>
+
+        <div class="mock-main">
+          <div class="mock-main-head">
+            <div class="mock-main-title">
+              <div class="av-lg">JW</div>
+              <div>
+                <div class="name">Jackalope Welding · Telegram</div>
+                <div class="sub">connected · self-hosted · since 14d</div>
+              </div>
+            </div>
+            <div class="mock-secure-tag">🔒 e2e · keys local</div>
+          </div>
+          <div class="mock-chat">
+            <div class="mock-msg-row user">
+              <div class="mock-msg user">Missed call from 817-555-0142 at 6:42pm — who was it?</div>
+              <div class="mock-msg-time">6:51 PM</div>
+            </div>
+            <div class="mock-msg-row bot">
+              <div class="mock-msg bot">Mike Daugherty, returning customer. Wants a stainless railing quote for a residential job in Aledo. Voicemail's transcribed in your queue — should I send him the quote form and book Tuesday afternoon for the site visit?</div>
+              <div class="mock-msg-time">6:51 PM · 1.4s · $0.003</div>
+            </div>
+            <div class="mock-msg-row user">
+              <div class="mock-msg user">Yes to both. Confirm with him before 9pm.</div>
+              <div class="mock-msg-time">6:52 PM</div>
+            </div>
+            <div class="mock-typing"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+
+        <div class="mock-right">
+          <div>
+            <div class="mock-right-h">Agent · 24h</div>
+            <div class="mock-metric"><span class="k">Requests</span><span class="v">47</span></div>
+            <div class="mock-metric"><span class="k">Avg latency</span><span class="v">1.2s</span></div>
+            <div class="mock-metric"><span class="k">Cost</span><span class="v">$0.41</span></div>
+            <div class="mock-metric"><span class="k">Uptime</span><span class="v ok">14d 02:33</span></div>
+          </div>
+          <div>
+            <div class="mock-right-h">Tools loaded</div>
+            <div class="mock-metric"><span class="k">voicemail.*</span><span class="v">3</span></div>
+            <div class="mock-metric"><span class="k">calendar.*</span><span class="v">2</span></div>
+            <div class="mock-metric"><span class="k">seo.*</span><span class="v">5</span></div>
+            <div class="mock-metric"><span class="k">crm.*</span><span class="v">4</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="section-inner">
+    <div class="section-tag">Services</div>
+    <h2 class="section-h">Three things, done <em>at production quality.</em></h2>
+    <p class="section-sub">A small list on purpose. I do these three well, deploy them so you can actually run them, and document them so you understand what's under the hood. Built with security in mind from the first line — because the people I'm building for are the people who can't afford a breach.</p>
+
+    <div class="what-grid">
+      <div class="what-card">
+        <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Business websites</h3>
+        <p>Custom-coded sites on your own domain with business email set up properly. Fast, accessible, easy to update. Built by hand so it's auditable, fast, and yours.</p>
+        <div class="meta"><span><b>Ships in</b> 1–2 weeks</span><span class="shield">🛡 yours</span></div>
+      </div>
+      <div class="what-card">
+        <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+        <h3>AI assistants</h3>
+        <p>Agents trained on your business — answering leads, qualifying inquiries, handling voicemail, posting on schedule. Self-hosted where possible. Keys stay with you.</p>
+        <div class="meta"><span><b>Ships in</b> 1–2 weeks</span><span class="shield">🔒 e2e</span></div>
+      </div>
+      <div class="what-card">
+        <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg></div>
+        <h3>Workflow automation</h3>
+        <p>The repetitive task that crosses three or four systems and eats your team's day. I trace it, build the agent, document it, and you own the keys when it ships.</p>
+        <div class="meta"><span><b>Ships in</b> 5–10 days</span><span class="shield">🔑 keys yours</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-inner">
+    <div class="section-tag">Recent work</div>
+    <h2 class="section-h">Real engagements. <em>Real outcomes.</em></h2>
+    <p class="section-sub">A look at what I've shipped — written the way I'd describe it to you over coffee, not the way most portfolios do.</p>
+
+    <div class="work-grid">
+      <div class="work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">01 / 04</div>
+          <div class="work-card-status">live · 2026</div>
+        </div>
+        <h4>Jackalope Welding — Agentic SEO &amp; ops</h4>
+        <p>Built an AI agent on Telegram so the owner runs his welding business from the truck. Started as an SEO engagement, grew into voicemail handling and ongoing site updates. Backend in build for multi-client monitoring.</p>
+        <div class="tags"><span class="tag">hermes</span><span class="tag">telegram</span><span class="tag">claude api</span><span class="tag">seo</span><span class="tag">self-hosted</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">02 / 04</div>
+          <div class="work-card-status">live · 2026</div>
+        </div>
+        <h4>Chiropractic practice — site &amp; analytics</h4>
+        <p>Full redesign focused on local search. Google Analytics wired in so the owner can see exactly where new patients come from. Scoped follow-on AI agent for ongoing content + keywords in place of an agency retainer.</p>
+        <div class="tags"><span class="tag">web</span><span class="tag">seo</span><span class="tag">analytics</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">03 / 04</div>
+          <div class="work-card-status build">in build</div>
+        </div>
+        <h4>Legal AI assistant</h4>
+        <p>Purpose-built agent for legal professionals — intake, document review, scheduling, client comms. Active build. Designed to deploy per-firm rather than as one-size-fits-all SaaS — so client data never leaves the firm.</p>
+        <div class="tags"><span class="tag">hermes</span><span class="tag">claude api</span><span class="tag">rag</span><span class="tag">on-prem</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">04 / 04</div>
+          <div class="work-card-status">live · os.mccreery.ai</div>
+        </div>
+        <h4>NateOS Command Center</h4>
+        <p>The dashboard I use to run my own work — tasks, clients, invoices, persistent AI memory. Self-hosted, fully owned. The same architecture I deploy for clients who'd rather own a tool than rent one.</p>
+        <div class="tags"><span class="tag">react</span><span class="tag">flask</span><span class="tag">postgres</span><span class="tag">self-hosted</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>© 2026 Nate McCreery · Fort Worth, Texas</div>
+    <div>Built by hand · Hosted on Cloudflare</div>
+  </div>
+</footer>
+</body>
+</html>

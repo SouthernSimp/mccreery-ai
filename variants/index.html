@@ -3,47 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <title>Design variants — mccreery.ai</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{background:#0a0a0a;color:#eee;font-family:'Inter',sans-serif;margin:0;padding:60px 24px}
-  .wrap{max-width:960px;margin:0 auto}
-  h1{font-family:'Fraunces',serif;font-weight:400;font-size:42px;letter-spacing:-.02em;margin-bottom:8px}
-  .sub{color:#888;margin-bottom:48px;font-size:16px}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  body{background:#0a0a0a;color:#eee;font-family:'Inter',sans-serif;margin:0;padding:60px 24px;min-height:100vh}
+  .wrap{max-width:1100px;margin:0 auto}
+  h1{font-family:'Fraunces',serif;font-weight:400;font-size:44px;letter-spacing:-.02em;margin-bottom:8px}
+  .sub{color:#888;margin-bottom:14px;font-size:16px;max-width:60ch;line-height:1.55}
+  .live-note{font-size:13px;color:#a4d4a8;margin-bottom:48px;font-family:ui-monospace,monospace}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
   @media (max-width:720px){.grid{grid-template-columns:1fr}}
-  .card{border:1px solid #222;border-radius:8px;padding:28px;background:#141414;transition:border-color .2s,transform .2s;display:block;text-decoration:none;color:inherit}
-  .card:hover{border-color:#444;transform:translateY(-2px)}
-  .card .tag{font-family:ui-monospace,monospace;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
-  .card h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px;margin-bottom:8px;letter-spacing:-.01em}
+  .card{border:1px solid #222;border-radius:10px;padding:24px 26px;background:#141414;transition:border-color .2s,transform .2s,background .2s;display:block;text-decoration:none;color:inherit}
+  .card:hover{border-color:#3a3a3a;transform:translateY(-2px);background:#181818}
+  .card .tag{font-family:ui-monospace,monospace;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .card h2{font-family:'Fraunces',serif;font-weight:500;font-size:24px;margin-bottom:8px;letter-spacing:-.01em}
   .card p{font-size:14.5px;color:#9a9a9a;line-height:1.6}
-  .card .swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:1px}
-  .live-tag{display:inline-block;font-family:ui-monospace,monospace;font-size:10px;background:#1f2f1f;color:#7cbf8a;padding:2px 8px;border-radius:3px;margin-left:8px;text-transform:uppercase;letter-spacing:.08em}
+  .card .palette{display:flex;gap:5px;margin-top:14px}
+  .card .palette span{width:18px;height:18px;border-radius:4px;border:1px solid rgba(255,255,255,.06)}
+  .live-tag{display:inline-block;font-family:ui-monospace,monospace;font-size:10px;background:#1f2f1f;color:#7cbf8a;padding:2px 8px;border-radius:3px;margin-left:6px;text-transform:uppercase;letter-spacing:.08em}
+  .group-h{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.12em;margin:40px 0 14px;font-family:ui-monospace,monospace}
+  .group-h:first-of-type{margin-top:0}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>mccreery.ai · design comparison</h1>
-  <p class="sub">Four directions. The amber one is currently live at mccreery.ai. Open each in a new tab and compare.</p>
+  <p class="sub">Seven directions. Click any card to open in a new tab. The amber one is live at mccreery.ai right now.</p>
+  <div class="live-note">→ tip: open them side by side and look at the hero on each</div>
+
+  <div class="group-h">Round 1 · original four</div>
   <div class="grid">
     <a class="card" href="/" target="_blank">
-      <div class="tag"><span class="swatch" style="background:#E8A020"></span>Amber<span class="live-tag">Live</span></div>
+      <div class="tag">amber editorial<span class="live-tag">live</span></div>
       <h2>Amber editorial</h2>
-      <p>Warm amber accent, serif/mono mix, pulse on the "open slots" indicator. The current site — modern but warm, distinctive without being trendy. Copy now cleaned up.</p>
-    </a>
-    <a class="card" href="/variants/calm.html" target="_blank">
-      <div class="tag"><span class="swatch" style="background:#d4a373"></span>Calm clay</div>
-      <h2>Calm &amp; conversational</h2>
-      <p>Same dark base, muted clay/tan accent, no animations. Quieter, more "independent craftsman", less "tech startup". Same brief tool, same form.</p>
+      <p>Warm amber accent, serif/mono mix, pulse on the open-slots indicator. Modern but warm.</p>
+      <div class="palette"><span style="background:#0a0a0a"></span><span style="background:#161616"></span><span style="background:#E8A020"></span><span style="background:#e9e9e9"></span></div>
     </a>
     <a class="card" href="/variants/linear.html" target="_blank">
-      <div class="tag"><span class="swatch" style="background:#7c83fd"></span>Linear violet</div>
-      <h2>Linear-style precision</h2>
-      <p>Inspired by Linear: tight monochrome, violet accent, geometric, fast. The look that reads as "this person ships."</p>
+      <div class="tag">linear violet · your fav</div>
+      <h2>Linear violet</h2>
+      <p>Tight monochrome, violet accent, geometric, with the Telegram product mockup in the hero.</p>
+      <div class="palette"><span style="background:#08080a"></span><span style="background:#0e0e11"></span><span style="background:#7c83fd"></span><span style="background:#f4f4f5"></span></div>
     </a>
     <a class="card" href="/variants/terminal.html" target="_blank">
-      <div class="tag"><span class="swatch" style="background:#22c55e"></span>Terminal green</div>
+      <div class="tag">terminal green · agentic</div>
       <h2>Terminal / agentic</h2>
-      <p>Monospace-heavy, terminal green, code-aesthetic. Reads as "AI engineer who actually writes code" — closer to what Fortis is benchmarking against (Pinesmith, ForceAI).</p>
+      <p>Monospace-heavy, terminal green, simulated CLI output. Pinesmith/ForceAI territory.</p>
+      <div class="palette"><span style="background:#050707"></span><span style="background:#0a0d0d"></span><span style="background:#3ee08e"></span><span style="background:#e6f0eb"></span></div>
+    </a>
+    <a class="card" href="/variants/calm.html" target="_blank">
+      <div class="tag">calm clay · quiet</div>
+      <h2>Calm &amp; conversational</h2>
+      <p>Same dark base, muted clay/tan accent, no animations. Independent craftsman feel.</p>
+      <div class="palette"><span style="background:#0c0c0d"></span><span style="background:#141416"></span><span style="background:#d4a373"></span><span style="background:#ededee"></span></div>
+    </a>
+  </div>
+
+  <div class="group-h">Round 2 · new four (no black backgrounds)</div>
+  <div class="grid">
+    <a class="card" href="/variants/midnight.html" target="_blank">
+      <div class="tag">midnight stripe · fintech polish</div>
+      <h2>Midnight Stripe</h2>
+      <p>Deep navy base with Stripe-inspired indigo→violet gradient accents. Premium financial-grade software feel. Refined product mockup. Strongest fit for Fortis.</p>
+      <div class="palette"><span style="background:#0a1628"></span><span style="background:#121b30"></span><span style="background:#635bff"></span><span style="background:#a855f7"></span></div>
+    </a>
+    <a class="card" href="/variants/vault.html" target="_blank">
+      <div class="tag">vault teal · security-coded</div>
+      <h2>Vault Teal</h2>
+      <p>Deep slate-teal base, electric mint accents, 3-pane agent dashboard mockup w/ live metrics. Built-in security signal: "Self-hosted by default · keys yours". Also a strong Fortis fit.</p>
+      <div class="palette"><span style="background:#0d1418"></span><span style="background:#18242c"></span><span style="background:#5eead4"></span><span style="background:#22d3ee"></span></div>
+    </a>
+    <a class="card" href="/variants/aurora.html" target="_blank">
+      <div class="tag">aurora plum · the bold one</div>
+      <h2>Aurora Plum</h2>
+      <p>Deep aubergine base with a subtle animated aurora glow. Peach/lavender accents, animated grain overlay. Most memorable and visually adventurous.</p>
+      <div class="palette"><span style="background:#170b1a"></span><span style="background:#231230"></span><span style="background:#f8b27e"></span><span style="background:#c4a8ff"></span></div>
+    </a>
+    <a class="card" href="/variants/espresso.html" target="_blank">
+      <div class="tag">espresso editorial · the wildcard</div>
+      <h2>Espresso Editorial</h2>
+      <p>Warm dark brown, cream parchment text, Fraunces serif, drop caps, pull quotes, "letter from Jackalope" hero mockup. Looks completely unlike any AI portfolio.</p>
+      <div class="palette"><span style="background:#18120e"></span><span style="background:#2a2018"></span><span style="background:#e8a020"></span><span style="background:#f5ede0"></span></div>
     </a>
   </div>
 </div>

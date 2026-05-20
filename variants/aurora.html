@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nate McCreery — AI &amp; software for small businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#170b1a;
+    --bg-2:#1f1226;
+    --bg-3:#291732;
+    --line:rgba(255,255,255,.06);
+    --line-2:rgba(255,255,255,.11);
+    --fg:#f5eef8;
+    --muted:#a59bb1;
+    --dim:#6b6075;
+    --peach:#f8b27e;
+    --peach-soft:rgba(248,178,126,.14);
+    --lav:#c4a8ff;
+    --lav-soft:rgba(196,168,255,.14);
+    --sky:#7cc7ff;
+    --rose:#ff9ec4;
+    --good:#5be3a4;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:-.005em;position:relative}
+
+  /* Faint dotted grid background, page-wide */
+  body::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size:28px 28px;
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 40%, transparent 100%);
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 40%, transparent 100%);
+  }
+  /* Animated grain overlay (CSS-only) */
+  body::after{
+    content:'';position:fixed;inset:-50%;pointer-events:none;z-index:1;opacity:.035;mix-blend-mode:overlay;
+    background-image:
+      repeating-radial-gradient(circle at 13% 27%, #fff 0 1px, transparent 1px 4px),
+      repeating-radial-gradient(circle at 71% 83%, #fff 0 1px, transparent 1px 5px),
+      repeating-radial-gradient(circle at 47% 51%, #fff 0 1px, transparent 1px 3px);
+    animation:grain 7s steps(6) infinite;
+  }
+  @keyframes grain{
+    0%  {transform:translate(0,0)}
+    20% {transform:translate(-3%,2%)}
+    40% {transform:translate(2%,-1%)}
+    60% {transform:translate(-1%,3%)}
+    80% {transform:translate(3%,-2%)}
+    100%{transform:translate(0,0)}
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--peach);color:#1a0f1f}
+
+  main, nav, footer{position:relative;z-index:2}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(23,11,26,.55);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1120px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:600;font-size:14px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .brand-mark{width:20px;height:20px;border-radius:6px;background:conic-gradient(from 210deg at 50% 50%,var(--peach),var(--rose),var(--lav),var(--sky),var(--peach));box-shadow:0 0 16px rgba(196,168,255,.35);display:inline-block}
+  .nav-links{display:flex;gap:30px;font-size:13.5px;color:var(--muted)}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--fg)}
+  .nav-cta{font-size:13px;background:var(--peach);color:#2a1107;padding:8px 14px;border-radius:7px;font-weight:600;transition:all .2s;box-shadow:0 0 0 1px rgba(248,178,126,.4),0 8px 24px -10px rgba(248,178,126,.55)}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(248,178,126,.6),0 12px 32px -10px rgba(248,178,126,.7)}
+  @media (max-width:640px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{padding:150px 28px 110px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  /* Aurora: subtle, top-only, animated */
+  .aurora{position:absolute;left:50%;top:-220px;transform:translateX(-50%);width:130%;height:520px;pointer-events:none;filter:blur(60px);opacity:.55;z-index:0}
+  .aurora span{position:absolute;border-radius:50%;mix-blend-mode:screen}
+  .aurora .a1{left:8%;top:30px;width:46%;height:300px;background:radial-gradient(closest-side,#5b7cff 0%,transparent 70%);animation:drift1 14s ease-in-out infinite alternate}
+  .aurora .a2{left:38%;top:0;width:40%;height:340px;background:radial-gradient(closest-side,#ff7ab8 0%,transparent 70%);animation:drift2 17s ease-in-out infinite alternate}
+  .aurora .a3{left:60%;top:60px;width:40%;height:280px;background:radial-gradient(closest-side,#c4a8ff 0%,transparent 70%);animation:drift3 12s ease-in-out infinite alternate}
+  .aurora .a4{left:25%;top:90px;width:30%;height:220px;background:radial-gradient(closest-side,#f8b27e 0%,transparent 70%);opacity:.6;animation:drift1 19s ease-in-out infinite alternate-reverse}
+  @keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,-20px) scale(1.08)}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1)}to{transform:translate(-30px,15px) scale(1.05)}}
+  @keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(20px,25px) scale(1.1)}}
+  /* Fade aurora into body */
+  .aurora-fade{position:absolute;left:0;right:0;top:0;height:600px;pointer-events:none;background:linear-gradient(180deg,transparent 0,transparent 55%,var(--bg) 100%);z-index:1}
+
+  .hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:2}
+  .badge{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);padding:6px 13px 6px 9px;border-radius:999px;font-size:12.5px;color:var(--muted);margin-bottom:30px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .badge .dot{width:7px;height:7px;background:var(--good);border-radius:50%;box-shadow:0 0 10px var(--good);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.85)}}
+
+  h1{font-weight:600;font-size:clamp(42px,5.8vw,68px);line-height:1.04;letter-spacing:-.038em;margin-bottom:26px;max-width:18ch;
+    background:linear-gradient(100deg,#fff 0%,#ffd9b8 18%,var(--peach) 38%,var(--rose) 58%,var(--lav) 80%,#e7d6ff 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:shimmer 12s ease-in-out infinite alternate;
+  }
+  @keyframes shimmer{from{background-position:0% 50%}to{background-position:100% 50%}}
+  .lede{font-size:18px;color:var(--muted);max-width:60ch;line-height:1.65;margin-bottom:38px}
+  .lede b{color:var(--fg);font-weight:500}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .btn{font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .2s;border:1px solid transparent}
+  .btn-primary{background:var(--peach);color:#2a1107;font-weight:600;box-shadow:0 0 0 1px rgba(248,178,126,.35),0 12px 32px -12px rgba(248,178,126,.55)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(248,178,126,.55),0 18px 40px -12px rgba(248,178,126,.75)}
+  .btn-ghost{border-color:var(--line-2);color:var(--fg);background:rgba(255,255,255,.02);backdrop-filter:blur(6px)}
+  .btn-ghost:hover{border-color:rgba(196,168,255,.4);background:rgba(196,168,255,.06);color:#fff}
+  .kbd{font-family:var(--mono);font-size:11px;background:rgba(255,255,255,.06);border:1px solid var(--line-2);padding:2px 6px;border-radius:4px;color:var(--muted);margin-left:4px}
+
+  /* HERO PRODUCT MOCKUP — gradient-border card with backdrop blur */
+  .hero-mock-wrap{margin-top:76px;position:relative;border-radius:16px;padding:1px;
+    background:linear-gradient(135deg,rgba(248,178,126,.45),rgba(196,168,255,.4) 45%,rgba(124,199,255,.35) 100%);
+    box-shadow:0 40px 120px -40px rgba(196,168,255,.4),0 0 80px -20px rgba(248,178,126,.15);
+  }
+  .hero-mock{border-radius:15px;background:rgba(31,18,38,.7);backdrop-filter:blur(18px) saturate(130%);-webkit-backdrop-filter:blur(18px) saturate(130%);overflow:hidden}
+  .mock-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .mock-dots{display:flex;gap:6px}
+  .mock-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12)}
+  .mock-dots span:first-child{background:#ff8a9b}
+  .mock-dots span:nth-child(2){background:#f8b27e}
+  .mock-dots span:nth-child(3){background:#5be3a4}
+  .mock-url{flex:1;font-family:var(--mono);font-size:11.5px;color:var(--dim);text-align:center}
+  .mock-url .live{color:var(--good);margin-left:6px}
+  .mock-body{display:grid;grid-template-columns:210px 1fr;min-height:290px}
+  .mock-side{border-right:1px solid var(--line);padding:18px 14px;background:rgba(0,0,0,.15)}
+  .mock-side-h{font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em;margin-bottom:12px}
+  .mock-side-item{padding:7px 10px;border-radius:6px;font-size:13px;color:var(--muted);margin-bottom:2px;display:flex;align-items:center;gap:9px;cursor:default;transition:background .2s}
+  .mock-side-item:hover{background:rgba(255,255,255,.03)}
+  .mock-side-item.active{background:linear-gradient(90deg,var(--lav-soft),transparent);color:var(--fg)}
+  .mock-side-item .ic{width:14px;height:14px;border-radius:4px;background:rgba(255,255,255,.08)}
+  .mock-side-item.active .ic{background:linear-gradient(135deg,var(--peach),var(--lav));box-shadow:0 0 8px rgba(196,168,255,.5)}
+  .mock-main{padding:24px 28px}
+  .mock-title{font-size:18px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
+  .mock-meta{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:20px}
+  .mock-meta .ok{color:var(--good)}
+  .mock-chat{display:flex;flex-direction:column;gap:12px;font-size:13.5px}
+  .mock-msg{padding:10px 14px;border-radius:10px;max-width:82%;line-height:1.55}
+  .mock-msg.user{background:rgba(255,255,255,.04);align-self:flex-end;border:1px solid var(--line-2)}
+  .mock-msg.bot{align-self:flex-start;background:linear-gradient(135deg,rgba(196,168,255,.14),rgba(248,178,126,.08));border:1px solid rgba(196,168,255,.22);color:var(--fg)}
+  .mock-typing{display:inline-flex;gap:4px;align-self:flex-start;padding:9px 13px;background:rgba(196,168,255,.06);border:1px solid rgba(196,168,255,.15);border-radius:10px}
+  .mock-typing span{width:6px;height:6px;border-radius:50%;background:var(--lav);animation:bounce 1.4s infinite}
+  .mock-typing span:nth-child(2){animation-delay:.15s}.mock-typing span:nth-child(3){animation-delay:.3s}
+  @keyframes bounce{0%,80%,100%{transform:scale(.55);opacity:.4}40%{transform:scale(1);opacity:1}}
+  @media (max-width:680px){.mock-body{grid-template-columns:1fr}.mock-side{display:none}}
+
+  /* SECTIONS */
+  section{padding:104px 28px;border-bottom:1px solid var(--line);position:relative}
+  .section-inner{max-width:1120px;margin:0 auto;position:relative}
+  .section-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--lav);margin-bottom:16px;background:var(--lav-soft);border:1px solid rgba(196,168,255,.18);padding:5px 11px;border-radius:6px}
+  .section-h{font-weight:600;font-size:clamp(30px,3.6vw,42px);line-height:1.13;letter-spacing:-.028em;margin-bottom:14px;max-width:22ch;color:#fbf6fe}
+  .section-h em{font-style:normal;background:linear-gradient(100deg,var(--peach),var(--lav));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section-sub{font-size:16.5px;color:var(--muted);max-width:62ch;margin-bottom:56px;line-height:1.65}
+
+  /* Gradient-border card mixin via wrapper */
+  .gcard{position:relative;border-radius:14px;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 35%,rgba(255,255,255,.02) 65%,rgba(196,168,255,.18));transition:all .3s}
+  .gcard:hover{background:linear-gradient(150deg,rgba(248,178,126,.4),rgba(255,255,255,.02) 35%,rgba(255,255,255,.02) 65%,rgba(196,168,255,.45));transform:translateY(-2px)}
+  .gcard-inner{border-radius:13px;background:rgba(31,18,38,.55);backdrop-filter:blur(14px) saturate(130%);-webkit-backdrop-filter:blur(14px) saturate(130%);height:100%;transition:background .3s}
+  .gcard:hover .gcard-inner{background:rgba(41,23,50,.7)}
+  .gcard::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;opacity:0;transition:opacity .3s;
+    box-shadow:0 0 60px -10px rgba(248,178,126,.35),0 0 30px -5px rgba(196,168,255,.3);}
+  .gcard:hover::after{opacity:1}
+
+  /* SERVICES */
+  .what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:820px){.what-grid{grid-template-columns:1fr}}
+  .what-card{padding:30px 28px}
+  .what-card .icon-wrap{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--peach-soft),var(--lav-soft));border:1px solid rgba(248,178,126,.22);display:flex;align-items:center;justify-content:center;color:var(--peach);margin-bottom:20px;box-shadow:inset 0 0 12px rgba(248,178,126,.08)}
+  .what-card h3{font-size:18px;font-weight:600;margin-bottom:10px;letter-spacing:-.012em;color:#fbf6fe}
+  .what-card p{font-size:14px;color:var(--muted);line-height:1.65}
+  .what-card .meta{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.12em}
+  .what-card .meta b{color:var(--lav);font-weight:500}
+
+  /* WORK */
+  .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media (max-width:820px){.work-grid{grid-template-columns:1fr}}
+  .work-card{padding:30px}
+  .work-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .work-card-num{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.05em}
+  .work-card-status{font-family:var(--mono);font-size:11px;color:var(--good);background:rgba(91,227,164,.1);border:1px solid rgba(91,227,164,.22);padding:3px 9px;border-radius:5px}
+  .work-card-status.build{color:var(--peach);background:var(--peach-soft);border-color:rgba(248,178,126,.25)}
+  .work-card h4{font-size:18.5px;font-weight:600;margin-bottom:10px;letter-spacing:-.018em;color:#fbf6fe}
+  .work-card p{font-size:14px;color:var(--muted);line-height:1.65}
+  .work-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .work-card .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);padding:3px 8px;border-radius:5px;text-transform:lowercase;transition:all .2s}
+  .work-card:hover .tag{border-color:rgba(196,168,255,.25);color:#d6cce4}
+
+  /* FOOTER */
+  footer{padding:64px 28px 48px;color:var(--dim);font-size:13px;border-top:1px solid var(--line)}
+  .foot-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:flex-end}
+  .foot-contact{display:flex;flex-direction:column;gap:6px}
+  .foot-contact a{color:var(--fg);font-weight:500}
+  .foot-contact a:hover{color:var(--peach)}
+  .foot-meta{color:var(--dim)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="brand"><span class="brand-mark"></span> mccreery.ai</a>
+    <div class="nav-links">
+      <a href="#what">Services</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Start a project</a>
+  </div>
+</nav>
+
+<main>
+<section class="hero">
+  <div class="aurora" aria-hidden="true">
+    <span class="a1"></span><span class="a2"></span><span class="a3"></span><span class="a4"></span>
+  </div>
+  <div class="aurora-fade" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="badge"><span class="dot"></span> Accepting two new projects this month</div>
+    <h1>AI assistants and software, built for the people who actually run the business.</h1>
+    <p class="lede">
+      I'm an independent developer in Fort Worth. I design and ship websites, AI assistants, and internal tools for small businesses — built fast, documented clearly, <b>handed off cleanly</b>. No SaaS retainers, no agency overhead.
+    </p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Start a project →</a>
+      <a href="#work" class="btn btn-ghost">See recent work <span class="kbd">W</span></a>
+    </div>
+
+    <div class="hero-mock-wrap">
+      <div class="hero-mock">
+        <div class="mock-bar">
+          <div class="mock-dots"><span></span><span></span><span></span></div>
+          <div class="mock-url">jackalope.assistant <span class="live">· live</span></div>
+          <div style="width:48px"></div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-side">
+            <div class="mock-side-h">Workspaces</div>
+            <div class="mock-side-item active"><div class="ic"></div>Jackalope Welding</div>
+            <div class="mock-side-item"><div class="ic"></div>Chiropractic</div>
+            <div class="mock-side-item"><div class="ic"></div>Legal intake</div>
+            <div class="mock-side-h" style="margin-top:22px">Channels</div>
+            <div class="mock-side-item"><div class="ic"></div>Telegram</div>
+            <div class="mock-side-item"><div class="ic"></div>Voicemail</div>
+            <div class="mock-side-item"><div class="ic"></div>Website chat</div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-title">Jackalope Welding · Live agent</div>
+            <div class="mock-meta"><span class="ok">●</span> connected · telegram + voicemail · 14ms</div>
+            <div class="mock-chat">
+              <div class="mock-msg user">Got a missed call from 817-555-0142 at 6:42pm — who was it?</div>
+              <div class="mock-msg bot">Mike Daugherty, returning customer. Asked about a stainless railing quote for a residential job in Aledo. I told him you'd ping him back by 9 — want me to schedule the callback or send a quote form?</div>
+              <div class="mock-msg user">Send the quote form. Then book Tuesday afternoon for the site visit.</div>
+              <div class="mock-typing"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="section-inner">
+    <div class="section-tag">Services</div>
+    <h2 class="section-h">A small list, <em>on purpose</em>.</h2>
+    <p class="section-sub">Three things I do well. If your problem doesn't fit one of these, I'll tell you — and usually point you to someone who's a better fit.</p>
+
+    <div class="what-grid">
+      <div class="gcard"><div class="gcard-inner what-card">
+        <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Business websites</h3>
+        <p>Custom-built sites on your own domain, with business email set up properly. Fast, accessible, easy to update. Built to be handed off and owned.</p>
+        <div class="meta"><b>Ships in</b> &nbsp; 1–2 weeks</div>
+      </div></div>
+      <div class="gcard"><div class="gcard-inner what-card">
+        <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+        <h3>AI assistants</h3>
+        <p>Agents trained on your business — answering leads, qualifying inquiries, handling voicemail, posting on schedule. Deployed where your customers already are.</p>
+        <div class="meta"><b>Ships in</b> &nbsp; 1–2 weeks</div>
+      </div></div>
+      <div class="gcard"><div class="gcard-inner what-card">
+        <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg></div>
+        <h3>Workflow automation</h3>
+        <p>The repetitive task you do every day that should just happen — invoices, follow-ups, data entry, multi-system lookups. Wired up and documented.</p>
+        <div class="meta"><b>Ships in</b> &nbsp; 5–10 days</div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-inner">
+    <div class="section-tag">Recent work</div>
+    <h2 class="section-h">Real engagements. <em>Real outcomes.</em></h2>
+    <p class="section-sub">A look at what I've shipped — written the way I'd describe it to you over coffee, not the way most portfolios do.</p>
+
+    <div class="work-grid">
+      <div class="gcard"><div class="gcard-inner work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">01</div>
+          <div class="work-card-status">Live · 2026</div>
+        </div>
+        <h4>Jackalope Welding — Agentic SEO &amp; ops</h4>
+        <p>Built an AI agent on Telegram so the owner runs his welding business from the truck. Started as SEO, grew into voicemail handling and ongoing site updates. Backend in build for multi-client monitoring.</p>
+        <div class="tags"><span class="tag">hermes</span><span class="tag">telegram</span><span class="tag">claude api</span><span class="tag">seo</span></div>
+      </div></div>
+      <div class="gcard"><div class="gcard-inner work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">02</div>
+          <div class="work-card-status">Live · 2026</div>
+        </div>
+        <h4>Chiropractic practice — site &amp; analytics</h4>
+        <p>Full redesign focused on local search. Google Analytics wired in so the owner can see exactly where new patients come from. Scoped follow-on AI agent for ongoing content + keywords.</p>
+        <div class="tags"><span class="tag">web</span><span class="tag">seo</span><span class="tag">analytics</span></div>
+      </div></div>
+      <div class="gcard"><div class="gcard-inner work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">03</div>
+          <div class="work-card-status build">In build</div>
+        </div>
+        <h4>Legal AI assistant</h4>
+        <p>Purpose-built agent for legal professionals — intake, document review, scheduling, client comms. Active build. Designed to deploy per-firm rather than as one-size-fits-all SaaS.</p>
+        <div class="tags"><span class="tag">hermes</span><span class="tag">claude api</span><span class="tag">agentic</span></div>
+      </div></div>
+      <div class="gcard"><div class="gcard-inner work-card">
+        <div class="work-card-head">
+          <div class="work-card-num">04</div>
+          <div class="work-card-status">Live · os.mccreery.ai</div>
+        </div>
+        <h4>NateOS Command Center</h4>
+        <p>The dashboard I use to run my own work — tasks, clients, invoices, persistent AI memory. Self-hosted, fully owned. The same architecture I deploy for clients who'd rather own a tool than rent one.</p>
+        <div class="tags"><span class="tag">react</span><span class="tag">flask</span><span class="tag">postgres</span><span class="tag">self-hosted</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer id="contact">
+  <div class="foot-inner">
+    <div class="foot-contact">
+      <div style="color:var(--muted);margin-bottom:4px">Have something in mind?</div>
+      <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a>
+      <a href="tel:9723380903">972-338-0903</a>
+    </div>
+    <div class="foot-meta">
+      <div>© 2026 Nate McCreery · Fort Worth, Texas</div>
+      <div style="margin-top:4px">Built by hand · Hosted on Cloudflare</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
