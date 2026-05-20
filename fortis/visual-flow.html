@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic AI Deployment Topology — Hermes + Telegram + Claude</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 2rem;
+      color: white;
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+    .header { margin-bottom: 2rem; }
+    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .pulse-dot {
+      width: 12px; height: 12px;
+      background: #34d399; border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { color: #94a3b8; font-size: 0.875rem; margin-left: 1.75rem; }
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 1rem;
+      border: 1px solid #1e293b;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+    svg { width: 100%; min-width: 1000px; display: block; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 0.75rem;
+      border: 1px solid #1e293b;
+      padding: 1.25rem;
+    }
+    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-dot.cyan { background: #22d3ee; }
+    .card-dot.emerald { background: #34d399; }
+    .card-dot.amber { background: #fbbf24; }
+    .card-dot.rose { background: #fb7185; }
+    .card-dot.orange { background: #fb923c; }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card ul { list-style: none; color: #94a3b8; font-size: 0.75rem; }
+    .card li { margin-bottom: 0.45rem; line-height: 1.4; }
+    .card li.section-label {
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-top: 0.7rem; margin-bottom: 0.35rem;
+    }
+    .card li.section-label:first-child { margin-top: 0; }
+    .footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+    .footer a { color: #34d399; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>Agentic AI Deployment Topology — Hermes + Telegram + Claude</h1>
+      </div>
+      <p class="subtitle">Physical vs Cloud host comparison</p>
+    </div>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 1200 580">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+          </marker>
+          <marker id="arrowhead-dim" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#475569" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- PHYSICAL HOST region -->
+        <rect x="20" y="80" width="570" height="400" rx="12"
+              fill="rgba(34, 211, 238, 0.04)" stroke="#22d3ee"
+              stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="40" y="108" fill="#22d3ee" font-size="13" font-weight="700">PHYSICAL HOST (Local Mac)</text>
+        <text x="40" y="124" fill="#94a3b8" font-size="9">Self-hosted on personal hardware</text>
+
+        <!-- CLOUD HOST region -->
+        <rect x="610" y="80" width="570" height="400" rx="12"
+              fill="rgba(251, 191, 36, 0.04)" stroke="#fbbf24"
+              stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="630" y="108" fill="#fbbf24" font-size="13" font-weight="700">CLOUD HOST (DigitalOcean)</text>
+        <text x="630" y="124" fill="#94a3b8" font-size="9">VPS droplet, always-on</text>
+
+        <!-- LEFT arrows: forward -->
+        <line x1="135" y1="270" x2="178" y2="270" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="298" y1="270" x2="338" y2="270" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="478" y1="270" x2="518" y2="270" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="156" y="263" fill="#94a3b8" font-size="9" text-anchor="middle">msg</text>
+        <text x="318" y="263" fill="#94a3b8" font-size="9" text-anchor="middle">webhook</text>
+        <text x="498" y="263" fill="#94a3b8" font-size="9" text-anchor="middle">prompt</text>
+
+        <!-- LEFT arrows: response (dashed) -->
+        <path d="M 538 300 Q 538 360 458 360 Q 388 360 388 300" fill="none"
+              stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrowhead-dim)"/>
+        <text x="463" y="376" fill="#64748b" font-size="9" text-anchor="middle">response</text>
+        <path d="M 358 300 Q 358 410 248 410 Q 178 410 178 300" fill="none"
+              stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrowhead-dim)"/>
+        <text x="268" y="425" fill="#64748b" font-size="9" text-anchor="middle">reply</text>
+
+        <!-- RIGHT arrows: forward -->
+        <line x1="725" y1="270" x2="768" y2="270" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="888" y1="270" x2="928" y2="270" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="1068" y1="270" x2="1108" y2="270" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="746" y="263" fill="#94a3b8" font-size="9" text-anchor="middle">msg</text>
+        <text x="908" y="263" fill="#94a3b8" font-size="9" text-anchor="middle">webhook</text>
+        <text x="1088" y="263" fill="#94a3b8" font-size="9" text-anchor="middle">prompt</text>
+
+        <!-- RIGHT arrows: response (dashed) -->
+        <path d="M 1128 300 Q 1128 360 1048 360 Q 978 360 978 300" fill="none"
+              stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrowhead-dim)"/>
+        <text x="1053" y="376" fill="#64748b" font-size="9" text-anchor="middle">response</text>
+        <path d="M 948 300 Q 948 410 838 410 Q 768 410 768 300" fill="none"
+              stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrowhead-dim)"/>
+        <text x="858" y="425" fill="#64748b" font-size="9" text-anchor="middle">reply</text>
+
+        <!-- LEFT components -->
+        <rect x="50" y="240" width="85" height="60" rx="6" fill="#0f172a"/>
+        <rect x="50" y="240" width="85" height="60" rx="6"
+              fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="92.5" y="265" fill="white" font-size="11" font-weight="600" text-anchor="middle">User</text>
+        <text x="92.5" y="282" fill="#94a3b8" font-size="9" text-anchor="middle">Telegram</text>
+        <text x="92.5" y="294" fill="#94a3b8" font-size="9" text-anchor="middle">client</text>
+
+        <rect x="180" y="240" width="118" height="60" rx="6" fill="#0f172a"/>
+        <rect x="180" y="240" width="118" height="60" rx="6"
+              fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="239" y="265" fill="white" font-size="11" font-weight="600" text-anchor="middle">Telegram</text>
+        <text x="239" y="282" fill="#94a3b8" font-size="9" text-anchor="middle">Bot API</text>
+        <text x="239" y="294" fill="#fb923c" font-size="8" text-anchor="middle">message bus</text>
+
+        <rect x="340" y="225" width="138" height="92" rx="6" fill="#0f172a"/>
+        <rect x="340" y="225" width="138" height="92" rx="6"
+              fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="409" y="247" fill="white" font-size="11" font-weight="600" text-anchor="middle">Hermes Agent</text>
+        <text x="409" y="266" fill="#94a3b8" font-size="9" text-anchor="middle">on MacBook</text>
+        <text x="409" y="279" fill="#94a3b8" font-size="9" text-anchor="middle">(M-series)</text>
+        <text x="409" y="298" fill="#34d399" font-size="8" text-anchor="middle">tools • skills • MCP</text>
+        <text x="409" y="310" fill="#94a3b8" font-size="8" text-anchor="middle">macOS daemon</text>
+
+        <rect x="520" y="240" width="60" height="60" rx="6" fill="#0f172a"/>
+        <rect x="520" y="240" width="60" height="60" rx="6"
+              fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="550" y="265" fill="white" font-size="11" font-weight="600" text-anchor="middle">Claude</text>
+        <text x="550" y="280" fill="#94a3b8" font-size="9" text-anchor="middle">API</text>
+        <text x="550" y="294" fill="#34d399" font-size="8" text-anchor="middle">LLM</text>
+
+        <text x="305" y="455" fill="#22d3ee" font-size="9" text-anchor="middle" font-weight="600">Runs while laptop is on • no monthly hosting fee</text>
+
+        <!-- RIGHT components -->
+        <rect x="640" y="240" width="85" height="60" rx="6" fill="#0f172a"/>
+        <rect x="640" y="240" width="85" height="60" rx="6"
+              fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="682.5" y="265" fill="white" font-size="11" font-weight="600" text-anchor="middle">User</text>
+        <text x="682.5" y="282" fill="#94a3b8" font-size="9" text-anchor="middle">Telegram</text>
+        <text x="682.5" y="294" fill="#94a3b8" font-size="9" text-anchor="middle">client</text>
+
+        <rect x="770" y="240" width="118" height="60" rx="6" fill="#0f172a"/>
+        <rect x="770" y="240" width="118" height="60" rx="6"
+              fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="829" y="265" fill="white" font-size="11" font-weight="600" text-anchor="middle">Telegram</text>
+        <text x="829" y="282" fill="#94a3b8" font-size="9" text-anchor="middle">Bot API</text>
+        <text x="829" y="294" fill="#fb923c" font-size="8" text-anchor="middle">message bus</text>
+
+        <rect x="930" y="225" width="138" height="92" rx="6" fill="#0f172a"/>
+        <rect x="930" y="225" width="138" height="92" rx="6"
+              fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="999" y="247" fill="white" font-size="11" font-weight="600" text-anchor="middle">Hermes Agent</text>
+        <text x="999" y="266" fill="#94a3b8" font-size="9" text-anchor="middle">on DO Droplet</text>
+        <text x="999" y="279" fill="#94a3b8" font-size="9" text-anchor="middle">($6–12 / mo)</text>
+        <text x="999" y="298" fill="#34d399" font-size="8" text-anchor="middle">tools • skills • MCP</text>
+        <text x="999" y="310" fill="#94a3b8" font-size="8" text-anchor="middle">systemd service</text>
+
+        <rect x="1110" y="240" width="60" height="60" rx="6" fill="#0f172a"/>
+        <rect x="1110" y="240" width="60" height="60" rx="6"
+              fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="1140" y="265" fill="white" font-size="11" font-weight="600" text-anchor="middle">Claude</text>
+        <text x="1140" y="280" fill="#94a3b8" font-size="9" text-anchor="middle">API</text>
+        <text x="1140" y="294" fill="#34d399" font-size="8" text-anchor="middle">LLM</text>
+
+        <text x="895" y="455" fill="#fbbf24" font-size="9" text-anchor="middle" font-weight="600">Always-on • accessible from anywhere</text>
+
+        <!-- LEGEND (below both regions) -->
+        <text x="20" y="520" fill="white" font-size="10" font-weight="600">Legend</text>
+
+        <rect x="80" y="510" width="16" height="10" rx="2"
+              fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1"/>
+        <text x="102" y="519" fill="#94a3b8" font-size="9">External</text>
+
+        <rect x="180" y="510" width="16" height="10" rx="2"
+              fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1"/>
+        <text x="202" y="519" fill="#94a3b8" font-size="9">Message Bus</text>
+
+        <rect x="305" y="510" width="16" height="10" rx="2"
+              fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1"/>
+        <text x="327" y="519" fill="#94a3b8" font-size="9">Backend / LLM</text>
+
+        <rect x="440" y="510" width="16" height="10" rx="2" fill="transparent"
+              stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="462" y="519" fill="#94a3b8" font-size="9">Physical region</text>
+
+        <rect x="580" y="510" width="16" height="10" rx="2" fill="transparent"
+              stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="602" y="519" fill="#94a3b8" font-size="9">Cloud region</text>
+
+        <line x1="720" y1="515" x2="745" y2="515" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="752" y="519" fill="#94a3b8" font-size="9">Request</text>
+
+        <line x1="830" y1="515" x2="855" y2="515" stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrowhead-dim)"/>
+        <text x="862" y="519" fill="#94a3b8" font-size="9">Response</text>
+      </svg>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot cyan"></div>
+          <h3>Physical Host — Pros / Cons</h3>
+        </div>
+        <ul>
+          <li class="section-label" style="color:#34d399;">Pros</li>
+          <li>• No monthly server cost</li>
+          <li>• Fast local processing</li>
+          <li>• Full control over the box</li>
+          <li>• Access to local files &amp; apps</li>
+          <li class="section-label" style="color:#fb7185;">Cons</li>
+          <li>• Depends on the machine staying on</li>
+          <li>• Single point of failure</li>
+          <li>• Unreachable if home internet drops</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot amber"></div>
+          <h3>Cloud Host — Pros / Cons</h3>
+        </div>
+        <ul>
+          <li class="section-label" style="color:#34d399;">Pros</li>
+          <li>• Always on, 24/7</li>
+          <li>• Accessible from anywhere</li>
+          <li>• Scales vertically &amp; horizontally</li>
+          <li>• Redundant infrastructure</li>
+          <li class="section-label" style="color:#fb7185;">Cons</li>
+          <li>• $6–24 / mo hosting</li>
+          <li>• API costs climb with usage</li>
+          <li>• Requires server management</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot emerald"></div>
+          <h3>When to Choose Which</h3>
+        </div>
+        <ul>
+          <li class="section-label" style="color:#22d3ee;">Choose Physical</li>
+          <li>• Personal use</li>
+          <li>• Development &amp; prototyping</li>
+          <li>• Low-stakes automation</li>
+          <li>• Cost-sensitive experiments</li>
+          <li class="section-label" style="color:#fbbf24;">Choose Cloud</li>
+          <li>• Client-facing agents</li>
+          <li>• Always-on production workloads</li>
+          <li>• Multi-user / team access</li>
+          <li>• SLA-bound deployments</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer">
+      Nathan McCreery — <a href="https://mccreery.ai">mccreery.ai</a>
+    </p>
+  </div>
+</body>
+</html>

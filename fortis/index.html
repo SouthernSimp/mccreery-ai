@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fortis Proposal — Companion materials · Nate McCreery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  body{background:#0c0f14;color:#e6ebf2;font-family:'Inter',sans-serif;margin:0;padding:64px 28px;min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto}
+  .crumb{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a96a8;margin-bottom:24px}
+  .crumb a{color:#8b9eff;text-decoration:none}
+  h1{font-weight:600;font-size:38px;letter-spacing:-.02em;margin-bottom:14px;max-width:24ch}
+  .lede{font-size:17px;color:#8a96a8;max-width:62ch;line-height:1.65;margin-bottom:48px}
+  .lede b{color:#e6ebf2;font-weight:500}
+  .cards{display:grid;grid-template-columns:1fr;gap:16px}
+  .card{background:#131820;border:1px solid #1f2937;border-radius:10px;padding:24px 26px;text-decoration:none;color:inherit;display:flex;gap:22px;align-items:flex-start;transition:border-color .2s,transform .2s,background .2s}
+  .card:hover{border-color:#2d3a4e;transform:translateY(-2px);background:#1a2230}
+  .card .num{font-family:'JetBrains Mono',monospace;font-size:13px;color:#8b9eff;background:rgba(139,158,255,.1);padding:6px 11px;border-radius:6px;flex-shrink:0;letter-spacing:.04em}
+  .card h2{font-size:19px;font-weight:600;margin-bottom:6px;letter-spacing:-.01em}
+  .card p{font-size:14.5px;color:#8a96a8;line-height:1.65}
+  .card .arrow{margin-left:auto;color:#566578;font-size:18px;align-self:center;flex-shrink:0;transition:color .2s,transform .2s}
+  .card:hover .arrow{color:#8b9eff;transform:translateX(3px)}
+  .note{margin-top:48px;padding:22px 24px;background:#131820;border:1px solid #1f2937;border-radius:10px;font-size:14px;color:#8a96a8;line-height:1.7}
+  .note b{color:#e6ebf2}
+  .meta{margin-top:32px;display:flex;gap:18px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#566578;text-transform:uppercase;letter-spacing:.12em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumb"><a href="/">← mccreery.ai</a></div>
+  <h1>Companion materials for the Fortis proposal</h1>
+  <p class="lede">
+    Andy asked for a visual flow diagram and a mockup of the 4-website MID automation workflow. Both are linked below. Built before this meeting so you can <b>see the work, not just read about it.</b>
+  </p>
+
+  <div class="cards">
+    <a class="card" href="/fortis/mid-automation.html">
+      <div class="num">01</div>
+      <div>
+        <h2>4-Website MID Automation — Live walkthrough</h2>
+        <p>An interactive click-through of the exact MID workflow. Pick a Case ID, press <b style="color:#e6ebf2">Run agent</b>, watch the agent navigate Case → MID Lookup → Wiki → ASF, detect Wiki/ASF conflicts (ASF wins), and apply actions. Three scenarios: clean run, conflict, manual-review.</p>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="/fortis/visual-flow.html">
+      <div class="num">02</div>
+      <div>
+        <h2>Visual Flow — Physical vs Cloud deployment</h2>
+        <p>Diagram of the two deployment topologies referenced in the proposal: Hermes running on a local Mac vs. on a DigitalOcean droplet. Same Telegram → Hermes → Claude API loop, different hosting trade-offs.</p>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>For Sharat:</b> Everything above mirrors the structure of the proposal document Andy is presenting. The MID walkthrough is the visual companion to the "Problem Example" section. The visual flow corresponds to the "Physical Host vs Cloud Host" section. If you want to see the actual Python source for the working prototype, ask Andy — happy to walk through it live or share the repo.
+  </div>
+
+  <div class="meta">
+    <div>Nate McCreery</div>
+    <div>nate@mccreery.ai</div>
+    <div>972 · 338 · 0903</div>
+    <div>Fort Worth, TX</div>
+  </div>
+</div>
+</body>
+</html>

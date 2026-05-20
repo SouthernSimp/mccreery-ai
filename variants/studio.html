@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nate McCreery — Independent studio, Fort Worth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..600,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#131c17;            /* deep forest */
+    --bg-2:#19241d;
+    --bg-3:#1f2c24;
+    --rule:#2a3a30;           /* mossy divider */
+    --rule-2:#3a4d41;
+    --cream:#f4ede0;          /* parchment */
+    --cream-dim:#d8cfbe;
+    --muted:#a8a597;
+    --quiet:#7d8579;
+    --terra:#d97757;          /* sparing accent */
+    --sans:'Inter',-apple-system,system-ui,sans-serif;
+    --serif:'Fraunces',ui-serif,Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    /* subtle paper grain */
+    background-image:
+      radial-gradient(rgba(244,237,224,0.012) 1px, transparent 1px),
+      radial-gradient(rgba(244,237,224,0.008) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--terra);color:var(--bg)}
+
+  /* small caps utility */
+  .sc{
+    font-family:var(--sans);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    font-weight:500;
+    color:var(--cream-dim);
+  }
+  .quiet{color:var(--muted)}
+  /* hand-drawn underline using inline SVG bg */
+  .scribble{
+    position:relative;
+    display:inline-block;
+    padding:0 .08em;
+  }
+  .scribble::after{
+    content:'';
+    position:absolute;
+    left:-2%;right:-2%;
+    bottom:-.18em;
+    height:.42em;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'><path d='M2 7 C 30 2, 60 11, 90 5 S 150 10, 198 4' fill='none' stroke='%23d97757' stroke-width='1.6' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    pointer-events:none;
+  }
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(19,28,23,.82);
+    backdrop-filter:blur(10px) saturate(120%);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-inner{
+    max-width:1180px;margin:0 auto;
+    padding:18px 36px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:19px;
+    letter-spacing:-.005em;
+    font-variation-settings:"SOFT" 50, "opsz" 14;
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .brand .amp{color:var(--terra);font-style:italic;font-weight:400}
+  .brand .loc{
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--quiet);
+    font-weight:500;
+  }
+  .nav-links{display:flex;gap:34px}
+  .nav-links a{
+    font-size:13px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-weight:500;
+    color:var(--cream-dim);
+    transition:color .2s;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--cream)}
+  .nav-cta{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:15px;
+    color:var(--cream);
+    border-bottom:1px solid var(--rule-2);
+    padding-bottom:2px;
+    transition:border-color .2s;
+  }
+  .nav-cta:hover{border-color:var(--terra)}
+  @media (max-width:760px){.nav-links{display:none}.brand .loc{display:none}}
+
+  /* HERO */
+  .hero{
+    padding:180px 36px 110px;
+    border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto}
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:80px;
+    align-items:start;
+  }
+  @media (max-width:920px){.hero-grid{grid-template-columns:1fr;gap:60px}}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:36px;
+    font-family:var(--sans);
+    font-size:11.5px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+    font-weight:500;
+  }
+  .eyebrow .rule{width:36px;height:1px;background:var(--rule-2)}
+  .eyebrow .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--terra);
+    box-shadow:0 0 0 4px rgba(217,119,87,.12);
+  }
+
+  h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-variation-settings:"opsz" 144, "SOFT" 30;
+    font-size:clamp(44px,5.6vw,76px);
+    line-height:1.02;
+    letter-spacing:-.022em;
+    color:var(--cream);
+    margin-bottom:34px;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--cream);
+  }
+  h1 .figure{
+    font-feature-settings:"lnum","tnum";
+  }
+
+  .lede{
+    font-size:17.5px;
+    line-height:1.7;
+    color:var(--cream-dim);
+    max-width:46ch;
+    margin-bottom:42px;
+    font-weight:400;
+  }
+  .lede b{color:var(--cream);font-weight:500}
+
+  .cta-row{
+    display:flex;gap:36px;align-items:center;flex-wrap:wrap;
+  }
+  .btn-primary{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:18px;
+    color:var(--cream);
+    border-bottom:1px solid var(--cream);
+    padding-bottom:4px;
+    transition:color .2s,border-color .2s;
+  }
+  .btn-primary:hover{color:var(--terra);border-color:var(--terra)}
+  .btn-ghost{
+    font-family:var(--sans);
+    font-size:12.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-weight:500;
+    color:var(--muted);
+    transition:color .2s;
+  }
+  .btn-ghost:hover{color:var(--cream)}
+  .btn-ghost::before{content:'↓ ';color:var(--quiet)}
+
+  /* HERO MOCKUP — framed transcript card */
+  .frame{
+    position:relative;
+    padding:14px;
+    background:
+      linear-gradient(180deg, #22302a 0%, #1c2922 100%);
+    border:1px solid var(--rule-2);
+    border-radius:3px;
+    box-shadow:
+      0 1px 0 rgba(244,237,224,.04) inset,
+      0 30px 60px -30px rgba(0,0,0,.6),
+      0 0 0 1px rgba(0,0,0,.2);
+  }
+  .frame::before{
+    content:'';
+    position:absolute;inset:6px;
+    border:1px solid var(--rule);
+    border-radius:2px;
+    pointer-events:none;
+  }
+  .card{
+    background:var(--cream);
+    color:#2a2620;
+    padding:38px 36px 34px;
+    font-family:var(--serif);
+    position:relative;
+    border-radius:1px;
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid #d3c8b3;
+    margin-bottom:24px;
+  }
+  .card-head .label{
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:#7a6f5b;
+    font-weight:500;
+  }
+  .card-head .num{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:13px;
+    color:#8a7e68;
+    font-feature-settings:"onum","pnum";
+  }
+  .card-title{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:22px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    color:#1f1c16;
+    margin-bottom:6px;
+  }
+  .card-sub{
+    font-family:var(--sans);
+    font-size:12px;
+    color:#7a6f5b;
+    letter-spacing:.04em;
+    margin-bottom:24px;
+  }
+  .card-sub b{color:#3d362a;font-weight:500}
+
+  .transcript{
+    font-family:var(--serif);
+    font-size:15px;
+    line-height:1.55;
+    color:#2a2620;
+  }
+  .turn{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    gap:18px;
+    padding:10px 0;
+  }
+  .turn + .turn{border-top:1px dashed #d8ccb4}
+  .turn .who{
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:#9a8f78;
+    padding-top:4px;
+    font-weight:500;
+  }
+  .turn .who.agent{color:var(--terra)}
+  .turn p{font-family:var(--serif);font-weight:400}
+  .turn p em{font-style:italic;color:#5a503e}
+
+  .card-foot{
+    margin-top:22px;padding-top:18px;
+    border-top:1px solid #d3c8b3;
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:#9a8f78;
+    font-weight:500;
+  }
+  .card-foot .mono{
+    font-family:var(--mono);
+    letter-spacing:.05em;
+    text-transform:none;
+    font-size:10.5px;
+  }
+  .frame-caption{
+    margin-top:20px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:14px;
+    color:var(--muted);
+    text-align:center;
+    letter-spacing:.01em;
+  }
+  .frame-caption .fig{
+    font-family:var(--sans);
+    font-style:normal;
+    font-size:10px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--quiet);
+    margin-right:10px;
+    font-weight:500;
+  }
+
+  /* SECTIONS */
+  section{
+    padding:140px 36px;
+    border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  .section-inner{max-width:1180px;margin:0 auto}
+
+  .sec-head{
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap:60px;
+    margin-bottom:84px;
+    align-items:start;
+  }
+  @media (max-width:760px){.sec-head{grid-template-columns:1fr;gap:24px;margin-bottom:60px}}
+
+  .sec-meta{
+    border-top:1px solid var(--rule-2);
+    padding-top:14px;
+  }
+  .sec-meta .n{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:14px;
+    color:var(--terra);
+    font-feature-settings:"onum";
+    margin-bottom:6px;
+    display:block;
+  }
+  .sec-meta .l{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+    font-weight:500;
+  }
+  .sec-title{
+    font-family:var(--serif);
+    font-weight:400;
+    font-variation-settings:"opsz" 144,"SOFT" 30;
+    font-size:clamp(34px,4.2vw,52px);
+    line-height:1.08;
+    letter-spacing:-.018em;
+    color:var(--cream);
+    max-width:18ch;
+    margin-bottom:24px;
+  }
+  .sec-title em{font-style:italic}
+  .sec-sub{
+    font-size:16.5px;
+    line-height:1.7;
+    color:var(--cream-dim);
+    max-width:54ch;
+  }
+
+  /* SERVICES */
+  .services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    border-top:1px solid var(--rule);
+  }
+  @media (max-width:820px){.services{grid-template-columns:1fr}}
+  .svc{
+    padding:48px 40px 44px;
+    border-right:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  .services .svc:last-child{border-right:none}
+  @media (max-width:820px){.svc{border-right:none}}
+  .svc .roman{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:14px;
+    color:var(--muted);
+    margin-bottom:30px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .svc .roman::after{
+    content:'';flex:1;height:1px;background:var(--rule);
+  }
+  .svc h3{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:26px;
+    line-height:1.15;
+    letter-spacing:-.01em;
+    color:var(--cream);
+    margin-bottom:16px;
+  }
+  .svc p{
+    font-size:15px;
+    line-height:1.65;
+    color:var(--cream-dim);
+    margin-bottom:30px;
+  }
+  .svc .ships{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding-top:18px;
+    border-top:1px solid var(--rule);
+  }
+  .svc .ships .k{
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--quiet);
+    font-weight:500;
+  }
+  .svc .ships .v{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:16px;
+    color:var(--cream);
+    font-feature-settings:"onum";
+  }
+
+  /* WORK — editorial list */
+  .work-list{border-top:1px solid var(--rule)}
+  .work-row{
+    display:grid;
+    grid-template-columns: 60px 1fr 220px 140px;
+    gap:40px;
+    padding:38px 8px;
+    border-bottom:1px solid var(--rule);
+    align-items:baseline;
+    transition:background .25s;
+    cursor:default;
+  }
+  .work-row:hover{background:rgba(244,237,224,.025)}
+  .work-row:hover .w-title{color:var(--terra)}
+  @media (max-width:820px){
+    .work-row{grid-template-columns:1fr;gap:14px}
+  }
+  .w-num{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:18px;
+    color:var(--muted);
+    font-feature-settings:"onum";
+  }
+  .w-title{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:24px;
+    line-height:1.2;
+    letter-spacing:-.012em;
+    color:var(--cream);
+    margin-bottom:6px;
+    transition:color .25s;
+  }
+  .w-desc{
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--cream-dim);
+    max-width:62ch;
+  }
+  .w-tags{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--quiet);
+    font-weight:500;
+    line-height:1.9;
+  }
+  .w-tags span + span::before{content:' · ';color:var(--rule-2)}
+  .w-stat{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:14px;
+    color:var(--cream-dim);
+    font-feature-settings:"onum";
+    text-align:right;
+  }
+  .w-stat.build{color:var(--terra)}
+
+  /* PROCESS */
+  .process{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    border-top:1px solid var(--rule);
+  }
+  @media (max-width:820px){.process{grid-template-columns:1fr 1fr}}
+  @media (max-width:480px){.process{grid-template-columns:1fr}}
+  .step{
+    padding:40px 32px 44px;
+    border-right:1px solid var(--rule);
+    position:relative;
+  }
+  .process .step:last-child{border-right:none}
+  .step .day{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:13px;
+    color:var(--terra);
+    letter-spacing:.02em;
+    margin-bottom:20px;
+    font-feature-settings:"onum";
+    display:block;
+  }
+  .step h4{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:22px;
+    line-height:1.2;
+    letter-spacing:-.01em;
+    color:var(--cream);
+    margin-bottom:14px;
+  }
+  .step p{
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--cream-dim);
+  }
+
+  /* override: only one terracotta day */
+  .step:not(:first-child) .day{color:var(--muted)}
+
+  /* CONTACT */
+  .contact-block{
+    padding:120px 0 20px;
+    text-align:left;
+    max-width:920px;
+  }
+  .contact-block h3{
+    font-family:var(--serif);
+    font-weight:400;
+    font-variation-settings:"opsz" 144;
+    font-size:clamp(40px,5vw,64px);
+    line-height:1.05;
+    letter-spacing:-.02em;
+    color:var(--cream);
+    margin-bottom:36px;
+  }
+  .contact-block h3 em{font-style:italic}
+  .contact-block p{
+    font-size:18px;
+    line-height:1.65;
+    color:var(--cream-dim);
+    max-width:48ch;
+    margin-bottom:48px;
+  }
+  .contact-actions{
+    display:flex;flex-direction:column;gap:18px;
+    border-top:1px solid var(--rule);
+    padding-top:36px;
+  }
+  .contact-row{
+    display:grid;
+    grid-template-columns: 140px 1fr;
+    gap:24px;
+    align-items:baseline;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--rule);
+  }
+  .contact-row .k{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--quiet);
+    font-weight:500;
+  }
+  .contact-row .v{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:22px;
+    color:var(--cream);
+    letter-spacing:-.005em;
+  }
+  .contact-row .v:hover{color:var(--terra)}
+
+  /* FOOTER */
+  footer{
+    padding:48px 36px 56px;
+    color:var(--quiet);
+    font-size:12.5px;
+  }
+  .foot-inner{
+    max-width:1180px;margin:0 auto;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+    font-family:var(--sans);
+    letter-spacing:.04em;
+  }
+  .foot-inner .colophon{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:13px;
+    color:var(--muted);
+    letter-spacing:0;
+  }
+
+  /* marginalia — running side note */
+  .side-note{
+    position:absolute;
+    left:36px;
+    top:160px;
+    width:140px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:12.5px;
+    line-height:1.5;
+    color:var(--quiet);
+    transform:rotate(-90deg) translateX(-100%);
+    transform-origin:left top;
+    white-space:nowrap;
+  }
+  @media (max-width:1280px){.side-note{display:none}}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="brand">
+      Nate McCreery
+      <span class="loc">Fort Worth · est. 2024</span>
+    </a>
+    <div class="nav-links">
+      <a href="#what">Practice</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#cta">Contact</a>
+    </div>
+    <a href="#cta" class="nav-cta">Begin a project</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      <span>Independent practice</span>
+      <span class="rule"></span>
+      <span>Accepting two projects · winter ’26</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1>
+          Quietly made <em>software</em><br/>
+          &amp; <span class="scribble">A.I.</span> assistants,<br/>
+          for the people who<br/>
+          actually run the work.
+        </h1>
+        <p class="lede">
+          An independent studio in Fort Worth. I design and build websites, AI assistants, and internal tools for small businesses — <b>shipped quickly, documented plainly, handed off cleanly.</b> No retainers, no agency overhead. One pair of hands, start to finish.
+        </p>
+        <div class="cta-row">
+          <a href="#cta" class="btn-primary">Begin a conversation →</a>
+          <a href="#work" class="btn-ghost">See recent work</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="frame">
+          <div class="card">
+            <div class="card-head">
+              <div class="label">Live transcript</div>
+              <div class="num">№ 0142 · vi.xi.mmxxvi</div>
+            </div>
+            <div class="card-title">Jackalope Welding — agent on duty</div>
+            <div class="card-sub">channel · <b>telegram + voicemail</b> &nbsp;·&nbsp; latency · <b>14ms</b></div>
+
+            <div class="transcript">
+              <div class="turn">
+                <div class="who">Owner</div>
+                <p>Got a missed call from 817-555-0142 at 6:42pm — <em>who was it?</em></p>
+              </div>
+              <div class="turn">
+                <div class="who agent">Agent</div>
+                <p>Mike Daugherty, returning customer. Asked about a stainless railing quote for a residential job in Aledo. I told him you'd ring back by nine — shall I send the quote form or schedule the callback?</p>
+              </div>
+              <div class="turn">
+                <div class="who">Owner</div>
+                <p>Send the quote form. Then book Tuesday afternoon for the site visit.</p>
+              </div>
+              <div class="turn">
+                <div class="who agent">Agent</div>
+                <p><em>Quote form dispatched. Site visit pencilled Tue 17 Nov, 2:00 pm. I'll confirm with Mike now.</em></p>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span>jackalope.assistant</span>
+              <span class="mono">↳ session 0142</span>
+            </div>
+          </div>
+        </div>
+        <div class="frame-caption"><span class="fig">Fig. i</span>An evening in November. The shop is closed; the work is not.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="section-inner">
+    <div class="sec-head">
+      <div class="sec-meta">
+        <span class="n">i.</span>
+        <span class="l">Practice</span>
+      </div>
+      <div>
+        <h2 class="sec-title">A short list of things, <em>done carefully.</em></h2>
+        <p class="sec-sub">Three disciplines. If your problem doesn't sit comfortably inside one of them, I'll tell you so — and usually point you toward someone better suited.</p>
+      </div>
+    </div>
+
+    <div class="services">
+      <div class="svc">
+        <div class="roman">I.</div>
+        <h3>Business websites</h3>
+        <p>Custom-built sites on your own domain, with business email configured properly. Fast, accessible, easy to update. Built to be owned, not rented.</p>
+        <div class="ships">
+          <span class="k">Ships in</span>
+          <span class="v">one to two weeks</span>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="roman">II.</div>
+        <h3>AI assistants</h3>
+        <p>Agents trained on your business — answering leads, qualifying inquiries, handling voicemail, posting on schedule. Deployed wherever your customers already are.</p>
+        <div class="ships">
+          <span class="k">Ships in</span>
+          <span class="v">one to two weeks</span>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="roman">III.</div>
+        <h3>Workflow automation</h3>
+        <p>The repetitive task you do every day that ought to just happen — invoices, follow-ups, data entry, lookups across systems. Wired up and documented.</p>
+        <div class="ships">
+          <span class="k">Ships in</span>
+          <span class="v">five to ten days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-inner">
+    <div class="sec-head">
+      <div class="sec-meta">
+        <span class="n">ii.</span>
+        <span class="l">Recent work</span>
+      </div>
+      <div>
+        <h2 class="sec-title">Real engagements, <em>real outcomes.</em></h2>
+        <p class="sec-sub">A look at what I've shipped — written the way I'd describe it to you across a table, not the way most portfolios do.</p>
+      </div>
+    </div>
+
+    <div class="work-list">
+      <div class="work-row">
+        <div class="w-num">01.</div>
+        <div>
+          <div class="w-title">Jackalope Welding — Agentic SEO &amp; operations</div>
+          <div class="w-desc">Built an AI agent on Telegram so the owner can run his welding business from the truck. Began as SEO, grew into voicemail handling and ongoing site updates. Backend in build for multi-client monitoring.</div>
+        </div>
+        <div class="w-tags">
+          <span>Hermes</span><span>Telegram</span><span>Claude</span><span>SEO</span>
+        </div>
+        <div class="w-stat">Live · MMXXVI</div>
+      </div>
+
+      <div class="work-row">
+        <div class="w-num">02.</div>
+        <div>
+          <div class="w-title">Chiropractic practice — site &amp; analytics</div>
+          <div class="w-desc">Full redesign focused on local search. Analytics wired so the owner sees exactly where new patients come from. Scoped follow-on AI agent for ongoing content &amp; keyword work.</div>
+        </div>
+        <div class="w-tags">
+          <span>Web</span><span>SEO</span><span>Analytics</span>
+        </div>
+        <div class="w-stat">Live · MMXXVI</div>
+      </div>
+
+      <div class="work-row">
+        <div class="w-num">03.</div>
+        <div>
+          <div class="w-title">Legal AI assistant</div>
+          <div class="w-desc">A purpose-built agent for legal professionals — intake, document review, scheduling, client communication. Active build. Designed to deploy per firm, not as one-size-fits-all SaaS.</div>
+        </div>
+        <div class="w-tags">
+          <span>Hermes</span><span>Claude</span><span>Agentic</span>
+        </div>
+        <div class="w-stat build"><em>In build</em></div>
+      </div>
+
+      <div class="work-row">
+        <div class="w-num">04.</div>
+        <div>
+          <div class="w-title">NateOS — Command Center</div>
+          <div class="w-desc">The dashboard I use to run my own work: tasks, clients, invoices, persistent AI memory. Self-hosted, fully owned. The same architecture I deploy for clients who'd rather own a tool than rent one.</div>
+        </div>
+        <div class="w-tags">
+          <span>React</span><span>Flask</span><span>Postgres</span><span>Self-hosted</span>
+        </div>
+        <div class="w-stat">os.mccreery.ai</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="section-inner">
+    <div class="sec-head">
+      <div class="sec-meta">
+        <span class="n">iii.</span>
+        <span class="l">Process</span>
+      </div>
+      <div>
+        <h2 class="sec-title">Short, written down, <em>predictable.</em></h2>
+        <p class="sec-sub">No long sales cycle. A conversation, a one-page scope, a build, a clean handoff.</p>
+      </div>
+    </div>
+
+    <div class="process">
+      <div class="step">
+        <span class="day">Day i.</span>
+        <h4>Conversation</h4>
+        <p>Thirty minutes. I learn what you're trying to do and tell you honestly what I can help with.</p>
+      </div>
+      <div class="step">
+        <span class="day">Day ii.</span>
+        <h4>One-page scope</h4>
+        <p>What gets built, what doesn't, how long it takes, what it costs. Written plainly.</p>
+      </div>
+      <div class="step">
+        <span class="day">Days iii–xiv.</span>
+        <h4>Build</h4>
+        <p>I build. You see progress as it happens. Questions answered within hours.</p>
+      </div>
+      <div class="step">
+        <span class="day">Ship.</span>
+        <h4>Handoff</h4>
+        <p>Live URL, source code, documentation, thirty days of support. Then it is yours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="section-inner">
+    <div class="contact-block">
+      <h3>Have something <em>worth building?</em></h3>
+      <p>Write a sentence or two about what your business does and what's slowing you down. I respond the same day, usually within an hour.</p>
+
+      <div class="contact-actions">
+        <a href="mailto:nate@mccreery.ai" class="contact-row">
+          <span class="k">Correspondence</span>
+          <span class="v">nate@mccreery.ai &nbsp;→</span>
+        </a>
+        <a href="tel:9723380903" class="contact-row">
+          <span class="k">By telephone</span>
+          <span class="v">(972) 338 · 0903</span>
+        </a>
+        <div class="contact-row">
+          <span class="k">In person</span>
+          <span class="v" style="color:var(--cream-dim)">Fort Worth, Texas &nbsp;·&nbsp; coffee, on me</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>© MMXXVI &nbsp; Nate McCreery &nbsp;·&nbsp; Fort Worth, Texas</div>
+    <div class="colophon">Set in Fraunces &amp; Inter. Built by hand, hosted on Cloudflare.</div>
+  </div>
+</footer>
+
+</body>
+</html>
