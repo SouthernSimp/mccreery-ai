@@ -76,6 +76,31 @@ body{background:#0a0f1a;color:#e6ebf2;font-family:-apple-system,BlinkMacSystemFo
 
 .bottom{grid-column:1/-1;background:#0f1623;border-top:1px solid #1e2940;padding:8px 20px;font-size:11px;color:#5b6776;text-align:center}
 
+/* ── Mobile layout ─────────────────────────── */
+@media(max-width:760px){
+  body{overflow:auto}
+  .app{display:flex;flex-direction:column;height:auto;min-height:100vh}
+  .top{gap:8px;padding:10px 12px;flex-wrap:wrap}
+  .top .logo{font-size:12px;width:100%;margin-bottom:4px}
+  .step-group{display:none} /* hide step labels, save space */
+  .scenarios{gap:6px}
+  .scenario{padding:6px 10px;font-size:12px}
+  .play{margin-left:0 !important;width:100%;gap:6px}
+  .play .speed{display:none}
+  .play .resetBtn{padding:8px 10px;font-size:12px}
+  .play .runBtn{flex:1;justify-content:center;padding:10px 14px;font-size:14px}
+  .stage{height:55vmax;min-height:280px;padding:8px 8px 0}
+  .panel{height:200px;border-left:none;border-top:1px solid #1e2940}
+  .panel h2{padding:10px 14px}
+  .log{padding:10px 14px}
+  .timing{padding:8px 14px}
+  .bottom{display:none}
+  .idle-cta{width:90%;padding:20px 18px}
+  .idle-cta h3{font-size:15px}
+  .site-card{padding:16px}
+  .site-nav{margin:-16px -16px 14px;padding:9px 14px;font-size:12px}
+}
+
 /* Compact inline site styles */
 .site-card{background:#fff;border:1px solid #e4e6ea;border-radius:8px;padding:22px;max-width:760px;margin:0 auto}
 .site-nav{margin:-24px -24px 18px;padding:11px 20px;color:#fff;font-weight:700;font-size:13px;letter-spacing:.3px;display:flex;align-items:center;gap:12px}
