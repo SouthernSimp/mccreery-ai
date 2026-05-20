@@ -1,707 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nate McCreery — AI systems for small business</title>
-<meta name="description" content="I build websites and AI systems for small businesses. Two-week ship. Fixed scope. You own everything." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nate McCreery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0a0a0a; --bg-2:#111; --bg-3:#161616;
-    --line:#1f1f1f; --line-2:#2a2a2a;
-    --fg:#e9e9e9; --muted:#888; --dim:#555;
-    --accent:#E8A020; --accent-soft:rgba(232,160,32,.12);
-    --good:#36D399;
-    --sans:'Inter',system-ui,sans-serif;
-    --serif:'Fraunces',Georgia,serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#181818;--ink:#ece8e1;--mute:#8d8780;--rule:#2a2a2a;--accent:#e8c79a}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
   a{color:inherit;text-decoration:none}
-  ::selection{background:var(--accent);color:#000}
+  serif,h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400}
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-  .brand{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.02em}
-  .brand .dot{color:var(--accent)}
-  .nav-links{display:flex;gap:28px;font-size:13px;color:var(--muted)}
-  .nav-links a{transition:color .15s}
-  .nav-links a:hover{color:var(--fg)}
-  .nav-cta{font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);padding:8px 14px;border-radius:2px;transition:border-color .15s,color .15s}
-  .nav-cta:hover{border-color:var(--accent);color:var(--accent)}
-  @media (max-width:640px){.nav-links{display:none}}
+  nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 40px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;z-index:10;mix-blend-mode:difference;color:#fff}
+  nav .brand{font-family:'Fraunces',serif;text-transform:none;letter-spacing:-0.01em;font-size:16px;font-weight:500}
 
-  /* HERO */
-  .hero{min-height:90vh;display:flex;align-items:center;padding:120px 24px 80px;border-bottom:1px solid var(--line);position:relative}
-  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(800px 400px at 80% 30%,rgba(232,160,32,.06),transparent 60%),linear-gradient(transparent 95%,var(--line) 95%) 0 0/100% 24px;pointer-events:none;mask-image:linear-gradient(180deg,#000,transparent)}
-  .hero-inner{max-width:1200px;margin:0 auto;width:100%;position:relative}
-  .meta-row{display:flex;gap:16px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:32px;flex-wrap:wrap}
-  .meta-row span:first-child{color:var(--accent)}
-  .meta-row .live::before{content:'';display:inline-block;width:6px;height:6px;background:var(--good);border-radius:50%;margin-right:6px;animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  h1{font-family:var(--serif);font-weight:500;font-size:clamp(44px,7vw,96px);line-height:1.02;letter-spacing:-.02em;margin-bottom:32px;max-width:14ch}
-  h1 em{font-style:italic;color:var(--accent);font-weight:500}
-  .lede{font-size:19px;color:var(--muted);max-width:54ch;line-height:1.55;margin-bottom:48px}
-  .lede b{color:var(--fg);font-weight:500}
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:14px 22px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .15s;border:1px solid transparent}
-  .btn-primary{background:var(--accent);color:#000}
-  .btn-primary:hover{background:#f4b22f;transform:translateY(-1px)}
-  .btn-ghost{border-color:var(--line-2);color:var(--fg)}
-  .btn-ghost:hover{border-color:var(--fg)}
-  .hero-foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;font-family:var(--mono);font-size:12px}
-  .hero-foot .stat-num{color:var(--accent);font-size:22px;display:block;margin-bottom:4px}
-  .hero-foot .stat-lbl{color:var(--dim);text-transform:uppercase;letter-spacing:.08em;font-size:10px}
+  .hero{position:relative;height:100vh;min-height:720px;width:100%;overflow:hidden;display:flex;align-items:flex-end}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 80% 10%, #c66a3a 0%, transparent 55%),
+      radial-gradient(90% 70% at 15% 90%, #3a2a52 0%, transparent 60%),
+      radial-gradient(60% 50% at 60% 60%, #d49a5c 0%, transparent 65%),
+      linear-gradient(160deg, #2a1f1a 0%, #181818 80%);
+    z-index:0;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;z-index:1;
+    background:
+      linear-gradient(to top, rgba(24,24,24,0.85) 0%, rgba(24,24,24,0.1) 35%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(24,24,24,0.4), transparent 70%);
+  }
+  .grain{position:absolute;inset:0;z-index:2;opacity:0.12;pointer-events:none;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>")}
+  .hero-inner{position:relative;z-index:3;padding:0 56px 80px;width:100%;max-width:1280px;margin:0 auto}
+  .eyebrow{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#d6c9b8;margin-bottom:32px;font-weight:500}
+  h1{font-size:clamp(56px,9.5vw,148px);line-height:0.94;letter-spacing:-0.025em;font-weight:300;max-width:14ch;margin-bottom:36px;color:#f6f1e8}
+  h1 em{font-style:italic;font-weight:400;color:#e8c79a}
+  .sub{font-size:19px;line-height:1.45;max-width:46ch;color:#cfc9bf;margin-bottom:36px;font-weight:400}
+  .cta{display:inline-block;font-size:14px;letter-spacing:0.1em;text-transform:uppercase;padding:14px 26px;border:1px solid #ece8e1;color:#ece8e1;transition:all .2s;font-weight:500}
+  .cta:hover{background:#ece8e1;color:#181818}
 
-  /* SECTIONS */
-  section{padding:96px 24px;border-bottom:1px solid var(--line)}
-  .section-inner{max-width:1200px;margin:0 auto}
-  .section-tag{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-  .section-tag::before{content:'';width:24px;height:1px;background:var(--accent)}
-  .section-h{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.5vw,52px);line-height:1.1;letter-spacing:-.015em;margin-bottom:24px;max-width:18ch}
-  .section-sub{font-size:17px;color:var(--muted);max-width:60ch;margin-bottom:64px}
+  main{max-width:1080px;margin:0 auto;padding:140px 56px 80px}
+  .label{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin-bottom:48px;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+  .label::after{content:"";flex:1;height:1px;background:var(--rule);margin-left:24px}
 
-  /* ═══ BRIEF (the showcase feature) ═══ */
-  #brief{background:linear-gradient(180deg,var(--bg) 0%,#0c0a06 100%)}
-  .brief-shell{
-    background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;
-    overflow:hidden;max-width:920px;margin:0 auto;
-  }
-  .brief-head{
-    padding:14px 20px;border-bottom:1px solid var(--line);
-    display:flex;align-items:center;justify-content:space-between;
-    font-family:var(--mono);font-size:11px;color:var(--dim);
-    text-transform:uppercase;letter-spacing:.12em;background:#0d0d0d;
-  }
-  .brief-head .dots{display:flex;gap:6px}
-  .brief-head .dots span{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
-  .brief-head .dots span:nth-child(1){background:#F87171}
-  .brief-head .dots span:nth-child(2){background:#FBBF24}
-  .brief-head .dots span:nth-child(3){background:var(--good)}
-  .brief-status{display:flex;align-items:center;gap:8px}
-  .brief-status .ind{width:6px;height:6px;border-radius:50%;background:var(--dim)}
-  .brief-status.live .ind{background:var(--good);animation:pulse 1.4s infinite}
+  .work{margin-bottom:120px}
+  .item{border-bottom:1px solid var(--rule);list-style:none;position:relative;transition:background .2s ease}
+  .item:first-of-type{border-top:1px solid var(--rule)}
+  .item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent,#e8c79a);transform:scaleY(0);transform-origin:top;transition:transform .25s ease}
+  .item:hover::before,.item[open]::before{transform:scaleY(1)}
+  .item:hover{background:rgba(255,255,255,0.015)}
+  .item[open]{background:rgba(255,255,255,0.02)}
+  .item summary{display:flex;justify-content:space-between;align-items:baseline;gap:48px;padding:36px 20px 36px 24px;cursor:pointer;list-style:none}
+  .item summary::-webkit-details-marker{display:none}
+  .item h3{font-size:clamp(28px,3.4vw,42px);letter-spacing:-0.02em;line-height:1;font-weight:400;transition:color .2s}
+  .item summary:hover h3{color:#fff}
+  .item .left{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+  .item .tag{font-size:15px;color:var(--mute);line-height:1.45;max-width:52ch}
+  .item .expand{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);font-weight:500;padding:8px 14px;border:1px solid var(--rule);border-radius:999px;transition:all .2s;white-space:nowrap}
+  .item summary:hover .expand{color:var(--ink);border-color:#555}
+  .item .expand .arr{display:inline-block;transition:transform .25s ease;font-size:14px;line-height:1}
+  .item[open] .expand{color:#181818;background:var(--accent,#e8c79a);border-color:var(--accent,#e8c79a)}
+  .item[open] .expand .arr{transform:rotate(180deg)}
+  .item[open] .expand .label-closed{display:none}
+  .item .expand .label-open{display:none}
+  .item[open] .expand .label-open{display:inline}
 
-  .brief-body{padding:36px 32px;min-height:380px}
-  .brief-step{display:none}
-  .brief-step.active{display:block;animation:fadeIn .3s ease}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-  .step-meter{
-    display:flex;gap:6px;margin-bottom:28px;
-    font-family:var(--mono);font-size:10px;color:var(--dim);
-    text-transform:uppercase;letter-spacing:.15em;
-  }
-  .step-meter .pip{
-    flex:1;height:2px;background:var(--line-2);transition:background .3s;
-  }
-  .step-meter .pip.done{background:var(--accent)}
-  .step-meter .pip.current{background:var(--accent);box-shadow:0 0 8px var(--accent)}
-  .brief-q{font-family:var(--serif);font-size:28px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-.01em}
-  .brief-hint{color:var(--muted);font-size:14px;margin-bottom:24px}
-  .brief-input,.brief-textarea{
-    width:100%;background:var(--bg-2);border:1px solid var(--line-2);
-    color:var(--fg);font-family:var(--sans);font-size:16px;
-    padding:14px 16px;border-radius:2px;transition:border-color .15s;
-    line-height:1.5;
-  }
-  .brief-textarea{min-height:120px;resize:vertical}
-  .brief-input:focus,.brief-textarea:focus{outline:none;border-color:var(--accent)}
-  .brief-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media (max-width:560px){.brief-row{grid-template-columns:1fr}}
-  .brief-actions{display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px}
-  .brief-back{font-family:var(--mono);font-size:12px;color:var(--dim);cursor:pointer;background:none;border:none;padding:8px 0}
-  .brief-back:hover{color:var(--fg)}
-  .brief-back[disabled]{opacity:0;pointer-events:none}
-  .brief-next{
-    background:var(--accent);color:#000;border:none;padding:12px 22px;
-    font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;
-    border-radius:2px;display:inline-flex;align-items:center;gap:10px;
-    transition:background .15s,transform .15s;
-  }
-  .brief-next:hover{background:#f4b22f;transform:translateY(-1px)}
-  .brief-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .item .body{padding:0 24px 44px;animation:fade .3s ease;max-width:880px}
+  .item .body .meta{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);margin-bottom:18px;display:flex;gap:18px;flex-wrap:wrap}
+  .item .body .lede{font-size:16px;line-height:1.65;color:#bdb8af;max-width:62ch;margin-bottom:32px}
+  .item .body .lede + .lede{margin-top:-20px}
 
-  /* streaming output */
-  .brief-output{
-    font-family:var(--serif);font-size:16px;line-height:1.7;color:var(--fg);
-    white-space:pre-wrap;
-  }
-  .brief-output h1,.brief-output h2,.brief-output h3{
-    font-family:var(--serif);font-weight:500;letter-spacing:-.01em;
-    margin:1.4em 0 .5em;
-  }
-  .brief-output h1{font-size:26px;color:var(--accent)}
-  .brief-output h2{font-size:20px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:6px}
-  .brief-output h3{font-size:16px;color:var(--fg)}
-  .brief-output ul,.brief-output ol{padding-left:24px;margin:.6em 0}
-  .brief-output li{margin:.3em 0;font-family:var(--sans);font-size:15px}
-  .brief-output p{font-family:var(--sans);font-size:15px;line-height:1.65;margin:.6em 0;color:var(--fg)}
-  .brief-output strong{color:var(--accent);font-weight:600}
-  .brief-output em{color:var(--muted)}
-  .cursor-blink{display:inline-block;width:8px;height:18px;background:var(--accent);vertical-align:middle;animation:blink 1s infinite;margin-left:2px}
-  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
-  .brief-result-foot{
-    margin-top:32px;padding-top:24px;border-top:1px solid var(--line);
-    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
-    font-family:var(--mono);font-size:12px;color:var(--dim);
-  }
-  .brief-result-foot a{color:var(--accent)}
+  .uh{margin-bottom:32px}
+  .uh-label{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8780;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+  .uh-label::after{content:"";flex:1;height:1px;background:var(--rule)}
+  .uh-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 32px}
+  @media(max-width:680px){.uh-grid{grid-template-columns:1fr}}
+  .uh-grid li{list-style:none;font-size:14.5px;line-height:1.5;color:#cfc9bf;padding-left:18px;position:relative}
+  .uh-grid li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:1px;background:var(--accent,#e8c79a)}
 
-  /* WHAT */
-  .what-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-  .what-card{background:var(--bg);padding:36px 32px;transition:background .2s}
-  .what-card:hover{background:var(--bg-2)}
-  .what-card svg{color:var(--accent);margin-bottom:24px}
-  .what-card h3{font-size:18px;font-weight:600;margin-bottom:12px}
-  .what-card p{font-size:14px;color:var(--muted);line-height:1.6}
-  .what-card .timeline{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2);font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
-  .what-card .timeline b{color:var(--fg);font-weight:500}
+  .stack{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .stack span{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11.5px;color:#cfc9bf;padding:5px 10px;border:1px solid var(--rule);border-radius:4px;background:rgba(255,255,255,0.015)}
 
-  /* WORK */
-  .work-list{border-top:1px solid var(--line)}
-  .work-item{display:grid;grid-template-columns:80px 1fr auto;gap:32px;padding:32px 0;border-bottom:1px solid var(--line);align-items:baseline;transition:padding .2s}
-  .work-item:hover{padding-left:12px}
-  .work-num{font-family:var(--mono);font-size:13px;color:var(--dim)}
-  .work-main h4{font-family:var(--serif);font-size:24px;font-weight:500;margin-bottom:6px}
-  .work-main p{font-size:14px;color:var(--muted)}
-  .work-meta{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
-  @media (max-width:640px){.work-item{grid-template-columns:1fr;gap:8px}.work-num{display:none}}
-  .own-strip{margin-top:48px;padding:24px 28px;border:1px solid var(--line-2);border-radius:4px;background:var(--bg-3);display:flex;gap:18px;align-items:flex-start;max-width:920px}
-  .own-strip b{color:var(--fg)}
-  .own-strip>div:last-child{font-size:14px;color:var(--muted);line-height:1.6}
-  .own-dot{width:8px;height:8px;border-radius:50%;background:var(--good);margin-top:8px;flex-shrink:0;box-shadow:0 0 12px var(--good)}
+  .outcome{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:#e8c79a;line-height:1.5;padding:14px 0 0 18px;border-left:2px solid var(--accent,#e8c79a);max-width:58ch;font-weight:300}
+  .outcome::before{content:"Outcome — ";font-style:normal;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8780;display:block;margin-bottom:6px;font-weight:500}
 
-  /* TESTIMONIAL */
-  .testimonial{
-    margin-top:64px;padding:48px 40px;background:var(--bg-3);
-    border-left:3px solid var(--accent);border-radius:2px;
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  .services{margin-bottom:120px}
+  .svc{padding:40px 0;border-bottom:1px solid var(--rule)}
+  .svc:first-of-type{border-top:1px solid var(--rule)}
+  .svc h3{font-size:32px;letter-spacing:-0.02em;margin-bottom:10px;font-weight:400}
+  .svc p{font-size:17px;color:var(--mute);max-width:52ch;line-height:1.5}
+
+  footer{padding:80px 56px 56px;max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--rule);gap:24px;flex-wrap:wrap}
+  footer .big{font-family:'Fraunces',serif;font-size:clamp(32px,4.5vw,56px);font-weight:300;letter-spacing:-0.02em}
+  footer .big a{border-bottom:1px solid #4a4a4a;padding-bottom:4px}
+  footer .right{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--mute);text-align:right}
+
+  @media(max-width:720px){
+    nav{padding:20px}
+    .hero-inner{padding:0 24px 56px}
+    main{padding:80px 24px 56px}
+    .item summary{flex-direction:column;align-items:flex-start;gap:14px;padding:28px 16px 28px 20px}
+    .item .expand{align-self:flex-start}
+    .item .body{padding:0 20px 32px}
+    footer{padding:56px 24px 40px}
   }
-  .testimonial blockquote{
-    font-family:var(--serif);font-size:24px;line-height:1.4;font-style:italic;
-    color:var(--fg);margin-bottom:24px;letter-spacing:-.01em;
-  }
-  .testimonial blockquote::before{content:'\201C';color:var(--accent);font-size:48px;line-height:0;vertical-align:-12px;margin-right:6px}
-  .testimonial-attr{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .testimonial-attr .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#9a6b15);display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;font-size:13px}
-  .testimonial-attr b{color:var(--fg);font-weight:500;font-family:var(--sans);font-size:14px;display:block;margin-bottom:2px}
-  .testimonial-pending{
-    font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.15em;margin-top:14px;
-  }
-
-  /* PROCESS */
-  .process-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px}
-  .step{position:relative;padding-top:32px}
-  .step-num{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px;border-top:1px solid var(--accent);padding-top:12px}
-  .step h4{font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:10px}
-  .step p{font-size:14px;color:var(--muted);line-height:1.6}
-
-  /* CONTACT */
-  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
-  @media (max-width:768px){.contact-wrap{grid-template-columns:1fr;gap:40px}}
-  .contact-text p{color:var(--muted);margin-bottom:20px;font-size:16px}
-  .contact-channels{margin-top:32px;font-family:var(--mono);font-size:13px}
-  .contact-channels div{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
-  .contact-channels span:first-child{color:var(--dim)}
-  form#contact-form{display:flex;flex-direction:column;gap:16px}
-  label{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
-  input,textarea{width:100%;background:var(--bg-2);border:1px solid var(--line-2);color:var(--fg);font-family:var(--sans);font-size:15px;padding:14px;border-radius:2px;transition:border-color .15s}
-  input:focus,textarea:focus{outline:none;border-color:var(--accent)}
-  textarea{resize:vertical;min-height:120px;font-family:var(--sans)}
-  .form-status{font-family:var(--mono);font-size:12px;min-height:18px;color:var(--muted)}
-  .form-status.ok{color:var(--good)}
-  .form-status.err{color:#F87171}
-  button[type=submit]{background:var(--accent);color:#000;border:none;padding:14px 22px;font-size:14px;font-weight:600;cursor:pointer;border-radius:2px;align-self:flex-start;transition:background .15s,transform .15s}
-  button[type=submit]:hover{background:#f4b22f;transform:translateY(-1px)}
-  button[type=submit]:disabled{opacity:.5;cursor:wait;transform:none}
-
-  /* FOOTER */
-  footer{padding:48px 24px;color:var(--dim);font-family:var(--mono);font-size:12px}
-  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
-  .versions{display:flex;gap:16px}
-  .versions a{color:var(--dim);transition:color .15s}
-  .versions a:hover{color:var(--accent)}
-  .versions a.current{color:var(--accent)}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-inner">
-    <a href="/" class="brand">mccreery<span class="dot">.</span>ai</a>
-    <div class="nav-links">
-      <a href="#brief">60-sec brief</a>
-      <a href="#what">Work</a>
-      <a href="#process">Process</a>
-    </div>
-    <a href="#brief" class="nav-cta">Start a project →</a>
-  </div>
+  <span class="brand">Nate McCreery</span>
+  <span>Fort Worth · TX</span>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
+  <div class="grain"></div>
   <div class="hero-inner">
-    <div class="meta-row">
-      <span>Nate McCreery</span>
-      <span>Fort Worth, TX</span>
-      <span class="live">2 slots open this month</span>
-    </div>
-    <h1>Websites and<br />AI systems<br />that <em>actually ship.</em></h1>
-    <p class="lede">
-      I build the website, set up the email, wire up the AI, and hand you the keys.
-      <b>Two weeks. Fixed scope. You own everything.</b>
-    </p>
-    <div class="cta-row">
-      <a href="#brief" class="btn btn-primary">Get a custom brief in 60 seconds
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#what" class="btn btn-ghost">See what I build</a>
-    </div>
-    <div class="hero-foot">
-      <div><span class="stat-num">14d</span><span class="stat-lbl">Typical ship time</span></div>
-      <div><span class="stat-num">100%</span><span class="stat-lbl">You own the code</span></div>
-      <div><span class="stat-num">0</span><span class="stat-lbl">Retainers · Lock-in</span></div>
-      <div><span class="stat-num">1:1</span><span class="stat-lbl">No account managers</span></div>
-    </div>
+    <div class="eyebrow">A small practice — Fort Worth</div>
+    <h1>Software, built <em>with intention</em>.</h1>
+    <p class="sub">Websites, AI assistants, and back-office automation for operations teams and small businesses that want to move faster — built privately, on infrastructure you control.</p>
+    <a class="cta" href="/contact.html">Start a project</a>
   </div>
 </section>
 
-<!-- 60-SECOND BRIEF (the showcase feature) -->
-<section id="brief">
-  <div class="section-inner">
-    <div class="section-tag">Try it · Live demo</div>
-    <h2 class="section-h">Three questions. One custom proposal.</h2>
-    <p class="section-sub">Tell me what your business does and what's broken. My AI drafts a real project brief — what I'd build, how long, what happens next. You'll have it in under a minute. I review it personally before any reply.</p>
+<main>
+  <div class="work">
+    <div class="label"><span>Selected Work</span></div>
 
-    <div class="brief-shell" id="brief-shell">
-      <div class="brief-head">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div>brief.mccreery.ai</div>
-        <div class="brief-status" id="brief-status"><span class="ind"></span><span id="brief-status-txt">Ready</span></div>
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Jackalope Welding</h3>
+          <p class="tag">Brand and booking site for a custom fabrication shop.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2025</span><span>Brand · Web · Telegram Agent</span></div>
+        <p class="lede">Brand refresh and a fast marketing site for a Fort Worth fabrication shop — paired with a Telegram agent that runs in the cloud and handles the back-and-forth so the owner can stay in the shop, not in his inbox.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Telegram agent lives on a private droplet — runs 24/7 without his laptop</li>
+            <li>Quote requests from the site land in his Telegram thread, pre-summarized</li>
+            <li>He replies in Telegram; the agent handles drafting back to the customer</li>
+            <li>Photos and specs from prospects get parsed and tagged automatically</li>
+            <li>Booking respects the shop's real availability — not a generic Calendly link</li>
+            <li>Self-hosted analytics — no Google, no Meta, no third-party trackers</li>
+            <li>Image pipeline auto-compresses on upload, serves WebP/AVIF</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Telegram Bot API</span><span>DigitalOcean droplet</span><span>Python agent</span><span>Cloudflare Pages</span><span>R2</span><span>Plausible (self-host)</span>
+        </div>
+
+        <p class="outcome">A busy welder runs his entire customer pipeline from his phone, on the shop floor. The agent handles the office work he doesn't have time for.</p>
       </div>
-      <div class="brief-body" id="brief-body">
+    </details>
 
-        <!-- STEP 0: contact -->
-        <div class="brief-step active" data-step="0">
-          <div class="step-meter">
-            <div class="pip current"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
-          </div>
-          <div class="brief-q">Who's asking?</div>
-          <div class="brief-hint">First name and email. So I can send you the brief.</div>
-          <div class="brief-row">
-            <input class="brief-input" id="b-name" placeholder="Your name" maxlength="100" />
-            <input class="brief-input" id="b-email" type="email" placeholder="you@business.com" maxlength="200" />
-          </div>
-          <div class="brief-actions">
-            <button class="brief-back" disabled>← Back</button>
-            <button class="brief-next" data-action="next">Continue →</button>
-          </div>
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Chiropractic Practice</h3>
+          <p class="tag">Patient site with automated intake and scheduling.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2025</span><span>Web · Intake · Scheduling</span></div>
+        <p class="lede">Patient-first marketing site paired with a quiet intake automation that drafts new-patient forms, syncs with the calendar, and hands clean records to the front desk — without sending PHI through anyone's training data.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Intake agent runs on isolated infra — patient data never leaves the practice</li>
+            <li>Form fields validated, normalized, and de-duplicated before save</li>
+            <li>Calendar two-way sync with the front desk's existing tools</li>
+            <li>Insurance-card OCR runs locally, not through a hosted API</li>
+            <li>Audit log: every record edit timestamped and attributable</li>
+            <li>SMS appointment reminders without a third-party CRM</li>
+          </ul>
         </div>
 
-        <!-- STEP 1: business -->
-        <div class="brief-step" data-step="1">
-          <div class="step-meter">
-            <div class="pip done"></div><div class="pip current"></div><div class="pip"></div><div class="pip"></div>
-          </div>
-          <div class="brief-q">What does your business do?</div>
-          <div class="brief-hint">One line. "Plumbing in DFW." "Online supplement store." "Personal injury chiro."</div>
-          <input class="brief-input" id="b-business" placeholder="e.g. residential roofing in Fort Worth" maxlength="200" />
-          <div class="brief-actions">
-            <button class="brief-back">← Back</button>
-            <button class="brief-next" data-action="next">Continue →</button>
-          </div>
+        <div class="stack">
+          <span>Self-hosted LLM</span><span>Postgres</span><span>Local OCR</span><span>Twilio</span><span>Encrypted at rest</span>
         </div>
 
-        <!-- STEP 2: problem -->
-        <div class="brief-step" data-step="2">
-          <div class="step-meter">
-            <div class="pip done"></div><div class="pip done"></div><div class="pip current"></div><div class="pip"></div>
-          </div>
-          <div class="brief-q">What's broken or eating your time?</div>
-          <div class="brief-hint">Be specific. The thing you do over and over that you wish would just happen.</div>
-          <textarea class="brief-textarea" id="b-problem" placeholder="e.g. I'm losing leads at night because nobody answers the phone after 6pm" maxlength="1000"></textarea>
-          <div class="brief-actions">
-            <button class="brief-back">← Back</button>
-            <button class="brief-next" data-action="next">Continue →</button>
-          </div>
-        </div>
-
-        <!-- STEP 3: goal -->
-        <div class="brief-step" data-step="3">
-          <div class="step-meter">
-            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip current"></div>
-          </div>
-          <div class="brief-q">What does success look like?</div>
-          <div class="brief-hint">In your own words. Not buzzwords. The outcome that would make this worth the money.</div>
-          <textarea class="brief-textarea" id="b-goal" placeholder="e.g. Every after-hours call gets captured, qualified, and replied to within 5 minutes" maxlength="1000"></textarea>
-          <div class="brief-actions">
-            <button class="brief-back">← Back</button>
-            <button class="brief-next" data-action="generate">Generate my brief →</button>
-          </div>
-        </div>
-
-        <!-- STEP 4: streaming output -->
-        <div class="brief-step" data-step="4">
-          <div class="step-meter">
-            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip done"></div>
-          </div>
-          <div class="brief-output" id="brief-output"></div>
-          <div class="brief-result-foot" id="brief-foot" style="display:none">
-            <div>✓ Sent to your email · Nate will reply within hours</div>
-            <div><a href="#contact">Need to add anything? →</a></div>
-          </div>
-        </div>
-
+        <p class="outcome">Front desk reclaimed 6+ hours a week. Patient no-shows down measurably from automated reminders.</p>
       </div>
-    </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Legal AI Agent</h3>
+          <p class="tag">Intake assistant that drafts and routes matters automatically.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2026</span><span>AI Agent · Intake · Audit Trail</span></div>
+        <p class="lede">A custom agent that talks to prospective clients, captures matter details, and drafts the intake packet for an attorney to review. Every action logged — client conversations never touch a public LLM.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Conducts the intake conversation in plain language, not a form</li>
+            <li>Extracts structured matter data: parties, dates, jurisdiction, conflict checks</li>
+            <li>Drafts a memo formatted to the firm's existing intake template</li>
+            <li>Routes to the right attorney based on practice area and load</li>
+            <li>Conflict-check pass against the firm's case database before routing</li>
+            <li>Privileged conversations stay on private infrastructure — full stop</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Custom agent</span><span>Private LLM endpoint</span><span>Document templates</span><span>Conflict-check DB</span><span>Audit log</span>
+        </div>
+
+        <p class="outcome">First-touch response time dropped from hours to minutes. Attorneys see qualified matters, not raw inquiries.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>NateOS Command Center</h3>
+          <p class="tag">Personal operating system for running the studio.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>Ongoing</span><span>Internal · Automation · Agents</span></div>
+        <p class="lede">The system I use to run this practice — projects, clients, automations, and a fleet of AI agents working in parallel. The reason I can ship like a team of one acts like a team of five.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Orchestrates multiple AI agents working in parallel on different client lanes</li>
+            <li>Unified inbox: email, SMS, Telegram, Discord — all triaged by an agent</li>
+            <li>Project state lives in one place; agents read and write to it directly</li>
+            <li>Skills library: reusable workflows the agents reference (200+ and growing)</li>
+            <li>Cron jobs for recurring research, monitoring, and outreach</li>
+            <li>Runs on hardware I own, infra I control — the whole stack is mine</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Hermes Agent</span><span>Claude</span><span>Python</span><span>Self-hosted</span><span>Cron</span><span>Multi-channel I/O</span>
+        </div>
+
+        <p class="outcome">I'm the proof: this site, every project listed above, and the systems behind them — built and maintained by one person with the right leverage.</p>
+      </div>
+    </details>
   </div>
-</section>
 
-<!-- WHAT -->
-<section id="what">
-  <div class="section-inner">
-    <div class="section-tag">What I build</div>
-    <h2 class="section-h">Three things, done well.</h2>
-    <p class="section-sub">No menu of forty services. Pick the one that matches what you need — or message me and we'll figure it out.</p>
-
-    <div class="what-grid">
-      <div class="what-card">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <h3>Business website</h3>
-        <p>Custom-coded site, your domain, business email, fast everywhere. Not Squarespace. Not Wix. You own it forever.</p>
-        <div class="timeline"><b>Ships in</b> &nbsp; 7–14 days</div>
-      </div>
-      <div class="what-card">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4M5 12H1M19 12h4M12 16v4"/><circle cx="12" cy="12" r="4"/></svg>
-        <h3>AI assistant</h3>
-        <p>Trained on your business. Answers leads, books appointments, qualifies inquiries while you sleep. Plugs into your site or texts.</p>
-        <div class="timeline"><b>Ships in</b> &nbsp; 10–14 days</div>
-      </div>
-      <div class="what-card">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg>
-        <h3>Workflow automation</h3>
-        <p>The repetitive thing you do every day — invoices, follow-ups, data entry, scheduling — runs itself. One process, fully wired.</p>
-        <div class="timeline"><b>Ships in</b> &nbsp; 5–10 days</div>
-      </div>
-    </div>
-
-    <div class="testimonial" id="testimonial">
-      <blockquote id="quote-text">Coming soon — first client testimonial drops in days. The brief tool you just used? That's the kind of thing I build.</blockquote>
-      <div class="testimonial-attr">
-        <div class="avatar" id="quote-avatar">—</div>
-        <div>
-          <b id="quote-name">First public testimonial pending</b>
-          <span id="quote-role">Real client · Real outcome · No filler</span>
-        </div>
-      </div>
-      <div class="testimonial-pending">// placeholder · live quote landing this week</div>
-    </div>
+  <div class="services">
+    <div class="label"><span>Services</span></div>
+    <div class="svc"><h3>Websites</h3><p>Fast, considered marketing sites that convert.</p></div>
+    <div class="svc"><h3>AI Assistants</h3><p>Custom agents wired into the tools your team already uses — internal dashboards, ticketing systems, the works.</p></div>
+    <div class="svc"><h3>Operations Automation</h3><p>Quiet systems that handle the repetitive back-office work — lookups, reconciliation, routing — with a clear audit trail for every action.</p></div>
+    <div class="svc"><h3>Privacy &amp; Security</h3><p>Your data stays yours. Private infrastructure, encrypted by default, no third-party tracking — built so client and account data never leaks into someone else's model.</p></div>
   </div>
-</section>
-
-<!-- WORK -->
-<section id="work">
-  <div class="section-inner">
-    <div class="section-tag">Recent work</div>
-    <h2 class="section-h">A few things I've shipped.</h2>
-
-    <div class="work-list">
-      <div class="work-item">
-        <div class="work-num">001</div>
-        <div class="work-main">
-          <h4>Jackalope Welding — Agentic SEO &amp; Ops Assistant</h4>
-          <p>Built a custom AI agent connected to Telegram so the owner runs his business from the truck. Started as an SEO engagement, expanded into voicemail handling and ongoing site automation. Backend now in build for multi-client monitoring and updates.</p>
-        </div>
-        <div class="work-meta">Live · 2026</div>
-      </div>
-      <div class="work-item">
-        <div class="work-num">002</div>
-        <div class="work-main">
-          <h4>Chiropractic Practice — Site Redesign &amp; SEO</h4>
-          <p>Full redesign focused on local search visibility, Google Analytics integration so the owner can see exactly where new patient leads come from. Scoped an AI agent for ongoing content + keyword work — replacing the agency retainer model.</p>
-        </div>
-        <div class="work-meta">Live · 2026</div>
-      </div>
-      <div class="work-item">
-        <div class="work-num">003</div>
-        <div class="work-main">
-          <h4>Legal AI Agent — In development</h4>
-          <p>Purpose-built agent for legal professionals: intake, document review, scheduling, client comms. Architecting the knowledge base and workflow surface now. Production-ready agentic tooling for an industry that hasn't been touched yet.</p>
-        </div>
-        <div class="work-meta">Active build · 2026</div>
-      </div>
-      <div class="work-item">
-        <div class="work-num">004</div>
-        <div class="work-main">
-          <h4>NateOS Command Center</h4>
-          <p>My own production command center. Tasks, ideas, invoices, clients, persistent AI memory — one dashboard, self-hosted, fully owned. The same architecture I deploy for clients who want internal tooling instead of another SaaS subscription.</p>
-        </div>
-        <div class="work-meta">Live · os.mccreery.ai</div>
-      </div>
-      <div class="work-item">
-        <div class="work-num">005</div>
-        <div class="work-main">
-          <h4>The brief tool above ↑</h4>
-          <p>Three questions, one streaming AI proposal, full lead capture pipeline. Built it for this site. I can build one for yours.</p>
-        </div>
-        <div class="work-meta">Live · this page</div>
-      </div>
-    </div>
-
-    <div class="own-strip">
-      <div class="own-dot"></div>
-      <div>
-        <b>You own everything.</b> Code, data, deployment, the API keys — all yours. No vendor lock-in, no per-seat SaaS bill, no third party holding your business hostage. Built to be handed off.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="process">
-  <div class="section-inner">
-    <div class="section-tag">How it works</div>
-    <h2 class="section-h">No forms. No proposals. No runaround.</h2>
-    <p class="section-sub">You message me. I tell you if I can help, what it'll take, and when it ships. Usually within a few hours.</p>
-
-    <div class="process-grid">
-      <div class="step">
-        <div class="step-num">01 · Day 1</div>
-        <h4>Talk</h4>
-        <p>30-min call or thread. I tell you what's possible, what's not, and what it actually takes.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02 · Day 2</div>
-        <h4>Scope</h4>
-        <p>One page. What gets built, what doesn't, when it ships, what it costs. You sign or you don't.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03 · Days 3–14</div>
-        <h4>Build</h4>
-        <p>I build. You see daily progress. No status meetings. No circling back.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04 · Ship day</div>
-        <h4>Hand off</h4>
-        <p>Live URL, source code, documentation, and a 30-day support window. You own everything.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="section-tag">Direct line</div>
-    <h2 class="section-h">Or just send me a note.</h2>
-
-    <div class="contact-wrap">
-      <div class="contact-text">
-        <p>Already used the brief tool? Don't fill this out — I have your info. Use this if you want to skip the intake or have a quick question.</p>
-        <p>If I'm not the right fit, I'll tell you that too — and probably recommend someone who is.</p>
-        <div class="contact-channels">
-          <div><span>Email</span><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
-          <div><span>Phone</span><span>972-338-0903</span></div>
-          <div><span>Location</span><span>Fort Worth, TX</span></div>
-          <div><span>Response</span><span>Within hours</span></div>
-        </div>
-      </div>
-
-      <form id="contact-form">
-        <div>
-          <label for="name">Your name</label>
-          <input type="text" id="name" name="name" required maxlength="100" />
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required maxlength="200" />
-        </div>
-        <div>
-          <label for="message">What are you trying to build?</label>
-          <textarea id="message" name="message" required maxlength="5000" rows="5"></textarea>
-        </div>
-        <button type="submit" id="submit-btn">Send →</button>
-        <div class="form-status" id="form-status"></div>
-      </form>
-    </div>
-  </div>
-</section>
+</main>
 
 <footer>
-  <div class="foot-inner">
-    <div>© 2026 Nate McCreery · Fort Worth, TX</div>
-    <div class="versions">
-      <span style="color:var(--dim)">Versions:</span>
-      <a href="/versions/v1.html">v1</a>
-      <a href="/versions/v2.html">v2</a>
-      <a href="/versions/v3.html" class="current">v3</a>
-    </div>
-  </div>
+  <div class="big"><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
+  <div class="right">Fort Worth, Texas<br>© 2026</div>
 </footer>
 
-<script>
-  /* ───── Tiny markdown → HTML (headings, lists, bold, italic, paragraphs) ───── */
-  function mdToHtml(md){
-    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const lines = md.split('\n');
-    let html = '', inUL = false, inOL = false, para = [];
-    const flushPara = () => { if(para.length){ html += '<p>'+para.join(' ')+'</p>'; para=[]; } };
-    const closeLists = () => { if(inUL){html+='</ul>';inUL=false;} if(inOL){html+='</ol>';inOL=false;} };
-    for(let raw of lines){
-      let line = raw.replace(/\r$/,'');
-      let t = line.trim();
-      if(!t){ flushPara(); closeLists(); continue; }
-      // headings
-      let m;
-      if((m = t.match(/^###\s+(.+)/))){ flushPara();closeLists(); html+='<h3>'+inline(esc(m[1]))+'</h3>'; continue; }
-      if((m = t.match(/^##\s+(.+)/))){  flushPara();closeLists(); html+='<h2>'+inline(esc(m[1]))+'</h2>'; continue; }
-      if((m = t.match(/^#\s+(.+)/))){   flushPara();closeLists(); html+='<h1>'+inline(esc(m[1]))+'</h1>'; continue; }
-      // ul
-      if((m = t.match(/^[-*]\s+(.+)/))){ flushPara(); if(inOL){html+='</ol>';inOL=false;} if(!inUL){html+='<ul>';inUL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
-      // ol
-      if((m = t.match(/^\d+\.\s+(.+)/))){ flushPara(); if(inUL){html+='</ul>';inUL=false;} if(!inOL){html+='<ol>';inOL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
-      // para
-      closeLists();
-      para.push(inline(esc(t)));
-    }
-    flushPara(); closeLists();
-    return html;
-    function inline(s){
-      return s
-        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-        .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
-    }
-  }
-
-  /* ───── BRIEF wizard ───── */
-  const briefBody = document.getElementById('brief-body');
-  const statusEl = document.getElementById('brief-status');
-  const statusTxt = document.getElementById('brief-status-txt');
-  let step = 0;
-  function showStep(n){
-    document.querySelectorAll('.brief-step').forEach(s => s.classList.remove('active'));
-    const el = document.querySelector('.brief-step[data-step="'+n+'"]');
-    if(el) el.classList.add('active');
-    step = n;
-    const focusable = el && el.querySelector('input,textarea');
-    if(focusable) setTimeout(()=>focusable.focus(),200);
-  }
-  function validate(n){
-    if(n===0){
-      const name=document.getElementById('b-name').value.trim();
-      const email=document.getElementById('b-email').value.trim();
-      if(!name){alert('Need your name');return false;}
-      if(!email||!email.includes('@')){alert('Need a valid email');return false;}
-      return true;
-    }
-    if(n===1) return !!document.getElementById('b-business').value.trim() || (alert('One sentence on what you do'),false);
-    if(n===2) return document.getElementById('b-problem').value.trim().length>=8 || (alert('A bit more detail helps'),false);
-    if(n===3) return document.getElementById('b-goal').value.trim().length>=8 || (alert('What does success look like?'),false);
-    return true;
-  }
-  briefBody.addEventListener('click', (e) => {
-    const t = e.target;
-    if(t.classList.contains('brief-back') && !t.disabled){
-      if(step>0) showStep(step-1);
-    } else if(t.classList.contains('brief-next')){
-      if(!validate(step)) return;
-      const action = t.dataset.action;
-      if(action === 'generate') runBrief();
-      else if(step < 3) showStep(step+1);
-    }
-  });
-  briefBody.addEventListener('keydown', (e) => {
-    if(e.key==='Enter' && !e.shiftKey && e.target.tagName==='INPUT'){
-      e.preventDefault();
-      const cur = document.querySelector('.brief-step[data-step="'+step+'"] .brief-next');
-      if(cur) cur.click();
-    }
-  });
-
-  async function runBrief(){
-    showStep(4);
-    statusEl.classList.add('live');
-    statusTxt.textContent = 'AI drafting…';
-    const out = document.getElementById('brief-output');
-    out.innerHTML = '<span class="cursor-blink"></span>';
-    const data = {
-      name: document.getElementById('b-name').value.trim(),
-      email: document.getElementById('b-email').value.trim(),
-      business: document.getElementById('b-business').value.trim(),
-      problem: document.getElementById('b-problem').value.trim(),
-      goal: document.getElementById('b-goal').value.trim(),
-    };
-    let acc = '';
-    try {
-      const r = await fetch('https://os.mccreery.ai/api/brief', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data),
-      });
-      if(!r.ok){
-        const j = await r.json().catch(()=>({error:'request failed'}));
-        out.innerHTML = '<p style="color:#F87171">Couldn\'t generate brief: '+(j.error||'unknown error')+'. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly and I\'ll take it from there.</p>';
-        statusEl.classList.remove('live');
-        statusTxt.textContent='Error';
-        return;
-      }
-      const reader = r.body.getReader();
-      const dec = new TextDecoder();
-      let buf = '';
-      while(true){
-        const {value,done} = await reader.read();
-        if(done) break;
-        buf += dec.decode(value,{stream:true});
-        const parts = buf.split('\n\n');
-        buf = parts.pop();
-        for(const p of parts){
-          if(!p.startsWith('data:')) continue;
-          try{
-            const ev = JSON.parse(p.slice(5).trim());
-            if(ev.t){
-              acc += ev.t;
-              out.innerHTML = mdToHtml(acc) + '<span class="cursor-blink"></span>';
-            } else if(ev.error){
-              acc += '\n\n*[error: '+ev.error+']*';
-            }
-          }catch(_){}
-        }
-      }
-      out.innerHTML = mdToHtml(acc);
-      document.getElementById('brief-foot').style.display = 'flex';
-      statusEl.classList.remove('live');
-      statusTxt.textContent = 'Sent · check your email';
-    } catch(err){
-      out.innerHTML = '<p style="color:#F87171">Network error. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly.</p>';
-      statusEl.classList.remove('live');
-      statusTxt.textContent='Error';
-    }
-  }
-
-  /* ───── Plain contact form ───── */
-  const form = document.getElementById('contact-form');
-  const fstatus = document.getElementById('form-status');
-  const fbtn = document.getElementById('submit-btn');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    fbtn.disabled = true; fstatus.className='form-status'; fstatus.textContent='Sending…';
-    const data = {
-      name: document.getElementById('name').value.trim(),
-      email: document.getElementById('email').value.trim(),
-      message: document.getElementById('message').value.trim(),
-      source: 'mccreery.ai/v3',
-    };
-    try {
-      const r = await fetch('https://os.mccreery.ai/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-      const j = await r.json();
-      if(r.ok){ fstatus.className='form-status ok'; fstatus.textContent='✓ Got it. I\'ll be in touch within hours.'; form.reset(); }
-      else { fstatus.className='form-status err'; fstatus.textContent='✗ '+(j.error||'Something went wrong. Try email instead.'); }
-    } catch { fstatus.className='form-status err'; fstatus.textContent='✗ Network error. Email me: nate@mccreery.ai'; }
-    finally { fbtn.disabled=false; }
-  });
-</script>
 </body>
 </html>

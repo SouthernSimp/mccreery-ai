@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Start a project — Nate McCreery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#181818;--ink:#ece8e1;--mute:#8d8780;--rule:#2a2a2a;--accent:#e8c79a}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  h1,h2{font-family:'Fraunces',Georgia,serif;font-weight:300}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:24px 40px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
+  nav .brand{font-family:'Fraunces',serif;text-transform:none;letter-spacing:-0.01em;font-size:16px;font-weight:500}
+  nav a.back{color:var(--mute);transition:color .2s}
+  nav a.back:hover{color:var(--ink)}
+
+  main{max-width:780px;margin:0 auto;padding:60px 56px 120px}
+
+  .eyebrow{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;font-weight:500}
+  h1{font-size:clamp(48px,7vw,88px);line-height:0.98;letter-spacing:-0.025em;margin-bottom:28px;color:#f6f1e8}
+  h1 em{font-style:italic;font-weight:400;color:var(--accent)}
+  .lede{font-size:19px;line-height:1.5;color:#cfc9bf;max-width:54ch;margin-bottom:64px}
+
+  form{display:grid;gap:32px}
+  .field{display:flex;flex-direction:column;gap:10px}
+  label{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);font-weight:500}
+  input,textarea,select{
+    background:transparent;border:0;border-bottom:1px solid var(--rule);
+    color:var(--ink);font-family:'Inter',sans-serif;font-size:18px;line-height:1.4;
+    padding:8px 0 12px;outline:none;transition:border-color .2s;
+    -webkit-appearance:none;border-radius:0;width:100%;
+  }
+  input:focus,textarea:focus,select:focus{border-bottom-color:var(--accent)}
+  textarea{resize:vertical;min-height:120px;font-family:inherit}
+  select{cursor:pointer;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238d8780' stroke-width='1.2' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 4px center;padding-right:24px}
+
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media(max-width:560px){.row{grid-template-columns:1fr}}
+
+  .row-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+  .chip{display:inline-flex;align-items:center;padding:9px 16px;border:1px solid var(--rule);border-radius:999px;font-size:13px;color:#cfc9bf;cursor:pointer;transition:all .15s;user-select:none}
+  .chip:hover{border-color:#555;color:var(--ink)}
+  .chip input{display:none}
+  .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  .submit{
+    margin-top:16px;justify-self:start;
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:14px;letter-spacing:0.1em;text-transform:uppercase;
+    padding:16px 28px;border:1px solid var(--ink);background:transparent;color:var(--ink);
+    cursor:pointer;transition:all .2s;font-weight:500;font-family:inherit;
+  }
+  .submit:hover{background:var(--ink);color:var(--bg)}
+  .submit .arrow{transition:transform .2s}
+  .submit:hover .arrow{transform:translateX(4px)}
+
+  .privacy{margin-top:48px;padding-top:32px;border-top:1px solid var(--rule);font-size:14px;color:var(--mute);line-height:1.6;max-width:54ch}
+  .privacy strong{color:var(--ink);font-weight:500}
+
+  .success{display:none;padding:40px;border:1px solid var(--accent);background:rgba(232,199,154,0.04);border-radius:2px;text-align:left}
+  .success.show{display:block;animation:fade .35s ease}
+  .success h2{font-size:32px;margin-bottom:14px;color:var(--accent)}
+  .success p{color:#cfc9bf;line-height:1.6}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .alt-contact{margin-top:24px;font-size:14px;color:var(--mute)}
+  .alt-contact a{border-bottom:1px solid #4a4a4a;padding-bottom:1px}
+
+  @media(max-width:720px){
+    nav{padding:20px 24px}
+    main{padding:32px 24px 80px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand">Nate McCreery</a>
+  <a href="/" class="back">← back</a>
+</nav>
+
+<main>
+  <div id="form-wrap">
+    <div class="eyebrow">Start a project</div>
+    <h1>Tell me what you're <em>trying to fix</em>.</h1>
+    <p class="lede">Most projects start with a short conversation. Tell me a little about the problem and I'll get back to you within a business day — usually faster.</p>
+
+    <form id="contact-form" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" autocomplete="organization">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="role">Your role</label>
+          <input id="role" name="role" type="text" placeholder="Founder, ops lead, etc.">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What are you looking at?</label>
+        <div class="row-chips" id="chips">
+          <label class="chip"><input type="checkbox" name="interest" value="Website">Website</label>
+          <label class="chip"><input type="checkbox" name="interest" value="AI assistant">AI assistant</label>
+          <label class="chip"><input type="checkbox" name="interest" value="Operations automation">Operations automation</label>
+          <label class="chip"><input type="checkbox" name="interest" value="Something else">Something else</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message">What's the situation?</label>
+        <textarea id="message" name="message" placeholder="A few sentences is plenty. What's slow, broken, or missing?" required></textarea>
+      </div>
+
+      <div class="field">
+        <label for="timing">Timing</label>
+        <select id="timing" name="timing">
+          <option value="">— pick one —</option>
+          <option>As soon as possible</option>
+          <option>Within the next month</option>
+          <option>This quarter</option>
+          <option>Just exploring</option>
+        </select>
+      </div>
+
+      <button class="submit" type="submit">
+        <span>Send it over</span>
+        <span class="arrow">→</span>
+      </button>
+    </form>
+
+    <div class="privacy">
+      <strong>Where this goes.</strong> Straight to my inbox. No tracking pixels, no third-party form provider scraping the contents, no marketing list. If you'd rather skip the form, email me directly:
+      <div class="alt-contact"><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
+    </div>
+  </div>
+
+  <div class="success" id="success">
+    <div class="eyebrow">Received</div>
+    <h2>Thanks — got it.</h2>
+    <p>I'll read this within the day and reply from <strong>nate@mccreery.ai</strong>. If it's urgent, text me at 972-338-0903.</p>
+  </div>
+</main>
+
+<script>
+  // chip toggle styling
+  document.querySelectorAll('#chips .chip').forEach(c=>{
+    const cb = c.querySelector('input');
+    cb.addEventListener('change',()=>c.classList.toggle('on', cb.checked));
+  });
+
+  // form handler — POST to FormSubmit (zero-config, no signup) as primary,
+  // fallback opens mail composer with prefilled body.
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(form);
+    const data = {};
+    fd.forEach((v,k)=>{
+      if(data[k]) data[k] = [].concat(data[k], v);
+      else data[k] = v;
+    });
+    // honeypot-style: simple required check
+    if(!data.name || !data.email || !data.message){
+      form.reportValidity();
+      return;
+    }
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/nate@mccreery.ai', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({
+          _subject: `New project inquiry — ${data.name}${data.company?' / '+data.company:''}`,
+          _template: 'table',
+          ...data,
+        })
+      });
+      if(!res.ok) throw new Error('submit failed');
+      document.getElementById('form-wrap').style.display='none';
+      const s = document.getElementById('success');
+      s.classList.add('show');
+      window.scrollTo({top:0,behavior:'smooth'});
+    } catch(err) {
+      // fallback: open mail client with prefilled body
+      const body = encodeURIComponent(
+        `Name: ${data.name}\nCompany: ${data.company||''}\nRole: ${data.role||''}\nInterest: ${[].concat(data.interest||[]).join(', ')}\nTiming: ${data.timing||''}\n\n${data.message}`
+      );
+      window.location.href = `mailto:nate@mccreery.ai?subject=New project inquiry&body=${body}`;
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--bg:#181818;--ink:#ece8e1;--mute:#8d8780;--rule:#2a2a2a}
+  :root{--bg:#181818;--ink:#ece8e1;--mute:#8d8780;--rule:#2a2a2a;--accent:#e8c79a}
   html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
   a{color:inherit;text-decoration:none}
   serif,h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400}
@@ -32,7 +32,6 @@
     background:
       linear-gradient(to top, rgba(24,24,24,0.85) 0%, rgba(24,24,24,0.1) 35%, transparent 60%),
       radial-gradient(ellipse at 50% 100%, rgba(24,24,24,0.4), transparent 70%);
-    /* film grain via SVG noise */
   }
   .grain{position:absolute;inset:0;z-index:2;opacity:0.12;pointer-events:none;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>")}
@@ -49,10 +48,47 @@
   .label::after{content:"";flex:1;height:1px;background:var(--rule);margin-left:24px}
 
   .work{margin-bottom:120px}
-  .item{display:flex;justify-content:space-between;align-items:baseline;gap:48px;padding:36px 0;border-bottom:1px solid var(--rule)}
+  .item{border-bottom:1px solid var(--rule);list-style:none;position:relative;transition:background .2s ease}
   .item:first-of-type{border-top:1px solid var(--rule)}
-  .item h3{font-size:clamp(28px,3.4vw,42px);letter-spacing:-0.02em;line-height:1;font-weight:400;flex-shrink:0}
-  .item p{font-size:16px;color:var(--mute);text-align:right;max-width:42ch;line-height:1.45}
+  .item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent,#e8c79a);transform:scaleY(0);transform-origin:top;transition:transform .25s ease}
+  .item:hover::before,.item[open]::before{transform:scaleY(1)}
+  .item:hover{background:rgba(255,255,255,0.015)}
+  .item[open]{background:rgba(255,255,255,0.02)}
+  .item summary{display:flex;justify-content:space-between;align-items:baseline;gap:48px;padding:36px 20px 36px 24px;cursor:pointer;list-style:none}
+  .item summary::-webkit-details-marker{display:none}
+  .item h3{font-size:clamp(28px,3.4vw,42px);letter-spacing:-0.02em;line-height:1;font-weight:400;transition:color .2s}
+  .item summary:hover h3{color:#fff}
+  .item .left{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+  .item .tag{font-size:15px;color:var(--mute);line-height:1.45;max-width:52ch}
+  .item .expand{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);font-weight:500;padding:8px 14px;border:1px solid var(--rule);border-radius:999px;transition:all .2s;white-space:nowrap}
+  .item summary:hover .expand{color:var(--ink);border-color:#555}
+  .item .expand .arr{display:inline-block;transition:transform .25s ease;font-size:14px;line-height:1}
+  .item[open] .expand{color:#181818;background:var(--accent,#e8c79a);border-color:var(--accent,#e8c79a)}
+  .item[open] .expand .arr{transform:rotate(180deg)}
+  .item[open] .expand .label-closed{display:none}
+  .item .expand .label-open{display:none}
+  .item[open] .expand .label-open{display:inline}
+
+  .item .body{padding:0 24px 44px;animation:fade .3s ease;max-width:880px}
+  .item .body .meta{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);margin-bottom:18px;display:flex;gap:18px;flex-wrap:wrap}
+  .item .body .lede{font-size:16px;line-height:1.65;color:#bdb8af;max-width:62ch;margin-bottom:32px}
+  .item .body .lede + .lede{margin-top:-20px}
+
+  .uh{margin-bottom:32px}
+  .uh-label{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8780;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+  .uh-label::after{content:"";flex:1;height:1px;background:var(--rule)}
+  .uh-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 32px}
+  @media(max-width:680px){.uh-grid{grid-template-columns:1fr}}
+  .uh-grid li{list-style:none;font-size:14.5px;line-height:1.5;color:#cfc9bf;padding-left:18px;position:relative}
+  .uh-grid li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:1px;background:var(--accent,#e8c79a)}
+
+  .stack{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .stack span{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11.5px;color:#cfc9bf;padding:5px 10px;border:1px solid var(--rule);border-radius:4px;background:rgba(255,255,255,0.015)}
+
+  .outcome{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:#e8c79a;line-height:1.5;padding:14px 0 0 18px;border-left:2px solid var(--accent,#e8c79a);max-width:58ch;font-weight:300}
+  .outcome::before{content:"Outcome — ";font-style:normal;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8780;display:block;margin-bottom:6px;font-weight:500}
+
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
   .services{margin-bottom:120px}
   .svc{padding:40px 0;border-bottom:1px solid var(--rule)}
@@ -69,8 +105,9 @@
     nav{padding:20px}
     .hero-inner{padding:0 24px 56px}
     main{padding:80px 24px 56px}
-    .item{flex-direction:column;align-items:flex-start;gap:8px}
-    .item p{text-align:left}
+    .item summary{flex-direction:column;align-items:flex-start;gap:14px;padding:28px 16px 28px 20px}
+    .item .expand{align-self:flex-start}
+    .item .body{padding:0 20px 32px}
     footer{padding:56px 24px 40px}
   }
 </style>
@@ -85,27 +122,169 @@
 <section class="hero">
   <div class="grain"></div>
   <div class="hero-inner">
-    <div class="eyebrow">Independent studio</div>
-    <h1>Software, made <em>by hand</em>.</h1>
-    <p class="sub">I design and build websites, AI assistants, and quiet automations for small businesses that want to move faster.</p>
-    <a class="cta" href="mailto:nate@mccreery.ai">Start a project</a>
+    <div class="eyebrow">A small practice — Fort Worth</div>
+    <h1>Software, built <em>with intention</em>.</h1>
+    <p class="sub">Websites, AI assistants, and back-office automation for operations teams and small businesses that want to move faster — built privately, on infrastructure you control.</p>
+    <a class="cta" href="/contact.html">Start a project</a>
   </div>
 </section>
 
 <main>
   <div class="work">
     <div class="label"><span>Selected Work</span></div>
-    <div class="item"><h3>Jackalope Welding</h3><p>Brand and booking site for a custom fabrication shop.</p></div>
-    <div class="item"><h3>Chiropractic Practice</h3><p>Patient site with automated intake and scheduling.</p></div>
-    <div class="item"><h3>Legal AI Agent</h3><p>Intake assistant that drafts and routes matters automatically.</p></div>
-    <div class="item"><h3>NateOS Command Center</h3><p>Personal operating system for running the studio.</p></div>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Jackalope Welding</h3>
+          <p class="tag">Brand and booking site for a custom fabrication shop.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2025</span><span>Brand · Web · Telegram Agent</span></div>
+        <p class="lede">Brand refresh and a fast marketing site for a Fort Worth fabrication shop — paired with a Telegram agent that runs in the cloud and handles the back-and-forth so the owner can stay in the shop, not in his inbox.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Telegram agent lives on a private droplet — runs 24/7 without his laptop</li>
+            <li>Quote requests from the site land in his Telegram thread, pre-summarized</li>
+            <li>He replies in Telegram; the agent handles drafting back to the customer</li>
+            <li>Photos and specs from prospects get parsed and tagged automatically</li>
+            <li>Booking respects the shop's real availability — not a generic Calendly link</li>
+            <li>Self-hosted analytics — no Google, no Meta, no third-party trackers</li>
+            <li>Image pipeline auto-compresses on upload, serves WebP/AVIF</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Telegram Bot API</span><span>DigitalOcean droplet</span><span>Python agent</span><span>Cloudflare Pages</span><span>R2</span><span>Plausible (self-host)</span>
+        </div>
+
+        <p class="outcome">A busy welder runs his entire customer pipeline from his phone, on the shop floor. The agent handles the office work he doesn't have time for.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Chiropractic Practice</h3>
+          <p class="tag">Patient site with automated intake and scheduling.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2025</span><span>Web · Intake · Scheduling</span></div>
+        <p class="lede">Patient-first marketing site paired with a quiet intake automation that drafts new-patient forms, syncs with the calendar, and hands clean records to the front desk — without sending PHI through anyone's training data.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Intake agent runs on isolated infra — patient data never leaves the practice</li>
+            <li>Form fields validated, normalized, and de-duplicated before save</li>
+            <li>Calendar two-way sync with the front desk's existing tools</li>
+            <li>Insurance-card OCR runs locally, not through a hosted API</li>
+            <li>Audit log: every record edit timestamped and attributable</li>
+            <li>SMS appointment reminders without a third-party CRM</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Self-hosted LLM</span><span>Postgres</span><span>Local OCR</span><span>Twilio</span><span>Encrypted at rest</span>
+        </div>
+
+        <p class="outcome">Front desk reclaimed 6+ hours a week. Patient no-shows down measurably from automated reminders.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Legal AI Agent</h3>
+          <p class="tag">Intake assistant that drafts and routes matters automatically.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2026</span><span>AI Agent · Intake · Audit Trail</span></div>
+        <p class="lede">A custom agent that talks to prospective clients, captures matter details, and drafts the intake packet for an attorney to review. Every action logged — client conversations never touch a public LLM.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Conducts the intake conversation in plain language, not a form</li>
+            <li>Extracts structured matter data: parties, dates, jurisdiction, conflict checks</li>
+            <li>Drafts a memo formatted to the firm's existing intake template</li>
+            <li>Routes to the right attorney based on practice area and load</li>
+            <li>Conflict-check pass against the firm's case database before routing</li>
+            <li>Privileged conversations stay on private infrastructure — full stop</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Custom agent</span><span>Private LLM endpoint</span><span>Document templates</span><span>Conflict-check DB</span><span>Audit log</span>
+        </div>
+
+        <p class="outcome">First-touch response time dropped from hours to minutes. Attorneys see qualified matters, not raw inquiries.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>NateOS Command Center</h3>
+          <p class="tag">Personal operating system for running the studio.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>Ongoing</span><span>Internal · Automation · Agents</span></div>
+        <p class="lede">The system I use to run this practice — projects, clients, automations, and a fleet of AI agents working in parallel. The reason I can ship like a team of one acts like a team of five.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Orchestrates multiple AI agents working in parallel on different client lanes</li>
+            <li>Unified inbox: email, SMS, Telegram, Discord — all triaged by an agent</li>
+            <li>Project state lives in one place; agents read and write to it directly</li>
+            <li>Skills library: reusable workflows the agents reference (200+ and growing)</li>
+            <li>Cron jobs for recurring research, monitoring, and outreach</li>
+            <li>Runs on hardware I own, infra I control — the whole stack is mine</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Hermes Agent</span><span>Claude</span><span>Python</span><span>Self-hosted</span><span>Cron</span><span>Multi-channel I/O</span>
+        </div>
+
+        <p class="outcome">I'm the proof: this site, every project listed above, and the systems behind them — built and maintained by one person with the right leverage.</p>
+      </div>
+    </details>
   </div>
 
   <div class="services">
     <div class="label"><span>Services</span></div>
     <div class="svc"><h3>Websites</h3><p>Fast, considered marketing sites that convert.</p></div>
-    <div class="svc"><h3>AI Assistants</h3><p>Custom agents wired into the tools your team already uses.</p></div>
-    <div class="svc"><h3>Workflow Automation</h3><p>Quiet systems that remove the work nobody should be doing.</p></div>
+    <div class="svc"><h3>AI Assistants</h3><p>Custom agents wired into the tools your team already uses — internal dashboards, ticketing systems, the works.</p></div>
+    <div class="svc"><h3>Operations Automation</h3><p>Quiet systems that handle the repetitive back-office work — lookups, reconciliation, routing — with a clear audit trail for every action.</p></div>
+    <div class="svc"><h3>Privacy &amp; Security</h3><p>Your data stays yours. Private infrastructure, encrypted by default, no third-party tracking — built so client and account data never leaks into someone else's model.</p></div>
   </div>
 </main>
 
