@@ -110,6 +110,65 @@
     .item .body{padding:0 20px 32px}
     footer{padding:56px 24px 40px}
   }
+
+  /* ── Brief wizard ── */
+  .brief-section{padding:100px 56px;max-width:1080px;margin:0 auto}
+  @media(max-width:720px){.brief-section{padding:80px 24px}}
+  .brief-section .blabel{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin-bottom:48px;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+  .brief-section .blabel::after{content:"";flex:1;height:1px;background:var(--rule);margin-left:24px}
+  .brief-section .section-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,4vw,52px);font-weight:300;letter-spacing:-0.02em;margin-bottom:14px}
+  .brief-section .section-sub{font-size:16px;color:var(--mute);max-width:52ch;line-height:1.6;margin-bottom:48px}
+
+  .brief-shell{border:1px solid var(--rule);background:#1a1a1a;max-width:700px}
+  .brief-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--rule);font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--mute)}
+  .brief-head .dots{display:flex;gap:6px}
+  .brief-head .dots span{width:9px;height:9px;border-radius:50%;background:#333}
+  .brief-head .dots span:nth-child(1){background:#F87171}
+  .brief-head .dots span:nth-child(2){background:#FBBF24}
+  .brief-head .dots span:nth-child(3){background:#4ade80}
+  .brief-status{display:flex;align-items:center;gap:7px}
+  .brief-status .ind{width:6px;height:6px;border-radius:50%;background:#333}
+  .brief-status.live .ind{background:#4ade80;animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .brief-body{padding:36px 32px;min-height:340px}
+  @media(max-width:560px){.brief-body{padding:28px 20px}}
+  .brief-step{display:none}
+  .brief-step.active{display:block;animation:fade .25s ease}
+
+  .step-meter{display:flex;gap:6px;margin-bottom:28px}
+  .step-meter .pip{width:28px;height:3px;background:#2e2e2e;border-radius:2px}
+  .step-meter .pip.done,.step-meter .pip.current{background:var(--accent)}
+
+  .brief-q{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:300;line-height:1.2;margin-bottom:6px;letter-spacing:-0.01em}
+  .brief-hint{color:var(--mute);font-size:13px;margin-bottom:22px}
+  .brief-input,.brief-textarea{width:100%;background:#111;border:1px solid var(--rule);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;padding:12px 14px;outline:none;transition:border-color .15s;border-radius:0}
+  .brief-textarea{min-height:110px;resize:vertical}
+  .brief-input:focus,.brief-textarea:focus{border-color:var(--accent)}
+  .brief-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.brief-row{grid-template-columns:1fr}}
+
+  .brief-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+  .brief-back{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mute);background:none;border:none;cursor:pointer;padding:8px 0}
+  .brief-back:hover{color:var(--ink)}
+  .brief-back[disabled]{opacity:0;pointer-events:none}
+  .brief-next{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:12px 22px;background:var(--accent);color:#181818;border:none;cursor:pointer;font-weight:500;transition:all .15s}
+  .brief-next:hover{background:#f4d4a0;transform:translateY(-1px)}
+  .brief-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+  .brief-output{font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;color:var(--ink)}
+  .brief-output h1{font-family:'Fraunces',serif;font-size:22px;font-weight:400;color:var(--accent);margin-bottom:16px}
+  .brief-output h2{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin:20px 0 8px;padding-top:16px;border-top:1px solid var(--rule)}
+  .brief-output h3{font-size:15px;color:var(--ink);margin:12px 0 6px}
+  .brief-output p{margin:.5em 0;color:#cfc9bf}
+  .brief-output ul,.brief-output ol{padding-left:20px;margin:.5em 0}
+  .brief-output li{margin:.25em 0;color:#cfc9bf}
+  .brief-output strong{color:var(--ink);font-weight:600}
+  .brief-output em{color:var(--mute)}
+  .cursor-blink{display:inline-block;width:2px;height:14px;background:var(--accent);vertical-align:middle;margin-left:2px;animation:blink .8s infinite}
+
+  .brief-result-foot{margin-top:28px;padding-top:20px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--mute)}
+  .brief-result-foot a{color:var(--accent)}
 </style>
 </head>
 <body>
@@ -125,7 +184,7 @@
     <div class="eyebrow">A small practice — Fort Worth</div>
     <h1>Software, built <em>with intention</em>.</h1>
     <p class="sub">Websites, AI assistants, and back-office automation for operations teams and small businesses that want to move faster — built privately, on infrastructure you control.</p>
-    <a class="cta" href="/contact.html">Start a project</a>
+    <a class="cta" href="#brief">Get a free project brief →</a>
   </div>
 </section>
 
@@ -288,10 +347,239 @@
   </div>
 </main>
 
+<!-- ── 60-Second Brief Tool ── -->
+<section id="brief">
+  <div class="brief-section">
+    <div class="blabel"><span>Try it · Live demo</span></div>
+    <h2 class="section-title">Three questions. One custom proposal.</h2>
+    <p class="section-sub">Tell me what your business does and what's broken. My AI drafts a real project brief — what I'd build, how long, what happens next. You'll have it in under 60 seconds. I review every one personally before I reply.</p>
+
+    <div class="brief-shell" id="brief-shell">
+      <div class="brief-head">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div>brief.mccreery.ai</div>
+        <div class="brief-status" id="brief-status"><span class="ind"></span><span id="brief-status-txt">Ready</span></div>
+      </div>
+      <div class="brief-body" id="brief-body">
+
+        <!-- STEP 0: contact -->
+        <div class="brief-step active" data-step="0">
+          <div class="step-meter">
+            <div class="pip current"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">Who's asking?</div>
+          <div class="brief-hint">First name and email — so I can send you the brief.</div>
+          <div class="brief-row">
+            <input class="brief-input" id="b-name" placeholder="Your name" maxlength="100" />
+            <input class="brief-input" id="b-email" type="email" placeholder="you@business.com" maxlength="200" />
+          </div>
+          <div class="brief-actions">
+            <button class="brief-back" disabled>← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 1: business -->
+        <div class="brief-step" data-step="1">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip current"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">What does your business do?</div>
+          <div class="brief-hint">One line. "Plumbing in DFW." "Online supplement store." "Personal injury chiro."</div>
+          <input class="brief-input" id="b-business" placeholder="e.g. residential roofing in Fort Worth" maxlength="200" />
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: problem -->
+        <div class="brief-step" data-step="2">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip current"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">What's broken or eating your time?</div>
+          <div class="brief-hint">Be specific. The thing you do over and over that you wish would just happen.</div>
+          <textarea class="brief-textarea" id="b-problem" placeholder="e.g. I lose leads at night because no one answers the phone after 6pm" maxlength="1000"></textarea>
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: goal -->
+        <div class="brief-step" data-step="3">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip current"></div>
+          </div>
+          <div class="brief-q">What does success look like?</div>
+          <div class="brief-hint">In your own words. Not buzzwords. The outcome that would make this worth the money.</div>
+          <textarea class="brief-textarea" id="b-goal" placeholder="e.g. Every after-hours call gets captured, qualified, and replied to within 5 minutes" maxlength="1000"></textarea>
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="generate">Generate my brief →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: streaming output -->
+        <div class="brief-step" data-step="4">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip done"></div>
+          </div>
+          <div class="brief-output" id="brief-output"></div>
+          <div class="brief-result-foot" id="brief-foot" style="display:none">
+            <div>✓ Brief complete · Nate reviews every one before replying</div>
+            <div><a href="mailto:nate@mccreery.ai">Questions? Email me directly →</a></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="big"><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
   <div class="right">Fort Worth, Texas<br>© 2026</div>
 </footer>
 
+<script>
+  /* ── Tiny markdown → HTML ── */
+  function mdToHtml(md){
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const lines = md.split('\n');
+    let html = '', inUL = false, inOL = false, para = [];
+    const flushPara = () => { if(para.length){ html += '<p>'+para.join(' ')+'</p>'; para=[]; } };
+    const closeLists = () => { if(inUL){html+='</ul>';inUL=false;} if(inOL){html+='</ol>';inOL=false;} };
+    for(let raw of lines){
+      let line = raw.replace(/\r$/,'');
+      let t = line.trim();
+      if(!t){ flushPara(); closeLists(); continue; }
+      let m;
+      if((m = t.match(/^###\s+(.+)/))){ flushPara();closeLists(); html+='<h3>'+inline(esc(m[1]))+'</h3>'; continue; }
+      if((m = t.match(/^##\s+(.+)/))){ flushPara();closeLists(); html+='<h2>'+inline(esc(m[1]))+'</h2>'; continue; }
+      if((m = t.match(/^#\s+(.+)/))){ flushPara();closeLists(); html+='<h1>'+inline(esc(m[1]))+'</h1>'; continue; }
+      if((m = t.match(/^[-*]\s+(.+)/))){ flushPara(); if(inOL){html+='</ol>';inOL=false;} if(!inUL){html+='<ul>';inUL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
+      if((m = t.match(/^\d+\.\s+(.+)/))){ flushPara(); if(inUL){html+='</ul>';inUL=false;} if(!inOL){html+='<ol>';inOL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
+      closeLists();
+      para.push(inline(esc(t)));
+    }
+    flushPara(); closeLists();
+    return html;
+    function inline(s){
+      return s
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+        .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
+    }
+  }
+
+  /* ── Brief wizard ── */
+  const briefBody = document.getElementById('brief-body');
+  const statusEl = document.getElementById('brief-status');
+  const statusTxt = document.getElementById('brief-status-txt');
+  let step = 0;
+
+  function showStep(n){
+    document.querySelectorAll('.brief-step').forEach(s => s.classList.remove('active'));
+    const el = document.querySelector('.brief-step[data-step="'+n+'"]');
+    if(el) el.classList.add('active');
+    step = n;
+    const focusable = el && el.querySelector('input,textarea');
+    if(focusable) setTimeout(()=>focusable.focus(),200);
+  }
+
+  function validate(n){
+    if(n===0){
+      const name=document.getElementById('b-name').value.trim();
+      const email=document.getElementById('b-email').value.trim();
+      if(!name){alert('Need your name');return false;}
+      if(!email||!email.includes('@')){alert('Need a valid email');return false;}
+      return true;
+    }
+    if(n===1) return !!document.getElementById('b-business').value.trim() || (alert('One sentence on what you do'),false);
+    if(n===2) return document.getElementById('b-problem').value.trim().length>=8 || (alert('A bit more detail helps'),false);
+    if(n===3) return document.getElementById('b-goal').value.trim().length>=8 || (alert('What does success look like?'),false);
+    return true;
+  }
+
+  briefBody.addEventListener('click', (e) => {
+    const t = e.target;
+    if(t.classList.contains('brief-back') && !t.disabled){
+      if(step>0) showStep(step-1);
+    } else if(t.classList.contains('brief-next')){
+      if(!validate(step)) return;
+      const action = t.dataset.action;
+      if(action === 'generate') runBrief();
+      else if(step < 3) showStep(step+1);
+    }
+  });
+
+  briefBody.addEventListener('keydown', (e) => {
+    if(e.key==='Enter' && !e.shiftKey && e.target.tagName==='INPUT'){
+      e.preventDefault();
+      const cur = document.querySelector('.brief-step[data-step="'+step+'"] .brief-next');
+      if(cur) cur.click();
+    }
+  });
+
+  async function runBrief(){
+    showStep(4);
+    statusEl.classList.add('live');
+    statusTxt.textContent = 'AI drafting…';
+    const out = document.getElementById('brief-output');
+    out.innerHTML = '<span class="cursor-blink"></span>';
+    const data = {
+      name: document.getElementById('b-name').value.trim(),
+      email: document.getElementById('b-email').value.trim(),
+      business: document.getElementById('b-business').value.trim(),
+      problem: document.getElementById('b-problem').value.trim(),
+      goal: document.getElementById('b-goal').value.trim(),
+    };
+    let acc = '';
+    try {
+      const r = await fetch('https://os.mccreery.ai/api/brief', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data),
+      });
+      if(!r.ok){
+        const j = await r.json().catch(()=>({error:'request failed'}));
+        out.innerHTML = '<p style="color:#F87171">Couldn\'t generate brief: '+(j.detail||j.error||'unknown error')+'. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly.</p>';
+        statusEl.classList.remove('live');
+        statusTxt.textContent='Error';
+        return;
+      }
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let buf = '';
+      while(true){
+        const {value,done} = await reader.read();
+        if(done) break;
+        buf += dec.decode(value,{stream:true});
+        const parts = buf.split('\n\n');
+        buf = parts.pop();
+        for(const p of parts){
+          if(!p.startsWith('data:')) continue;
+          try{
+            const ev = JSON.parse(p.slice(5).trim());
+            if(ev.t){
+              acc += ev.t;
+              out.innerHTML = mdToHtml(acc) + '<span class="cursor-blink"></span>';
+              out.scrollIntoView({block:'nearest',behavior:'smooth'});
+            } else if(ev.error){
+              acc += '\n\n*[error: '+ev.error+']*';
+            }
+          }catch(_){}
+        }
+      }
+      out.innerHTML = mdToHtml(acc);
+      document.getElementById('brief-foot').style.display = 'flex';
+      statusEl.classList.remove('live');
+      statusTxt.textContent = 'Done · check your email';
+    } catch(err){
+      out.innerHTML = '<p style="color:#F87171">Network error. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly.</p>';
+      statusEl.classList.remove('live');
+      statusTxt.textContent='Error';
+    }
+  }
+</script>
 </body>
 </html>
