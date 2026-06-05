@@ -42,11 +42,29 @@
     padding:26px 30px 60px;align-items:start;max-width:1180px;margin:0 auto}
   .wrap>*{min-width:0}
   @media (max-width:880px){
-    .wrap{grid-template-columns:1fr;padding:16px 14px 44px;gap:18px}
-    .stage{position:static;padding:16px;border-radius:14px}
+    /* Single-column flow (not grid) so the preview can stay pinned across the
+       whole page while the controls scroll underneath it, and trimmed chrome
+       to reclaim vertical space on phones. */
+    .wrap{display:block;padding:14px 12px 40px}
+    .stage{
+      position:sticky;top:8px;z-index:20;
+      padding:12px;border-radius:14px;margin-bottom:16px;
+      box-shadow:0 14px 30px -18px rgba(19,35,91,.55);
+    }
+    .stage .cap{margin-top:8px}
+    .stage .cap .desc{display:none}      /* keep just the ratio to stay compact */
+    .panel{position:relative;z-index:1}
     header.app{padding:16px 16px 12px}
     header.app h1{font-size:27px}
-    .panel{order:2}
+  }
+  @media (max-width:880px) and (orientation:landscape){
+    /* Landscape phones are short but wide — put the pinned preview beside the
+       controls (like desktop) instead of stacking, so neither gets cramped. */
+    .wrap{display:grid;grid-template-columns:minmax(170px,34%) 1fr;gap:14px;align-items:start}
+    .stage{margin-bottom:0}
+    header.app{padding:10px 16px 8px}
+    header.app h1{font-size:21px}
+    header.app .sub{display:none}
   }
   @media (max-width:480px){
     input[type=range]{height:9px}
@@ -129,7 +147,7 @@
   <div class="stage">
     <div class="canvas-frame"><canvas id="cv"></canvas></div>
     <div class="cap">
-      <small>Live preview &mdash; reflects exactly what exports.</small>
+      <small class="desc">Live preview &mdash; reflects exactly what exports.</small>
       <small id="ratio">1 : 1.64</small>
     </div>
   </div>
@@ -314,8 +332,18 @@ function paint(c, scale, W2){
 }
 
 function render(){
-  const stage=cv.parentElement.getBoundingClientRect();
-  const dispW=Math.max(240, Math.min(stage.width, 560));
+  const frame=cv.parentElement.getBoundingClientRect();
+  let dispW=Math.max(240, Math.min(frame.width, 560));
+  // On phones the preview is pinned at the top, so also cap it by viewport
+  // height — the sign is 1.64x taller than wide and would otherwise swallow
+  // the whole screen and bury the controls.
+  if(window.matchMedia('(max-width:880px)').matches){
+    // Landscape phones lay the preview out beside the controls, so it can use
+    // more of the screen height; portrait stacks them, so keep it to ~46%.
+    const landscape=window.matchMedia('(orientation:landscape)').matches;
+    const maxH=window.innerHeight*(landscape?0.72:0.46);
+    if(dispW*H/W > maxH) dispW=Math.max(150, maxH*W/H);
+  }
   const dpr=window.devicePixelRatio||1;
   cv.style.width=dispW+'px'; cv.style.height=(dispW*H/W)+'px';
   cv.width=Math.round(dispW*dpr); cv.height=Math.round(dispW*H/W*dpr);
