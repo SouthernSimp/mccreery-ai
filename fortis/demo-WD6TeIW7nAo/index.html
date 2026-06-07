@@ -2,12 +2,18 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Fortis MID Setup — Demo</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
-body{background:#0a0f1a;color:#e6ebf2;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+body{background:linear-gradient(150deg,#00263A 0%,#003057 50%,#1D4A6E 100%);background-attachment:fixed;color:#e6ebf2;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .hero{max-width:980px;margin:0 auto;padding:50px 24px 30px}
-.brand{font-size:11px;font-weight:700;letter-spacing:.8px;color:#3b82f6;margin-bottom:8px}
-.hero h1{font-size:34px;margin:0 0 10px;font-weight:600;letter-spacing:-.4px}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.brand img{height:30px;width:auto}
+.brand .tag{font-size:11px;font-weight:700;letter-spacing:.8px;color:#cfe0ee;text-transform:uppercase;padding-left:14px;border-left:1px solid rgba(255,255,255,.25)}
+.hero h1{font-family:"Manrope",sans-serif;font-size:42px;margin:0 0 12px;font-weight:300;letter-spacing:-.5px;line-height:1.08}
 .hero .tag{color:#9aa6b8;font-size:16px;margin:0 0 36px;max-width:680px}
 
 .split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
@@ -16,19 +22,19 @@ body{background:#0a0f1a;color:#e6ebf2;font-family:-apple-system,BlinkMacSystemFo
 .option{position:relative;border-radius:14px;padding:28px;text-decoration:none;display:flex;flex-direction:column;min-height:340px;transition:transform .15s,box-shadow .15s}
 .option:hover{transform:translateY(-2px)}
 
-.option-ai{background:linear-gradient(160deg,#3b82f6 0%,#8b5cf6 60%,#7c3aed 100%);color:#fff;box-shadow:0 8px 40px rgba(59,130,246,.25);border:1px solid rgba(255,255,255,.15)}
-.option-ai:hover{box-shadow:0 12px 50px rgba(139,92,246,.4)}
-.option-ai .badge{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-size:10px;font-weight:700;letter-spacing:.7px;padding:4px 9px;border-radius:99px;backdrop-filter:blur(8px);margin-bottom:14px;align-self:flex-start}
-.option-manual{background:#141c2e;border:1px solid #2a3852;color:#e6ebf2}
-.option-manual:hover{border-color:#3b82f6}
+.option-ai{background:linear-gradient(150deg,#1D4A6E 0%,#003057 55%,#00263A 100%);color:#fff;box-shadow:0 8px 40px rgba(0,38,58,.5);border:1px solid rgba(255,255,255,.15)}
+.option-ai:hover{box-shadow:0 12px 50px rgba(214,65,35,.3)}
+.option-ai .badge{display:inline-block;background:var(--fortis-orange);color:#fff;font-size:10px;font-weight:700;letter-spacing:.7px;padding:4px 9px;border-radius:99px;margin-bottom:14px;align-self:flex-start}
+.option-manual{background:#0c2236;border:1px solid #1e4a6e;color:#e6ebf2}
+.option-manual:hover{border-color:var(--fortis-orange)}
 .option-manual .badge{display:inline-block;background:#1f2a40;color:#9aa6b8;font-size:10px;font-weight:700;letter-spacing:.7px;padding:4px 9px;border-radius:99px;margin-bottom:14px;align-self:flex-start;border:1px solid #2a3852}
 
 .option .label{font-size:12px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;opacity:.85;margin-bottom:4px}
-.option h2{font-size:24px;font-weight:600;margin:0 0 8px;letter-spacing:-.2px}
+.option h2{font-size:24px;font-weight:600;margin:0 0 8px;letter-spacing:-.2px;color:inherit}
 .option .desc{font-size:14px;line-height:1.55;opacity:.88;margin:0 0 20px;flex:1}
 
-.option-ai .cta{background:#fff;color:#1a1a1a;padding:12px 18px;border-radius:8px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.option-ai .cta .play{width:22px;height:22px;border-radius:50%;background:#22c55e;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.option-ai .cta{background:var(--fortis-orange);color:#fff;padding:13px 22px;border-radius:99px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;box-shadow:0 4px 16px rgba(214,65,35,.45)}
+.option-ai .cta .play{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.28);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
 
 .option-manual .cta{background:#1f2a40;color:#e6ebf2;padding:12px 18px;border-radius:8px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;border:1px solid #2a3852}
 
@@ -41,8 +47,8 @@ body{background:#0a0f1a;color:#e6ebf2;font-family:-apple-system,BlinkMacSystemFo
 .case-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media (max-width:760px){.case-list{grid-template-columns:1fr}}
 .case{background:#0a0f1a;border:1px solid #2a3852;border-radius:8px;padding:12px 14px;cursor:pointer;text-decoration:none;color:#e6ebf2;transition:.15s}
-.case:hover{border-color:#3b82f6;background:#0f1729}
-.case .id{font-family:ui-monospace,Menlo,monospace;color:#3b82f6;font-weight:600;font-size:13px}
+.case:hover{border-color:var(--fortis-orange);background:#0f1729}
+.case .id{font-family:ui-monospace,Menlo,monospace;color:var(--fortis-orange);font-weight:600;font-size:13px}
 .case .m{font-size:13px;color:#cbd5e1;margin-top:2px}
 .case .t{font-size:11px;color:#5b6776;margin-top:4px}
 
@@ -60,7 +66,7 @@ body{background:#0a0f1a;color:#e6ebf2;font-family:-apple-system,BlinkMacSystemFo
 </style>
 </head><body>
 <div class="hero">
-  <div class="brand">FORTIS PAYMENTS · INTERNAL DEMO</div>
+  <div class="brand"><img src="assets/fortis-white.png" alt="Fortis"><span class="tag">Internal Demo</span></div>
   <h1>4-Website MID Automation</h1>
   <p class="tag">An employee currently jumps between four internal systems to onboard one merchant. This mockup shows that workflow — and what happens when an AI agent does it instead.</p>
 

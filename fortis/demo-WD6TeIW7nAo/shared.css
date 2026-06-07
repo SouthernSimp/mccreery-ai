@@ -1,14 +1,27 @@
 /* Fortis 4-site demo — shared styles */
+:root{
+  --fortis-navy:#003057;       /* primary brand navy — navs, primary buttons */
+  --fortis-navy-deep:#00263A;  /* darkest — gradient start, hovers */
+  --fortis-blue:#1D4A6E;       /* mid blue — gradient end, secondary surfaces */
+  --fortis-orange:#D64123;     /* signature accent / primary CTA */
+  --fortis-orange-dk:#B8361C;  /* orange hover */
+  --fortis-link:#007BFF;       /* link blue */
+  --bg:#F6F6F6;                /* page background */
+  --text:#212529;              /* body text */
+}
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;color:#1a1a1a;background:#f5f6f8}
+body{font:15px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+/* Fortis logo lockup inside dark nav bars */
+.nav .fortis-logo{height:22px;width:auto;display:block}
+.logo-sep{width:1px;height:20px;background:rgba(255,255,255,.28);display:inline-block}
 .bar{background:#fff;border-bottom:1px solid #e4e6ea;padding:10px 20px;display:flex;align-items:center;gap:14px;font-size:13px}
 .bar .dot{width:10px;height:10px;border-radius:50%;background:#e4475a}
 .bar .dot.g{background:#34c759}
 .bar .dot.y{background:#ffcc00}
 .bar .url{flex:1;background:#f1f2f5;padding:5px 12px;border-radius:6px;color:#555;font-family:ui-monospace,Menlo,monospace;font-size:12px}
 .bar .site-tag{color:#888;font-weight:500}
-.nav{background:#1a2332;color:#fff;padding:12px 28px;display:flex;align-items:center;gap:18px}
+.nav{background:var(--fortis-navy);color:#fff;padding:12px 28px;display:flex;align-items:center;gap:14px}
 .nav .logo{font-weight:700;letter-spacing:.3px}
 .nav .crumbs{color:#9aa6b8;font-size:13px}
 .nav a{color:#9aa6b8;text-decoration:none;margin-left:auto;font-size:13px}
@@ -20,11 +33,11 @@ h2{font-size:16px;margin:18px 0 8px;font-weight:600;color:#333}
 .sub{color:#6b7280;font-size:13px;margin-bottom:18px}
 label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
 input[type=text]{width:100%;padding:10px 12px;border:1px solid #d4d7dd;border-radius:6px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
-input[type=text]:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
-button,.btn{background:#1a2332;color:#fff;border:none;padding:10px 18px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block}
-button:hover,.btn:hover{background:#2a3852}
-.btn.alt{background:#3b82f6}.btn.alt:hover{background:#2563eb}
-.btn.ghost{background:#fff;color:#1a2332;border:1px solid #d4d7dd}
+input[type=text]:focus{outline:none;border-color:var(--fortis-navy);box-shadow:0 0 0 3px rgba(0,48,87,.15)}
+button,.btn{background:var(--fortis-navy);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{background:var(--fortis-navy-deep)}
+.btn.alt{background:var(--fortis-orange);border-radius:99px;padding:10px 22px}.btn.alt:hover{background:var(--fortis-orange-dk)}
+.btn.ghost{background:#fff;color:var(--fortis-navy);border:1px solid #d4d7dd}
 .row{display:flex;gap:10px;align-items:flex-end}
 .kv{display:grid;grid-template-columns:200px 1fr;gap:8px 18px;font-size:14px;padding:10px 0;border-bottom:1px solid #f0f1f4}
 .kv:last-child{border:none}
@@ -79,11 +92,11 @@ button:hover,.btn:hover{background:#2a3852}
 .banner{padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:14px}
 .banner.warn{background:#fef3c7;border-left:3px solid #f59e0b;color:#78350f}
 .banner.ok{background:#dcfce7;border-left:3px solid #16a34a;color:#14532d}
-.banner.info{background:#dbeafe;border-left:3px solid #3b82f6;color:#1e3a8a}
-.tip{background:#f0f3f8;border-left:3px solid #3b82f6;padding:10px 14px;border-radius:4px;font-size:13px;color:#334155;margin-top:10px}
+.banner.info{background:#e6eef5;border-left:3px solid var(--fortis-navy);color:#1e3a8a}
+.tip{background:#eef2f7;border-left:3px solid var(--fortis-orange);padding:10px 14px;border-radius:4px;font-size:13px;color:#334155;margin-top:10px}
 .steps{display:flex;gap:0;margin:0 -24px 18px;border-bottom:1px solid #e4e6ea}
 .steps .step{padding:10px 18px;border-bottom:2px solid transparent;color:#888;font-size:13px;font-weight:500}
-.steps .step.on{color:#1a2332;border-color:#1a2332}
+.steps .step.on{color:var(--fortis-navy);border-color:var(--fortis-orange)}
 .steps .step.done{color:#16a34a}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid #f0f1f4}
