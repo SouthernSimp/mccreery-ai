@@ -200,7 +200,7 @@
   <span><a href="#apps">Apps</a> · Fort Worth · TX</span>
 </nav>
 
-<section class="hero">
+<section class="hero" data-section-id="hero">
   <div class="grain"></div>
   <div class="hero-inner">
     <div class="eyebrow">A small practice — Fort Worth</div>
@@ -211,7 +211,7 @@
 </section>
 
 <main>
-  <div class="work">
+  <div class="work" data-section-id="work">
     <div class="label"><span>Selected Work</span></div>
 
     <details class="item">
@@ -360,7 +360,7 @@
     </details>
   </div>
 
-  <section class="apps" id="apps">
+  <section class="apps" id="apps" data-section-id="apps">
     <div class="label"><span>My Own Apps</span></div>
     <div class="apps-head">
       <div>
@@ -413,7 +413,7 @@
     </div>
   </section>
 
-  <div class="services">
+  <div class="services" data-section-id="services">
     <div class="label"><span>Services</span></div>
     <div class="svc"><h3>Websites</h3><p>Fast, considered marketing sites that convert.</p></div>
     <div class="svc"><h3>AI Assistants</h3><p>Custom agents wired into the tools your team already uses — internal dashboards, ticketing systems, the works.</p></div>
@@ -423,7 +423,7 @@
 </main>
 
 <!-- ── 60-Second Brief Tool ── -->
-<section id="brief">
+<section id="brief" data-section-id="brief">
   <div class="brief-section">
     <div class="blabel"><span>Try it · Live demo</span></div>
     <h2 class="section-title">Three questions. One custom proposal.</h2>
@@ -513,7 +513,7 @@
   </div>
 </section>
 
-<footer>
+<footer data-section-id="footer">
   <div class="big"><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
   <div class="right">Fort Worth, Texas<br>© 2026</div>
 </footer>
@@ -656,5 +656,15 @@
     }
   }
 </script>
+
+<!-- ── Section config (progressive enhancement) ──
+     render.js applies /site-config/sections.json on top of this static HTML.
+     If the JSON is missing or malformed it is a no-op and the page above is
+     the fallback. In production set NATEOS_SECTIONS_URL to the droplet API
+     origin and bump ?v= on render.js when publishing (Cloudflare cache). -->
+<script>
+  window.NATEOS_SECTIONS_URL = 'https://os.mccreery.ai/site-config/sections.json';
+</script>
+<script src="render.js?v=1" defer></script>
 </body>
 </html>
