@@ -32,23 +32,28 @@
     '.nm-chat :focus-visible{outline:1px solid var(--c-accent);outline-offset:2px}',
 
     /* launcher */
-    '.nm-launcher{position:fixed;right:24px;bottom:24px;z-index:90;width:52px;height:52px;',
-    'border-radius:50%;background:#1f1e1c;border:1px solid var(--c-rule);color:var(--c-ink);',
-    'display:flex;align-items:center;justify-content:center;transition:all .2s}',
-    '.nm-launcher:hover{border-color:var(--c-accent);color:var(--c-accent);transform:translateY(-2px)}',
-    '.nm-launcher .nm-glyph{font-family:var(--c-mono);font-size:15px;letter-spacing:-1px;transition:transform .2s;user-select:none}',
-    '.nm-launcher .nm-x{display:none;font-size:20px;font-family:var(--c-font)}',
-    '.nm-launcher[aria-expanded="true"] .nm-glyph{display:none}',
-    '.nm-launcher[aria-expanded="true"] .nm-x{display:block;transform:rotate(90deg);transition:transform .2s}',
-    '.nm-launcher .nm-dot{display:none;position:absolute;top:6px;right:6px;width:6px;height:6px;',
-    'border-radius:50%;background:var(--c-accent)}',
-    '.nm-launcher.nm-nudge .nm-dot{display:block;animation:nm-blink 1.4s infinite}',
-    '@keyframes nm-pulse{0%{box-shadow:0 0 0 0 rgba(232,199,154,.35)}100%{box-shadow:0 0 0 14px rgba(232,199,154,0)}}',
-    '.nm-launcher.nm-nudge{animation:nm-pulse 1.6s ease-out 2}',
+    '.nm-chat .nm-launcher{position:fixed;right:24px;bottom:24px;z-index:90;height:48px;padding:0 20px 0 16px;',
+    'border-radius:24px;background:var(--c-accent);border:1px solid var(--c-accent);color:#181818;',
+    'display:flex;align-items:center;justify-content:center;gap:9px;transition:all .2s;',
+    'box-shadow:0 4px 18px rgba(232,199,154,.32),0 2px 6px rgba(0,0,0,.4);',
+    'animation:nm-breathe 3.2s ease-in-out infinite}',
+    '.nm-chat .nm-launcher:hover{transform:translateY(-2px);box-shadow:0 6px 26px rgba(232,199,154,.5),0 2px 8px rgba(0,0,0,.4);animation:none}',
+    '.nm-chat .nm-launcher .nm-glyph{font-size:17px;line-height:1;transition:transform .2s;user-select:none}',
+    '.nm-chat .nm-launcher .nm-label{font-family:var(--c-mono);font-size:12px;font-weight:600;letter-spacing:.08em;white-space:nowrap;user-select:none}',
+    '.nm-chat .nm-launcher .nm-x{display:none;font-size:20px;font-family:var(--c-font)}',
+    '.nm-chat .nm-launcher[aria-expanded="true"]{width:48px;padding:0;border-radius:50%;animation:none;box-shadow:0 2px 8px rgba(0,0,0,.4)}',
+    '.nm-chat .nm-launcher[aria-expanded="true"] .nm-glyph,.nm-launcher[aria-expanded="true"] .nm-label{display:none}',
+    '.nm-chat .nm-launcher[aria-expanded="true"] .nm-x{display:block;transform:rotate(90deg);transition:transform .2s}',
+    '.nm-chat .nm-launcher .nm-dot{display:none;position:absolute;top:-2px;right:2px;width:9px;height:9px;',
+    'border-radius:50%;background:#4ade80;border:2px solid #181818}',
+    '.nm-chat .nm-launcher.nm-nudge .nm-dot{display:block;animation:nm-blink 1.4s infinite}',
+    '@keyframes nm-pulse{0%{box-shadow:0 0 0 0 rgba(232,199,154,.45)}100%{box-shadow:0 0 0 18px rgba(232,199,154,0)}}',
+    '@keyframes nm-breathe{0%,100%{box-shadow:0 4px 18px rgba(232,199,154,.32),0 2px 6px rgba(0,0,0,.4)}50%{box-shadow:0 4px 28px rgba(232,199,154,.55),0 2px 6px rgba(0,0,0,.4)}}',
+    '.nm-chat .nm-launcher.nm-nudge{animation:nm-pulse 1.6s ease-out 2,nm-breathe 3.2s ease-in-out 3.2s infinite}',
     '@keyframes nm-blink{0%,100%{opacity:1}50%{opacity:.25}}',
 
     /* teaser */
-    '.nm-teaser{position:fixed;right:88px;bottom:40px;z-index:90;font-family:var(--c-mono);',
+    '.nm-teaser{position:fixed;right:178px;bottom:40px;z-index:90;font-family:var(--c-mono);',
     'font-size:11px;color:var(--c-mute);letter-spacing:.04em;opacity:0;transition:opacity .6s;pointer-events:none}',
     '.nm-teaser.nm-show{opacity:1}',
 
@@ -135,7 +140,7 @@
 
     /* mobile sheet */
     '@media (max-width:639.5px){',
-    '.nm-launcher{right:16px;bottom:16px}',
+    '.nm-chat .nm-launcher{right:16px;bottom:16px}',
     '.nm-teaser{display:none}',
     '.nm-panel{inset:0;right:0;bottom:0;width:100%;height:100dvh;border-radius:0;border:0;box-shadow:none;',
     'transform:translateY(24px);transition:opacity .25s ease,transform .25s ease}',
@@ -215,10 +220,12 @@
   var root = document.createElement('div');
   root.className = 'nm-chat';
   root.innerHTML =
-    '<span class="nm-teaser" aria-hidden="true">ask the site — it answers</span>' +
+    '<span class="nm-teaser" aria-hidden="true">it really answers — try it</span>' +
     '<button class="nm-launcher" type="button" aria-haspopup="dialog" aria-expanded="false"' +
     ' aria-controls="nm-chat-panel" aria-label="Open chat with Nate\'s assistant">' +
-    '<span class="nm-glyph">&gt;_</span><span class="nm-x" aria-hidden="true">&times;</span>' +
+    '<span class="nm-glyph" aria-hidden="true">&#10024;</span>' +
+    '<span class="nm-label">ASK MY AI</span>' +
+    '<span class="nm-x" aria-hidden="true">&times;</span>' +
     '<span class="nm-dot" aria-hidden="true"></span></button>' +
     '<section class="nm-panel" id="nm-chat-panel" role="dialog" aria-modal="false"' +
     ' aria-label="Chat with Nate\'s assistant">' +
