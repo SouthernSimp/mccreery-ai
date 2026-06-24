@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — Output View
+   Victoria EOD Reporting — Output View
    Live dashboard showing submitted/synced EOD data.
    Two approaches: "manual" (Victoria's) and "automated" (QuickSight).
    ============================================ */

@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — Wiki Spreadsheet View
+   Victoria EOD Reporting — Wiki Spreadsheet View
    ============================================
    Exposes two globals used by app.js:
      renderWikiView(approach)   -> HTML string

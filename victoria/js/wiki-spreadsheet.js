@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — Wiki Spreadsheet
+   Victoria EOD Reporting — Wiki Spreadsheet
    Embedded Excel-like spreadsheet for the wiki demo.
    Two modes:
      "excel"    — Victoria's current messy shared sheet

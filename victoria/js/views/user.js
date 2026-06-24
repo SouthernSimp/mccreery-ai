@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — User View
+   Victoria EOD Reporting — User View
    ============================================
    Exposes two globals used by app.js:
      renderUserView(approach)   -> HTML string

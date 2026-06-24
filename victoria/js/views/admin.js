@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — Admin View
+   Victoria EOD Reporting — Admin View
    Renders the Admin Oversight view for both the
    manual (Victoria's) and automated (QuickSight)
    approaches. All functions are global because

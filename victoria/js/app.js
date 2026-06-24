@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — Main App Logic
+   Victoria EOD Reporting — Main App Logic
    ============================================ */
 
 const App = {

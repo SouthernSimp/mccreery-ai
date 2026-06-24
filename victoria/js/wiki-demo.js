@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria Wiki Demo — Main Logic
+   Victoria Wiki Demo — Main Logic
    ============================================
    Dependencies (loaded before this file):
      - js/data.js          (MANAGERS, METRICS, AppState, getMockValue)
@@ -330,7 +330,7 @@ var WikiDemo = {
     return '\
       <div style="text-align: center; padding: 24px 0; border-top: 1px solid var(--gray-200); margin-top: 24px;">\
         <p class="text-sm text-gray">\
-          <strong>Vickytoria EOD Reporting Demo</strong> — Mockup for pitch presentation<br>\
+          <strong>Victoria EOD Reporting Demo</strong> — Mockup for pitch presentation<br>\
           All data is sample/mock data · No real QuickSight API connected<br>\
           Built with HTML/CSS/JS · No build step required\
         </p>\

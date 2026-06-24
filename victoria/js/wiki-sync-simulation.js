@@ -1,5 +1,5 @@
 /* ============================================
-   Vickytoria EOD Reporting — Wiki Sync Simulation
+   Victoria EOD Reporting — Wiki Sync Simulation
    --------------------------------------------
    Visual sync flow diagram + terminal-style log +
    animated sync simulation. This is the "wow"
