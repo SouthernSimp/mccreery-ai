@@ -1,0 +1,697 @@
+/* ============================================
+   Wiki Demo — Additional Styles
+   ============================================ */
+
+/* Wiki page layout */
+.wiki-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  background: white;
+  min-height: 100vh;
+}
+
+/* Wiki header (looks like Confluence/Notion) */
+.wiki-header {
+  border-bottom: 2px solid var(--gray-200);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.wiki-breadcrumb {
+  font-size: 12px;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+
+.wiki-breadcrumb a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.wiki-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gray-900);
+  margin-bottom: 6px;
+}
+
+.wiki-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.wiki-meta .wiki-author {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wiki-meta .wiki-author-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* View mode toggle (Excel vs Automated) */
+.view-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+}
+
+.view-mode-toggle {
+  display: inline-flex;
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  gap: 4px;
+}
+
+.view-mode-toggle button {
+  padding: 8px 20px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.view-mode-toggle button.active {
+  background: var(--primary);
+  color: white;
+}
+
+.view-mode-toggle button.active.excel {
+  background: var(--success);
+}
+
+/* ============================================
+   Excel-style Spreadsheet (embedded in wiki)
+   ============================================ */
+.spreadsheet-container {
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+.spreadsheet-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  font-size: 13px;
+}
+
+.spreadsheet-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spreadsheet-toolbar .sheet-name {
+  font-weight: 700;
+  color: var(--gray-700);
+}
+
+.spreadsheet-toolbar .sync-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.spreadsheet-toolbar .sync-indicator .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gray-400);
+}
+
+.spreadsheet-toolbar .sync-indicator.live .dot {
+  background: var(--success);
+  animation: pulse 2s infinite;
+}
+
+.spreadsheet-toolbar .sync-indicator.syncing .dot {
+  background: var(--warning);
+  animation: pulse 0.6s infinite;
+}
+
+/* The actual spreadsheet grid */
+.spreadsheet-grid {
+  overflow: auto;
+  max-height: 600px;
+}
+
+.spreadsheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Row numbers column (like Excel) */
+.spreadsheet-table .row-num {
+  background: var(--gray-100);
+  color: var(--gray-400);
+  text-align: center;
+  width: 40px;
+  min-width: 40px;
+  font-size: 11px;
+  font-weight: 600;
+  border-right: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+  user-select: none;
+}
+
+/* Column headers (A, B, C...) */
+.spreadsheet-table .col-header {
+  background: var(--gray-100);
+  color: var(--gray-400);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-right: 1px solid var(--gray-200);
+  border-bottom: 2px solid var(--gray-300);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* Named header row (metric names) */
+.spreadsheet-table .name-header {
+  background: var(--primary-50);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--primary-dark);
+  padding: 8px 12px;
+  border-right: 1px solid var(--gray-200);
+  border-bottom: 2px solid var(--primary);
+  position: sticky;
+  top: 24px;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.spreadsheet-table .name-header:first-child {
+  text-align: left;
+}
+
+/* Data cells */
+.spreadsheet-table td.cell {
+  padding: 6px 10px;
+  border-right: 1px solid var(--gray-100);
+  border-bottom: 1px solid var(--gray-100);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+
+.spreadsheet-table td.cell.label {
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-700);
+  background: var(--gray-50);
+  position: sticky;
+  left: 40px;
+  z-index: 5;
+}
+
+/* Cell states */
+.spreadsheet-table td.cell.auto-filled {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.spreadsheet-table td.cell.auto-filled::after {
+  content: " ✓";
+  color: var(--success);
+  font-size: 10px;
+}
+
+.spreadsheet-table td.cell.manual-entry {
+  background: #fefce8;
+  color: #854d0e;
+}
+
+.spreadsheet-table td.cell.empty {
+  background: #fef2f2;
+  color: var(--danger);
+  text-align: center;
+}
+
+.spreadsheet-table td.cell.empty::after {
+  content: "— pending —";
+  font-size: 11px;
+  font-style: italic;
+}
+
+.spreadsheet-table td.cell.syncing {
+  background: #fef3c7;
+  animation: syncFlash 0.8s ease;
+}
+
+@keyframes syncFlash {
+  0% { background: #dbeafe; }
+  50% { background: #bfdbfe; }
+  100% { background: #f0fdf4; }
+}
+
+.spreadsheet-table td.cell.locked {
+  background: var(--gray-50);
+  color: var(--gray-400);
+}
+
+/* Team row separator */
+.spreadsheet-table tr.team-separator td {
+  border-top: 2px solid var(--gray-200);
+}
+
+/* Spreadsheet footer */
+.spreadsheet-footer {
+  padding: 8px 12px;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-200);
+  font-size: 12px;
+  color: var(--gray-500);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ============================================
+   Sync Flow Visualization
+   ============================================ */
+.sync-flow-panel {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid #bae6fd;
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.sync-flow-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sync-flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 16px 0;
+}
+
+.sync-flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  background: white;
+  border: 2px solid var(--gray-200);
+  min-width: 140px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.sync-flow-node.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-100);
+}
+
+.sync-flow-node.source {
+  border-color: #0ea5e9;
+  background: #f0f9ff;
+}
+
+.sync-flow-node.wiki {
+  border-color: var(--success);
+  background: #f0fdf4;
+}
+
+.sync-flow-node .node-icon {
+  font-size: 32px;
+}
+
+.sync-flow-node .node-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.sync-flow-node .node-subtitle {
+  font-size: 11px;
+  color: var(--gray-500);
+}
+
+.sync-flow-arrow {
+  flex: 1;
+  max-width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sync-flow-arrow .arrow-line {
+  width: 100%;
+  height: 2px;
+  background: var(--gray-300);
+  position: relative;
+}
+
+.sync-flow-arrow .arrow-line::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -4px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid var(--gray-300);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.sync-flow-arrow.active .arrow-line {
+  background: var(--primary);
+}
+
+.sync-flow-arrow.active .arrow-line::after {
+  border-left-color: var(--primary);
+}
+
+.sync-flow-arrow .flow-label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gray-400);
+  white-space: nowrap;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.sync-flow-arrow.active .flow-label {
+  color: var(--primary);
+}
+
+/* Data packets animation along the arrow */
+.sync-flow-arrow .data-packet {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+.sync-flow-arrow.active .data-packet {
+  animation: flowPacket 1.5s ease-in-out infinite;
+}
+
+@keyframes flowPacket {
+  0% { left: 0; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* ============================================
+   Before/After Comparison
+   ============================================ */
+.comparison-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.comparison-panel {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+}
+
+.comparison-panel.excel {
+  border-color: var(--danger);
+}
+
+.comparison-panel.automated {
+  border-color: var(--success);
+}
+
+.comparison-panel-header {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comparison-panel.excel .comparison-panel-header {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.comparison-panel.automated .comparison-panel-header {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.comparison-panel-body {
+  padding: 16px;
+  background: white;
+}
+
+/* Excel-style messy sheet mock */
+.messy-excel {
+  font-size: 11px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.messy-excel th,
+.messy-excel td {
+  border: 1px solid var(--gray-300);
+  padding: 4px 6px;
+  text-align: center;
+}
+
+.messy-excel th {
+  background: #e2e8f0;
+  font-weight: 600;
+}
+
+.messy-excel .highlight-row {
+  background: #fef3c7;
+}
+
+.messy-excel .error-cell {
+  background: #fecaca;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.messy-excel .missing-cell {
+  background: #f3f4f6;
+  color: var(--gray-400);
+}
+
+/* ============================================
+   Permission Model Visual
+   ============================================ */
+.permission-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.permission-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+
+.permission-card .perm-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.permission-card .perm-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 4px;
+}
+
+.permission-card .perm-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-bottom: 12px;
+}
+
+.permission-card .perm-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ============================================
+   Sync Log
+   ============================================ */
+.sync-log {
+  background: var(--gray-900);
+  color: #a5b4fc;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-family: "SF Mono", Monaco, "Courier New", monospace;
+  font-size: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 24px;
+}
+
+.sync-log .log-entry {
+  padding: 2px 0;
+  display: flex;
+  gap: 8px;
+}
+
+.sync-log .log-time {
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.sync-log .log-type {
+  font-weight: 700;
+}
+
+.sync-log .log-type.sync { color: #34d399; }
+.sync-log .log-type.info { color: #60a5fa; }
+.sync-log .log-type.warn { color: #fbbf24; }
+.sync-log .log-type.error { color: #f87171; }
+
+/* ============================================
+   Action Bar
+   ============================================ */
+.action-bar {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 20px;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   Toast notification
+   ============================================ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--gray-900);
+  color: white;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xl);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast.success { background: var(--success); }
+.toast.warning { background: var(--warning); }
+.toast.error { background: var(--danger); }
+
+/* Loading shimmer for cells being synced */
+.cell-shimmer {
+  background: linear-gradient(90deg, #f0f9ff 25%, #e0f2fe 50%, #f0f9ff 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .comparison-container {
+    grid-template-columns: 1fr;
+  }
+  .permission-panel {
+    grid-template-columns: 1fr;
+  }
+  .sync-flow-diagram {
+    flex-direction: column;
+  }
+  .sync-flow-arrow {
+    transform: rotate(90deg);
+    max-width: 40px;
+    height: 60px;
+  }
+}
