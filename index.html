@@ -668,5 +668,24 @@
 <script src="render.js?v=1" defer></script>
 <!-- Mac, the site assistant — self-contained chat widget (nm- prefixed) -->
 <script src="widget.js?v=2" defer></script>
+<!-- Analytics beacon — privacy-first, no cookies, no PII -->
+<script>
+(function() {
+  var sid = localStorage.getItem('mc_a_sid');
+  if (!sid) {
+    sid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    localStorage.setItem('mc_a_sid', sid);
+  }
+  var data = { url: window.location.pathname, referrer: document.referrer || '', session_id: sid, screen_w: window.innerWidth };
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('https://os.mccreery.ai/api/analytics/track', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  } else {
+    fetch('https://os.mccreery.ai/api/analytics/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), keepalive: true });
+  }
+})();
+</script>
 </body>
 </html>
