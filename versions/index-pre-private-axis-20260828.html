@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nate McCreery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#181818;--ink:#ece8e1;--mute:#8d8780;--rule:#2a2a2a;--accent:#e8c79a}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  serif,h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400}
+
+  nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 40px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;z-index:10;mix-blend-mode:difference;color:#fff}
+  nav .brand{font-family:'Fraunces',serif;text-transform:none;letter-spacing:-0.01em;font-size:16px;font-weight:500}
+
+  .hero{position:relative;height:100vh;min-height:720px;width:100%;overflow:hidden;display:flex;align-items:flex-end}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 80% 10%, #c66a3a 0%, transparent 55%),
+      radial-gradient(90% 70% at 15% 90%, #3a2a52 0%, transparent 60%),
+      radial-gradient(60% 50% at 60% 60%, #d49a5c 0%, transparent 65%),
+      linear-gradient(160deg, #2a1f1a 0%, #181818 80%);
+    z-index:0;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;z-index:1;
+    background:
+      linear-gradient(to top, rgba(24,24,24,0.85) 0%, rgba(24,24,24,0.1) 35%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(24,24,24,0.4), transparent 70%);
+  }
+  .grain{position:absolute;inset:0;z-index:2;opacity:0.12;pointer-events:none;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>")}
+  .hero-inner{position:relative;z-index:3;padding:0 56px 80px;width:100%;max-width:1280px;margin:0 auto}
+  .eyebrow{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#d6c9b8;margin-bottom:32px;font-weight:500}
+  h1{font-size:clamp(56px,9.5vw,148px);line-height:0.94;letter-spacing:-0.025em;font-weight:300;max-width:14ch;margin-bottom:36px;color:#f6f1e8}
+  h1 em{font-style:italic;font-weight:400;color:#e8c79a}
+  .sub{font-size:19px;line-height:1.45;max-width:46ch;color:#cfc9bf;margin-bottom:36px;font-weight:400}
+  .cta{display:inline-block;font-size:14px;letter-spacing:0.1em;text-transform:uppercase;padding:14px 26px;border:1px solid #ece8e1;color:#ece8e1;transition:all .2s;font-weight:500}
+  .cta:hover{background:#ece8e1;color:#181818}
+
+  main{max-width:1080px;margin:0 auto;padding:140px 56px 80px}
+  .label{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin-bottom:48px;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+  .label::after{content:"";flex:1;height:1px;background:var(--rule);margin-left:24px}
+
+  .work{margin-bottom:120px}
+  .item{border-bottom:1px solid var(--rule);list-style:none;position:relative;transition:background .2s ease}
+  .item:first-of-type{border-top:1px solid var(--rule)}
+  .item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent,#e8c79a);transform:scaleY(0);transform-origin:top;transition:transform .25s ease}
+  .item:hover::before,.item[open]::before{transform:scaleY(1)}
+  .item:hover{background:rgba(255,255,255,0.015)}
+  .item[open]{background:rgba(255,255,255,0.02)}
+  .item summary{display:flex;justify-content:space-between;align-items:baseline;gap:48px;padding:36px 20px 36px 24px;cursor:pointer;list-style:none}
+  .item summary::-webkit-details-marker{display:none}
+  .item h3{font-size:clamp(28px,3.4vw,42px);letter-spacing:-0.02em;line-height:1;font-weight:400;transition:color .2s}
+  .item summary:hover h3{color:#fff}
+  .item .left{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+  .item .tag{font-size:15px;color:var(--mute);line-height:1.45;max-width:52ch}
+  .item .expand{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);font-weight:500;padding:8px 14px;border:1px solid var(--rule);border-radius:999px;transition:all .2s;white-space:nowrap}
+  .item summary:hover .expand{color:var(--ink);border-color:#555}
+  .item .expand .arr{display:inline-block;transition:transform .25s ease;font-size:14px;line-height:1}
+  .item[open] .expand{color:#181818;background:var(--accent,#e8c79a);border-color:var(--accent,#e8c79a)}
+  .item[open] .expand .arr{transform:rotate(180deg)}
+  .item[open] .expand .label-closed{display:none}
+  .item .expand .label-open{display:none}
+  .item[open] .expand .label-open{display:inline}
+
+  .item .body{padding:0 24px 44px;animation:fade .3s ease;max-width:880px}
+  .item .body .meta{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);margin-bottom:18px;display:flex;gap:18px;flex-wrap:wrap}
+  .item .body .lede{font-size:16px;line-height:1.65;color:#bdb8af;max-width:62ch;margin-bottom:32px}
+  .item .body .lede + .lede{margin-top:-20px}
+
+  .uh{margin-bottom:32px}
+  .uh-label{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8780;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+  .uh-label::after{content:"";flex:1;height:1px;background:var(--rule)}
+  .uh-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 32px}
+  @media(max-width:680px){.uh-grid{grid-template-columns:1fr}}
+  .uh-grid li{list-style:none;font-size:14.5px;line-height:1.5;color:#cfc9bf;padding-left:18px;position:relative}
+  .uh-grid li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:1px;background:var(--accent,#e8c79a)}
+
+  .stack{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .stack span{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11.5px;color:#cfc9bf;padding:5px 10px;border:1px solid var(--rule);border-radius:4px;background:rgba(255,255,255,0.015)}
+
+  .outcome{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:#e8c79a;line-height:1.5;padding:14px 0 0 18px;border-left:2px solid var(--accent,#e8c79a);max-width:58ch;font-weight:300}
+  .outcome::before{content:"Outcome — ";font-style:normal;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8780;display:block;margin-bottom:6px;font-weight:500}
+
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  .apps{margin-bottom:120px}
+  .apps-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end;margin-bottom:34px}
+  .apps-head h2{font-size:clamp(34px,4.6vw,58px);line-height:1;letter-spacing:-0.025em;font-weight:300;max-width:10ch}
+  .apps-head p{font-size:16px;line-height:1.65;color:#bdb8af;max-width:48ch;margin-top:18px}
+  .apps-shelf{align-self:end;display:inline-block;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 18px;border:1px solid var(--rule);color:#d6c9b8;transition:all .2s;white-space:nowrap}
+  .apps-shelf:hover{border-color:var(--accent);color:#181818;background:var(--accent)}
+  .app-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .app-card{min-height:230px;padding:24px;border:1px solid var(--rule);display:flex;flex-direction:column;justify-content:space-between;background:rgba(255,255,255,0.012);transition:border-color .2s,background .2s,transform .2s}
+  .app-card:hover{border-color:#51483d;background:rgba(255,255,255,0.025);transform:translateY(-2px)}
+  .app-card.featured{background:linear-gradient(145deg,rgba(232,199,154,0.11),rgba(255,255,255,0.012) 54%);border-color:#4a3d2d}
+  .app-kicker{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mute);margin-bottom:18px;font-weight:500}
+  .app-logo{width:64px;height:64px;border-radius:14px;margin-bottom:18px;display:block}
+  .app-card h3{font-size:clamp(24px,2.5vw,34px);line-height:1;letter-spacing:-0.02em;margin-bottom:14px}
+  .app-card p{font-size:14.5px;line-height:1.55;color:#bdb8af;max-width:34ch}
+  .app-action{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:28px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#e8c79a}
+  .app-action span:last-child{font-size:18px;line-height:1;transition:transform .2s}
+  .app-card:hover .app-action span:last-child{transform:translateX(4px)}
+
+  .services{margin-bottom:120px}
+  .svc{padding:40px 0;border-bottom:1px solid var(--rule)}
+  .svc:first-of-type{border-top:1px solid var(--rule)}
+  .svc h3{font-size:32px;letter-spacing:-0.02em;margin-bottom:10px;font-weight:400}
+  .svc p{font-size:17px;color:var(--mute);max-width:52ch;line-height:1.5}
+
+  footer{padding:80px 56px 56px;max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--rule);gap:24px;flex-wrap:wrap}
+  footer .big{font-family:'Fraunces',serif;font-size:clamp(32px,4.5vw,56px);font-weight:300;letter-spacing:-0.02em}
+  footer .big a{border-bottom:1px solid #4a4a4a;padding-bottom:4px}
+  footer .right{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--mute);text-align:right}
+
+  @media(max-width:720px){
+    nav{padding:20px}
+    .hero-inner{padding:0 24px 56px}
+    main{padding:80px 24px 56px}
+    .item summary{flex-direction:column;align-items:flex-start;gap:14px;padding:28px 16px 28px 20px}
+    .item .expand{align-self:flex-start}
+    .item .body{padding:0 20px 32px}
+    .apps-head{grid-template-columns:1fr;align-items:start}
+    .apps-shelf{justify-self:start}
+    .app-grid{grid-template-columns:1fr}
+    .app-card{min-height:210px}
+    footer{padding:56px 24px 40px}
+  }
+
+  /* ── Brief wizard ── */
+  .brief-section{padding:100px 56px;max-width:1080px;margin:0 auto}
+  @media(max-width:720px){.brief-section{padding:80px 24px}}
+  .brief-section .blabel{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin-bottom:48px;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+  .brief-section .blabel::after{content:"";flex:1;height:1px;background:var(--rule);margin-left:24px}
+  .brief-section .section-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,4vw,52px);font-weight:300;letter-spacing:-0.02em;margin-bottom:14px}
+  .brief-section .section-sub{font-size:16px;color:var(--mute);max-width:52ch;line-height:1.6;margin-bottom:48px}
+
+  .brief-shell{border:1px solid var(--rule);background:#1a1a1a;max-width:700px}
+  .brief-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--rule);font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--mute)}
+  .brief-head .dots{display:flex;gap:6px}
+  .brief-head .dots span{width:9px;height:9px;border-radius:50%;background:#333}
+  .brief-head .dots span:nth-child(1){background:#F87171}
+  .brief-head .dots span:nth-child(2){background:#FBBF24}
+  .brief-head .dots span:nth-child(3){background:#4ade80}
+  .brief-status{display:flex;align-items:center;gap:7px}
+  .brief-status .ind{width:6px;height:6px;border-radius:50%;background:#333}
+  .brief-status.live .ind{background:#4ade80;animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .brief-body{padding:36px 32px;min-height:340px}
+  @media(max-width:560px){.brief-body{padding:28px 20px}}
+  .brief-step{display:none}
+  .brief-step.active{display:block;animation:fade .25s ease}
+
+  .step-meter{display:flex;gap:6px;margin-bottom:28px}
+  .step-meter .pip{width:28px;height:3px;background:#2e2e2e;border-radius:2px}
+  .step-meter .pip.done,.step-meter .pip.current{background:var(--accent)}
+
+  .brief-q{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:300;line-height:1.2;margin-bottom:6px;letter-spacing:-0.01em}
+  .brief-hint{color:var(--mute);font-size:13px;margin-bottom:22px}
+  .brief-input,.brief-textarea{width:100%;background:#111;border:1px solid var(--rule);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;padding:12px 14px;outline:none;transition:border-color .15s;border-radius:0}
+  .brief-textarea{min-height:110px;resize:vertical}
+  .brief-input:focus,.brief-textarea:focus{border-color:var(--accent)}
+  .brief-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.brief-row{grid-template-columns:1fr}}
+
+  .brief-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+  .brief-back{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mute);background:none;border:none;cursor:pointer;padding:8px 0}
+  .brief-back:hover{color:var(--ink)}
+  .brief-back[disabled]{opacity:0;pointer-events:none}
+  .brief-next{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:12px 22px;background:var(--accent);color:#181818;border:none;cursor:pointer;font-weight:500;transition:all .15s}
+  .brief-next:hover{background:#f4d4a0;transform:translateY(-1px)}
+  .brief-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+  .brief-output{font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;color:var(--ink)}
+  .brief-output h1{font-family:'Fraunces',serif;font-size:22px;font-weight:400;color:var(--accent);margin-bottom:16px}
+  .brief-output h2{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mute);margin:20px 0 8px;padding-top:16px;border-top:1px solid var(--rule)}
+  .brief-output h3{font-size:15px;color:var(--ink);margin:12px 0 6px}
+  .brief-output p{margin:.5em 0;color:#cfc9bf}
+  .brief-output ul,.brief-output ol{padding-left:20px;margin:.5em 0}
+  .brief-output li{margin:.25em 0;color:#cfc9bf}
+  .brief-output strong{color:var(--ink);font-weight:600}
+  .brief-output em{color:var(--mute)}
+  .cursor-blink{display:inline-block;width:2px;height:14px;background:var(--accent);vertical-align:middle;margin-left:2px;animation:blink .8s infinite}
+
+  .brief-result-foot{margin-top:28px;padding-top:20px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--mute)}
+  .brief-result-foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">Nate McCreery</span>
+  <span><a href="#apps">Apps</a> · Fort Worth · TX</span>
+</nav>
+
+<section class="hero" data-section-id="hero">
+  <div class="grain"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">A small practice — Fort Worth</div>
+    <h1>Software, built <em>with intention</em>.</h1>
+    <p class="sub">Websites, AI assistants, and back-office automation for operations teams and small businesses that want to move faster — built privately, on infrastructure you control.</p>
+    <a class="cta" href="#brief">Get a free project brief →</a>
+  </div>
+</section>
+
+<main>
+  <div class="work" data-section-id="work">
+    <div class="label"><span>Selected Work</span></div>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Jackalope Welding</h3>
+          <p class="tag">Brand and booking site for a custom fabrication shop.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2025</span><span>Brand · Web · Telegram Agent</span></div>
+        <p class="lede">Brand refresh and a fast marketing site for a Fort Worth fabrication shop — paired with a Telegram agent that runs in the cloud and handles the back-and-forth so the owner can stay in the shop, not in his inbox.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Telegram agent lives on a private droplet — runs 24/7 without his laptop</li>
+            <li>Quote requests from the site land in his Telegram thread, pre-summarized</li>
+            <li>He replies in Telegram; the agent handles drafting back to the customer</li>
+            <li>Photos and specs from prospects get parsed and tagged automatically</li>
+            <li>Booking respects the shop's real availability — not a generic Calendly link</li>
+            <li>Self-hosted analytics — no Google, no Meta, no third-party trackers</li>
+            <li>Image pipeline auto-compresses on upload, serves WebP/AVIF</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Telegram Bot API</span><span>DigitalOcean droplet</span><span>Python agent</span><span>Cloudflare Pages</span><span>R2</span><span>Plausible (self-host)</span>
+        </div>
+
+        <p class="outcome">A busy welder runs his entire customer pipeline from his phone, on the shop floor. The agent handles the office work he doesn't have time for.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Chiropractic Practice</h3>
+          <p class="tag">Patient site with automated intake and scheduling.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2025</span><span>Web · Intake · Scheduling</span></div>
+        <p class="lede">Patient-first marketing site paired with a quiet intake automation that drafts new-patient forms, syncs with the calendar, and hands clean records to the front desk — without sending PHI through anyone's training data.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Intake agent runs on isolated infra — patient data never leaves the practice</li>
+            <li>Form fields validated, normalized, and de-duplicated before save</li>
+            <li>Calendar two-way sync with the front desk's existing tools</li>
+            <li>Insurance-card OCR runs locally, not through a hosted API</li>
+            <li>Audit log: every record edit timestamped and attributable</li>
+            <li>SMS appointment reminders without a third-party CRM</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Self-hosted LLM</span><span>Postgres</span><span>Local OCR</span><span>Twilio</span><span>Encrypted at rest</span>
+        </div>
+
+        <p class="outcome">Front desk reclaimed 6+ hours a week. Patient no-shows down measurably from automated reminders.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>Legal AI Agent</h3>
+          <p class="tag">Intake assistant that drafts and routes matters automatically.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>2026</span><span>AI Agent · Intake · Audit Trail</span></div>
+        <p class="lede">A custom agent that talks to prospective clients, captures matter details, and drafts the intake packet for an attorney to review. Every action logged — client conversations never touch a public LLM.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Conducts the intake conversation in plain language, not a form</li>
+            <li>Extracts structured matter data: parties, dates, jurisdiction, conflict checks</li>
+            <li>Drafts a memo formatted to the firm's existing intake template</li>
+            <li>Routes to the right attorney based on practice area and load</li>
+            <li>Conflict-check pass against the firm's case database before routing</li>
+            <li>Privileged conversations stay on private infrastructure — full stop</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Custom agent</span><span>Private LLM endpoint</span><span>Document templates</span><span>Conflict-check DB</span><span>Audit log</span>
+        </div>
+
+        <p class="outcome">First-touch response time dropped from hours to minutes. Attorneys see qualified matters, not raw inquiries.</p>
+      </div>
+    </details>
+
+    <details class="item">
+      <summary>
+        <div class="left">
+          <h3>NateOS Command Center</h3>
+          <p class="tag">Personal operating system for running the studio.</p>
+        </div>
+        <span class="expand">
+          <span class="label-closed">View details</span>
+          <span class="label-open">Collapse</span>
+          <span class="arr">▾</span>
+        </span>
+      </summary>
+      <div class="body">
+        <div class="meta"><span>Ongoing</span><span>Internal · Automation · Agents</span></div>
+        <p class="lede">The system I use to run this practice — projects, clients, automations, and a fleet of AI agents working in parallel. The reason I can ship like a team of one acts like a team of five.</p>
+
+        <div class="uh">
+          <div class="uh-label">Under the hood</div>
+          <ul class="uh-grid">
+            <li>Orchestrates multiple AI agents working in parallel on different client lanes</li>
+            <li>Unified inbox: email, SMS, Telegram, Discord — all triaged by an agent</li>
+            <li>Project state lives in one place; agents read and write to it directly</li>
+            <li>Skills library: reusable workflows the agents reference (200+ and growing)</li>
+            <li>Cron jobs for recurring research, monitoring, and outreach</li>
+            <li>Runs on hardware I own, infra I control — the whole stack is mine</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <span>Hermes Agent</span><span>Claude</span><span>Python</span><span>Self-hosted</span><span>Cron</span><span>Multi-channel I/O</span>
+        </div>
+
+        <p class="outcome">I'm the proof: this site, every project listed above, and the systems behind them — built and maintained by one person with the right leverage.</p>
+      </div>
+    </details>
+  </div>
+
+  <section class="apps" id="apps" data-section-id="apps">
+    <div class="label"><span>My Own Apps</span></div>
+    <div class="apps-head">
+      <div>
+        <h2>Tools from my bench.</h2>
+        <p>Small web and Mac apps I build for myself, friends, and the little rough spots in everyday work. Some are polished, some are experiments, all are public enough to try.</p>
+      </div>
+      <a class="apps-shelf" href="https://os.mccreery.ai/apps/">Open the shelf</a>
+    </div>
+
+    <div class="app-grid">
+      <a class="app-card featured" href="https://os.mccreery.ai/apps/downloads/KeybindVault-Andy.zip?v=20260610-logo" download>
+        <div>
+          <div class="app-kicker">macOS download</div>
+          <img class="app-logo" src="assets/keybindvault-logo.png?v=3" alt="KeybindVault" width="64" height="64" loading="lazy">
+          <h3>KeybindVault</h3>
+          <p>A native menu bar shortcut coach for learning useful Mac keybinds without memorizing everything at once.</p>
+        </div>
+        <div class="app-action"><span>Download zip</span><span>→</span></div>
+      </a>
+
+      <a class="app-card featured" href="https://os.mccreery.ai/apps/downloads/PointerPortal.zip" download>
+        <div>
+          <div class="app-kicker">macOS download</div>
+          <img class="app-logo" src="assets/pointer-portal-92.png?v=3" alt="Pointer Portal" width="64" height="64" loading="lazy">
+          <h3>Pointer Portal</h3>
+          <p>Teleport your mouse pointer between displays with a hotkey. Auto and manual modes, plus saved cursor points.</p>
+        </div>
+        <div class="app-action"><span>Download zip</span><span>→</span></div>
+      </a>
+
+      <a class="app-card" href="https://os.mccreery.ai/apps/task-canvas.html">
+        <div>
+          <div class="app-kicker">web app</div>
+          <div class="app-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="6" height="18" rx="1.5"/><rect x="9" y="3" width="6" height="18" rx="1.5"/><rect x="16" y="3" width="6" height="18" rx="1.5"/><line x1="3.5" y1="7" x2="6.5" y2="7"/><line x1="3.5" y1="10.5" x2="6.5" y2="10.5"/><line x1="10.5" y1="7" x2="13.5" y2="7"/><line x1="17.5" y1="7" x2="20.5" y2="7"/><line x1="17.5" y1="10.5" x2="20.5" y2="10.5"/><line x1="17.5" y1="14" x2="20.5" y2="14"/></svg></div>
+          <h3>Task Canvas</h3>
+          <p>A visual task board with draggable cards, saved lists, and a stash for ideas that are not ready yet.</p>
+        </div>
+        <div class="app-action"><span>Open app</span><span>→</span></div>
+      </a>
+
+      <a class="app-card" href="https://os.mccreery.ai/apps/mindmap/">
+        <div>
+          <div class="app-kicker">web app</div>
+          <div class="app-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M10.2 10.3 6.4 6.5M13.8 10.3l3.8-3.8M10.2 13.7l-3.8 3.8M13.8 13.7l3.8 3.8"/></svg></div>
+          <h3>Mindmap Studio</h3>
+          <p>A fast visual thinking canvas — drag out nodes, connect ideas, and map projects or notes on an infinite board.</p>
+        </div>
+        <div class="app-action"><span>Open app</span><span>→</span></div>
+      </a>
+    </div>
+  </section>
+
+  <div class="services" data-section-id="services">
+    <div class="label"><span>Services</span></div>
+    <div class="svc"><h3>Websites</h3><p>Fast, considered marketing sites that convert.</p></div>
+    <div class="svc"><h3>AI Assistants</h3><p>Custom agents wired into the tools your team already uses — internal dashboards, ticketing systems, the works.</p></div>
+    <div class="svc"><h3>Operations Automation</h3><p>Quiet systems that handle the repetitive back-office work — lookups, reconciliation, routing — with a clear audit trail for every action.</p></div>
+    <div class="svc"><h3>Privacy &amp; Security</h3><p>Your data stays yours. Private infrastructure, encrypted by default, no third-party tracking — built so client and account data never leaks into someone else's model.</p></div>
+  </div>
+</main>
+
+<!-- ── 60-Second Brief Tool ── -->
+<section id="brief" data-section-id="brief">
+  <div class="brief-section">
+    <div class="blabel"><span>Try it · Live demo</span></div>
+    <h2 class="section-title">Three questions. One custom proposal.</h2>
+    <p class="section-sub">Tell me what your business does and what's broken. My AI drafts a real project brief — what I'd build, how long, what happens next. You'll have it in under 60 seconds. I review every one personally before I reply.</p>
+
+    <div class="brief-shell" id="brief-shell">
+      <div class="brief-head">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div>brief.mccreery.ai</div>
+        <div class="brief-status" id="brief-status"><span class="ind"></span><span id="brief-status-txt">Ready</span></div>
+      </div>
+      <div class="brief-body" id="brief-body">
+
+        <!-- STEP 0: contact -->
+        <div class="brief-step active" data-step="0">
+          <div class="step-meter">
+            <div class="pip current"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">Who's asking?</div>
+          <div class="brief-hint">First name and email — so I can send you the brief.</div>
+          <div class="brief-row">
+            <input class="brief-input" id="b-name" placeholder="Your name" maxlength="100" />
+            <input class="brief-input" id="b-email" type="email" placeholder="you@business.com" maxlength="200" />
+          </div>
+          <div class="brief-actions">
+            <button class="brief-back" disabled>← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 1: business -->
+        <div class="brief-step" data-step="1">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip current"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">What does your business do?</div>
+          <div class="brief-hint">One line. "Plumbing in DFW." "Online supplement store." "Personal injury chiro."</div>
+          <input class="brief-input" id="b-business" placeholder="e.g. residential roofing in Fort Worth" maxlength="200" />
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: problem -->
+        <div class="brief-step" data-step="2">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip current"></div><div class="pip"></div>
+          </div>
+          <div class="brief-q">What's broken or eating your time?</div>
+          <div class="brief-hint">Be specific. The thing you do over and over that you wish would just happen.</div>
+          <textarea class="brief-textarea" id="b-problem" placeholder="e.g. I lose leads at night because no one answers the phone after 6pm" maxlength="1000"></textarea>
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="next">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: goal -->
+        <div class="brief-step" data-step="3">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip current"></div>
+          </div>
+          <div class="brief-q">What does success look like?</div>
+          <div class="brief-hint">In your own words. Not buzzwords. The outcome that would make this worth the money.</div>
+          <textarea class="brief-textarea" id="b-goal" placeholder="e.g. Every after-hours call gets captured, qualified, and replied to within 5 minutes" maxlength="1000"></textarea>
+          <div class="brief-actions">
+            <button class="brief-back">← Back</button>
+            <button class="brief-next" data-action="generate">Generate my brief →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: streaming output -->
+        <div class="brief-step" data-step="4">
+          <div class="step-meter">
+            <div class="pip done"></div><div class="pip done"></div><div class="pip done"></div><div class="pip done"></div>
+          </div>
+          <div class="brief-output" id="brief-output"></div>
+          <div class="brief-result-foot" id="brief-foot" style="display:none">
+            <div>✓ Brief complete · Nate reviews every one before replying</div>
+            <div><a href="mailto:nate@mccreery.ai">Questions? Email me directly →</a></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer data-section-id="footer">
+  <div class="big"><a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a></div>
+  <div class="right">Fort Worth, Texas<br>© 2026</div>
+</footer>
+
+<script>
+  /* ── Tiny markdown → HTML ── */
+  function mdToHtml(md){
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const lines = md.split('\n');
+    let html = '', inUL = false, inOL = false, para = [];
+    const flushPara = () => { if(para.length){ html += '<p>'+para.join(' ')+'</p>'; para=[]; } };
+    const closeLists = () => { if(inUL){html+='</ul>';inUL=false;} if(inOL){html+='</ol>';inOL=false;} };
+    for(let raw of lines){
+      let line = raw.replace(/\r$/,'');
+      let t = line.trim();
+      if(!t){ flushPara(); closeLists(); continue; }
+      let m;
+      if((m = t.match(/^###\s+(.+)/))){ flushPara();closeLists(); html+='<h3>'+inline(esc(m[1]))+'</h3>'; continue; }
+      if((m = t.match(/^##\s+(.+)/))){ flushPara();closeLists(); html+='<h2>'+inline(esc(m[1]))+'</h2>'; continue; }
+      if((m = t.match(/^#\s+(.+)/))){ flushPara();closeLists(); html+='<h1>'+inline(esc(m[1]))+'</h1>'; continue; }
+      if((m = t.match(/^[-*]\s+(.+)/))){ flushPara(); if(inOL){html+='</ol>';inOL=false;} if(!inUL){html+='<ul>';inUL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
+      if((m = t.match(/^\d+\.\s+(.+)/))){ flushPara(); if(inUL){html+='</ul>';inUL=false;} if(!inOL){html+='<ol>';inOL=true;} html+='<li>'+inline(esc(m[1]))+'</li>'; continue; }
+      closeLists();
+      para.push(inline(esc(t)));
+    }
+    flushPara(); closeLists();
+    return html;
+    function inline(s){
+      return s
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+        .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
+    }
+  }
+
+  /* ── Brief wizard ── */
+  const briefBody = document.getElementById('brief-body');
+  const statusEl = document.getElementById('brief-status');
+  const statusTxt = document.getElementById('brief-status-txt');
+  let step = 0;
+
+  function showStep(n){
+    document.querySelectorAll('.brief-step').forEach(s => s.classList.remove('active'));
+    const el = document.querySelector('.brief-step[data-step="'+n+'"]');
+    if(el) el.classList.add('active');
+    step = n;
+    const focusable = el && el.querySelector('input,textarea');
+    if(focusable) setTimeout(()=>focusable.focus(),200);
+  }
+
+  function validate(n){
+    if(n===0){
+      const name=document.getElementById('b-name').value.trim();
+      const email=document.getElementById('b-email').value.trim();
+      if(!name){alert('Need your name');return false;}
+      if(!email||!email.includes('@')){alert('Need a valid email');return false;}
+      return true;
+    }
+    if(n===1) return !!document.getElementById('b-business').value.trim() || (alert('One sentence on what you do'),false);
+    if(n===2) return document.getElementById('b-problem').value.trim().length>=8 || (alert('A bit more detail helps'),false);
+    if(n===3) return document.getElementById('b-goal').value.trim().length>=8 || (alert('What does success look like?'),false);
+    return true;
+  }
+
+  briefBody.addEventListener('click', (e) => {
+    const t = e.target;
+    if(t.classList.contains('brief-back') && !t.disabled){
+      if(step>0) showStep(step-1);
+    } else if(t.classList.contains('brief-next')){
+      if(!validate(step)) return;
+      const action = t.dataset.action;
+      if(action === 'generate') runBrief();
+      else if(step < 3) showStep(step+1);
+    }
+  });
+
+  briefBody.addEventListener('keydown', (e) => {
+    if(e.key==='Enter' && !e.shiftKey && e.target.tagName==='INPUT'){
+      e.preventDefault();
+      const cur = document.querySelector('.brief-step[data-step="'+step+'"] .brief-next');
+      if(cur) cur.click();
+    }
+  });
+
+  async function runBrief(){
+    showStep(4);
+    statusEl.classList.add('live');
+    statusTxt.textContent = 'AI drafting…';
+    const out = document.getElementById('brief-output');
+    out.innerHTML = '<span class="cursor-blink"></span>';
+    const data = {
+      name: document.getElementById('b-name').value.trim(),
+      email: document.getElementById('b-email').value.trim(),
+      business: document.getElementById('b-business').value.trim(),
+      problem: document.getElementById('b-problem').value.trim(),
+      goal: document.getElementById('b-goal').value.trim(),
+    };
+    let acc = '';
+    try {
+      const r = await fetch('https://os.mccreery.ai/api/brief', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data),
+      });
+      if(!r.ok){
+        const j = await r.json().catch(()=>({error:'request failed'}));
+        out.innerHTML = '<p style="color:#F87171">Couldn\'t generate brief: '+(j.detail||j.error||'unknown error')+'. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly.</p>';
+        statusEl.classList.remove('live');
+        statusTxt.textContent='Error';
+        return;
+      }
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let buf = '';
+      while(true){
+        const {value,done} = await reader.read();
+        if(done) break;
+        buf += dec.decode(value,{stream:true});
+        const parts = buf.split('\n\n');
+        buf = parts.pop();
+        for(const p of parts){
+          if(!p.startsWith('data:')) continue;
+          try{
+            const ev = JSON.parse(p.slice(5).trim());
+            if(ev.t){
+              acc += ev.t;
+              out.innerHTML = mdToHtml(acc) + '<span class="cursor-blink"></span>';
+              out.scrollIntoView({block:'nearest',behavior:'smooth'});
+            } else if(ev.error){
+              acc += '\n\n*[error: '+ev.error+']*';
+            }
+          }catch(_){}
+        }
+      }
+      out.innerHTML = mdToHtml(acc);
+      document.getElementById('brief-foot').style.display = 'flex';
+      statusEl.classList.remove('live');
+      statusTxt.textContent = 'Done · check your email';
+    } catch(err){
+      out.innerHTML = '<p style="color:#F87171">Network error. Email <a href="mailto:nate@mccreery.ai">nate@mccreery.ai</a> directly.</p>';
+      statusEl.classList.remove('live');
+      statusTxt.textContent='Error';
+    }
+  }
+</script>
+
+<!-- ── Section config (progressive enhancement) ──
+     render.js applies /site-config/sections.json on top of this static HTML.
+     If the JSON is missing or malformed it is a no-op and the page above is
+     the fallback. In production set NATEOS_SECTIONS_URL to the droplet API
+     origin and bump ?v= on render.js when publishing (Cloudflare cache). -->
+<script>
+  window.NATEOS_SECTIONS_URL = 'https://os.mccreery.ai/site-config/sections.json';
+</script>
+<script src="render.js?v=1" defer></script>
+<!-- Mac, the site assistant — self-contained chat widget (nm- prefixed) -->
+<script src="widget.js?v=2" defer></script>
+<!-- Analytics beacon — privacy-first, no cookies, no PII -->
+<script>
+(function() {
+  var sid = localStorage.getItem('mc_a_sid');
+  if (!sid) {
+    sid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    localStorage.setItem('mc_a_sid', sid);
+  }
+  var data = { url: window.location.pathname, referrer: document.referrer || '', session_id: sid, screen_w: window.innerWidth };
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('https://os.mccreery.ai/api/analytics/track', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  } else {
+    fetch('https://os.mccreery.ai/api/analytics/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), keepalive: true });
+  }
+})();
+</script>
+</body>
+</html>
