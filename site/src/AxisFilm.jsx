@@ -1,70 +1,92 @@
-import { useEffect, useRef } from 'react';
-import { clamp, filmProgress, lerp, pointerOffset } from './site.js';
+import { useEffect, useRef, useState } from 'react';
+import { clamp, filmProgress, lerp } from './site.js';
 
-export function AxisFilm() {
-  const videoRef = useRef(null);
+const beats = ['Capture', 'Local AI', 'Sky', 'Your Mac'];
+const positions = [.23, .46, .69, .91];
+const phaseAt = p => p < .13 ? -1 : p < .36 ? 0 : p < .59 ? 1 : p < .82 ? 2 : 3;
+const ramp = (p, start, end) => clamp((p - start) / (end - start));
+
+export function ThoughtStory({ children }) {
+  const root = useRef(null), film = useRef(null), meter = useRef(null);
+  const [enabled, setEnabled] = useState(false), [beat, setBeat] = useState(-1);
   useEffect(() => {
-    const video = videoRef.current;
-    const story = video.closest('.story');
-    const stage = video.closest('.story-stage');
+    const story = root.current, video = film.current, hero = story.querySelector('.hero');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    if (reduced.matches || navigator.connection?.saveData || !video.canPlayType('video/mp4')) return;
-    const mobile = matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches;
-    const fine = matchMedia('(min-width: 901px) and (hover: hover) and (pointer: fine)').matches;
-    let height = story.offsetHeight, viewport = stage.offsetHeight, width = innerWidth;
-    let target = filmProgress(story.getBoundingClientRect().top, height, viewport);
-    let progress = target, duration = 0, active = true, frame = 0;
-    let targetX = 0, targetY = 0, x = 0, y = 0;
+    let frame = 0, progress = 0, active = false, phase = -1;
     function tick() {
       frame = 0;
-      if (!active || !duration) return;
-      target = filmProgress(story.getBoundingClientRect().top, height, viewport);
-      progress = lerp(progress, target, mobile ? .18 : .24);
-      x = lerp(x, targetX, .1); y = lerp(y, targetY, .1);
-      const time = Math.max(0, Math.min(duration, clamp(progress) * duration + pointerOffset(progress, x, y, fine)));
-      if (!video.seeking && Math.abs(video.currentTime - time) > 1 / (mobile ? 24 : 30)) {
-        try { video.currentTime = time; } catch { /* Metadata may still be loading. */ }
+      if (reduced.matches || !active || story.dataset.motion !== 'scroll') return;
+      const stage = story.querySelector('.opening-stage');
+      const target = filmProgress(story.getBoundingClientRect().top, story.offsetHeight, stage.offsetHeight);
+      progress = lerp(progress, target, .16);
+      if (Math.abs(target - progress) < .0003) progress = target;
+      story.style.setProperty('--journey', progress);
+      story.style.setProperty('--hero-out', ramp(progress, .015, .13));
+      story.style.setProperty('--film-in', ramp(progress, .065, .16));
+      story.style.setProperty('--film-dim', ramp(progress, .32, .43) * .58);
+      story.style.setProperty('--sky-in', ramp(progress, .54, .65));
+      story.style.setProperty('--sky-pullback', ramp(progress, .59, .82));
+      meter.current.value = progress;
+      const next = phaseAt(progress);
+      if (next !== phase) { phase = next; setBeat(next); }
+      hero.inert = next !== -1;
+      if (video.readyState >= 2 && Number.isFinite(video.duration) && !video.seeking) {
+        const time = ramp(progress, .12, .74) * Math.max(0, video.duration - .05);
+        if (Math.abs(video.currentTime - time) > 1 / 24) video.currentTime = time;
       }
-      frame = requestAnimationFrame(tick);
+      if (progress !== target || video.seeking) frame = requestAnimationFrame(tick);
     }
-    function start() { if (!frame && active && duration) frame = requestAnimationFrame(tick); }
-    function loaded() {
-      if (!Number.isFinite(video.duration)) return;
-      duration = Math.max(0, video.duration - .04);
-      video.currentTime = Math.max(.001, target * duration);
-      start();
+    function schedule() { if (!frame && active && !reduced.matches && story.dataset.motion === 'scroll') frame = requestAnimationFrame(tick); }
+    function changed() {
+      const allowed = !reduced.matches && !navigator.connection?.saveData;
+      story.dataset.motion = allowed ? 'scroll' : 'static';
+      setEnabled(allowed);
+      if (allowed) { video.preload = 'auto'; if (!video.currentSrc) video.load(); schedule(); }
+      else { cancelAnimationFrame(frame); frame = 0; hero.inert = false; video.pause(); }
     }
-    function ready() { video.dataset.ready = 'true'; }
-    function resize() {
-      if (mobile && width === innerWidth) return;
-      width = innerWidth; height = story.offsetHeight; viewport = stage.offsetHeight;
-      start();
-    }
-    function pointer(event) { targetX = event.clientX / innerWidth * 2 - 1; targetY = event.clientY / innerHeight * 2 - 1; }
     const observer = new IntersectionObserver(([entry]) => {
       active = entry.isIntersecting;
-      if (active) start(); else { cancelAnimationFrame(frame); frame = 0; }
-    }, { rootMargin: '25% 0px' });
+      if (active) schedule(); else { cancelAnimationFrame(frame); frame = 0; }
+    });
     observer.observe(story);
-    video.addEventListener('loadeddata', loaded);
-    video.addEventListener('seeked', ready);
-    window.addEventListener('resize', resize);
-    window.addEventListener('orientationchange', resize);
-    if (fine) window.addEventListener('pointermove', pointer, { passive: true });
-    video.preload = 'auto'; video.load();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    video.addEventListener('loadeddata', schedule);
+    video.addEventListener('seeked', schedule);
+    reduced.addEventListener('change', changed);
+    changed();
     return () => {
-      observer.disconnect(); cancelAnimationFrame(frame);
-      video.removeEventListener('loadeddata', loaded); video.removeEventListener('seeked', ready);
-      window.removeEventListener('resize', resize); window.removeEventListener('orientationchange', resize);
-      window.removeEventListener('pointermove', pointer);
+      observer.disconnect(); cancelAnimationFrame(frame); hero.inert = false;
+      window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule);
+      video.removeEventListener('loadeddata', schedule); video.removeEventListener('seeked', schedule);
+      reduced.removeEventListener('change', changed);
     };
   }, []);
-  return <div className="axis-film" aria-hidden="true">
-    <picture><source media="(max-width: 900px)" srcSet="/assets/private-axis-higgsfield-pass-05-mobile-poster.jpg" /><img src="/assets/private-axis-higgsfield-pass-05-poster.jpg" alt="" /></picture>
-    <video ref={videoRef} muted playsInline preload="none" tabIndex={-1}>
-      <source media="(max-width: 900px), (hover: none) and (pointer: coarse)" src="/assets/private-axis-higgsfield-pass-05-mobile.mp4" type="video/mp4" />
-      <source media="(min-width: 1280px) and (min-resolution: 1.5dppx)" src="/assets/private-axis-higgsfield-pass-05.mp4" type="video/mp4" />
-      <source src="/assets/private-axis-higgsfield-pass-05-desktop.mp4" type="video/mp4" />
-    </video>
+  function go(index) {
+    const story = root.current, stage = story.querySelector('.opening-stage');
+    window.scrollTo({ top: scrollY + story.getBoundingClientRect().top + positions[index] * (story.offsetHeight - stage.offsetHeight), behavior: 'smooth' });
+  }
+  return <div ref={root} className="opening-story" data-motion={enabled ? 'scroll' : 'static'} data-beat={beat} id="home">
+    <div className="opening-stage">
+      {children}
+      <div className="thought-sequence" aria-hidden={!enabled || beat === -1}>
+        <div className="thought-film" aria-hidden="true"><img src="/assets/osat-connected-thoughts-poster.jpg" width="1280" height="720" alt="" /><video ref={film} className="thought-video" muted playsInline preload="none" tabIndex={-1} poster="/assets/osat-connected-thoughts-poster.jpg"><source src="/assets/osat-connected-thoughts.mp4" type="video/mp4" /></video></div>
+        <div className="thought-sky" aria-hidden="true"><img src="/assets/osat-sky-retina.webp" width="3915" height="1350" alt="" /></div>
+        <section className="thought-chapter thought-capture" aria-hidden={beat !== 0} inert={beat !== 0}>
+          <p className="eyebrow">ONE THOUGHT CAN GO A LONG WAY.</p><h2>It starts with<br /><span>a little thought.</span></h2><p className="chapter-description">Catch it. Give it a place.<br />Let the next step unfold.</p>
+        </section>
+        <section className="thought-chapter thought-ai" aria-hidden={beat !== 1} inert={beat !== 1}>
+          <div><p className="eyebrow">YOUR NOTES. A LITTLE CLARITY.</p><h2>Ask what<br /><span>you already know.</span></h2><p className="chapter-description">Your local AI. Your project context.<br />The source, right beside the answer.</p><a className="text-link" href="#local-ai">Explore local AI <img className="icon" src="/assets/icons/ArrowRight.svg" alt="" /></a></div>
+          <figure className="thought-answer"><div className="answer-label"><img className="icon" src="/assets/icons/Sparkle.svg" alt="" /><span>OSAT / Local AI</span></div><img src="/assets/osat-ask-retina.webp" width="1000" height="400" alt="A saved OSAT conversation asks what Northstar needs before design starts. The answer identifies the client logo and shows the Northstar client brief as its source." /><figcaption><img className="icon" src="/assets/icons/NotePencil.svg" alt="" />A saved conversation. Grounded in a source note.</figcaption></figure>
+        </section>
+        <section className="thought-chapter thought-map" aria-hidden={beat !== 2} inert={beat !== 2}>
+          <p className="eyebrow">FROM ONE NOTE TO THE WHOLE PICTURE.</p><h2>Follow the thought.<br /><span>Find the connection.</span></h2><p className="chapter-description">Your notes, projects, and next steps.<br />A little more connected.</p><a className="text-link" href="#connections">Explore Sky <img className="icon" src="/assets/icons/ArrowRight.svg" alt="" /></a>
+        </section>
+        <section className="thought-chapter thought-promise" aria-hidden={beat !== 3} inert={beat !== 3}>
+          <p className="eyebrow">ROOM TO THINK. FREEDOM TO WORK.</p><h2>Your workspace.<br /><span>Your local AI.</span></h2><p className="chapter-description">On your Mac. Built to work offline.<br /><small>Local AI works offline after initial model setup.</small></p><a className="thought-bots" href="#bots"><img className="icon" src="/assets/icons/Robot.svg" alt="" />Bots, coming soon <img className="icon" src="/assets/icons/ArrowUpRight.svg" alt="" /></a>
+        </section>
+        <div className="thought-nav" inert={beat === -1}><nav aria-label="Follow a thought">{beats.map((label, index) => <button key={label} onClick={() => go(index)} aria-current={beat === index ? 'step' : undefined}><span>0{index + 1}</span>{label}</button>)}</nav><progress ref={meter} max="1" value="0" aria-hidden="true" /><a href="#osat" className="thought-skip">Explore the tools <img className="icon" src="/assets/icons/ArrowDown.svg" alt="" /></a></div>
+      </div>
+    </div>
   </div>;
 }
